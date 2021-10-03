@@ -1,1 +1,76 @@
-<p>register works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-8">
+            <h3 class="text-center p-2">Registro de usuarios</h3>
+            <div class="card ms-2">
+
+                <!-- <div class="card-header text-center">
+                    
+                </div> -->
+                <div class="card-body">
+                    <div class="row g-3">
+                        <!-- <div class="col-md-5">
+                            <img src="./../../../assets/images/images-pages/register.jpg" class="img-fluid"
+                                alt="images">
+                        </div> -->
+
+                        <div class="col">
+                            <div class="text-center">
+                                <img src="./../../../assets/images/images-pages/register.jpg" class="img-fluid"
+                                    alt="images" width="300px">
+                            </div>
+                            <form [formGroup]="registerForm" class="row g-3" (ngSubmit)="registro()">
+                                <div class="col-md-6">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" name="nombre" formControlName="nombre" class="form-control" autofocus
+                                        id="nombre">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="apellido" class="form-label">Apellido</label>
+                                    <input type="text" name="apellido" formControlName="apellido" class="form-control"
+                                        id="apellido">
+                                </div>
+                                <div class="col-md-9">
+                                    <label for="direccion" class="form-label">Dirección</label>
+                                    <input type="text" name="direccion" formControlName="direccion" class="form-control"
+                                        id="direccion" placeholder="Ciudad, calles..">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="telefono" class="form-label">Teléfono</label>
+                                    <input type="text" name="telefono" formControlName="telefono" class="form-control"
+                                        id="telefono">
+                                </div>
+                                <div class="col-12">
+                                    <label for="perfil_prof" class="form-label">Perfil Profesional</label>
+                                    <textarea class="form-control" name="perfil_prof" formControlName="perfil_prof"
+                                        id="perfil_prof" rows="3"
+                                        placeholder="Describa el nivel y área de estudio en el que se especializa"></textarea>
+                                </div>
+                                <div class="col-md-7">
+                                    <label for="correo_reg" class="form-label">Correo electrónico</label>
+                                    <input type="email" name="correo_reg" formControlName="correo" class="form-control"
+                                        id="correo_reg">
+                                </div>
+                                
+                                
+                                <div class="col-md-5">
+                                    <label for="contrasena_re" class="form-label">Contraseña</label>
+                                    <input type="password" name="contrasena_reg" formControlName="contrasena" class="form-control"
+                                        id="contrasena_reg">
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <!-- <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary">Entrar</button> -->
+                                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div class="col"></div>
+    </div>
+</div>

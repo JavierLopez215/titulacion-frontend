@@ -1,0 +1,51 @@
+<h3 class="text-center">Actividad de usuario</h3>
+<p class="text-justify">
+    Revise la actividad que ha tenido recientemente y los aportes de la comunidad en tus publicaciones. Si cree que han
+    sido resueltas todas las dudas puede marcar a la publicación como completada.
+
+</p>
+
+<div class="card-body">
+    <div class="table-responsive-sm">
+
+        <table class="table table-sm table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Tema</th>
+                    <th scope="col">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr *ngFor="let publicacion of listaPublicaciones; let i =index" (click)="printData(publicacion)"> -->
+                <tr>
+
+                    <th class="fw-light">
+                        <!-- {{ publicacion.creado | date :'shortDate'}} -->
+                        Fecha Publicación
+                    </th>
+                    <th scope="row">
+                        <h5 class="fw-normal">
+                            <!-- {{ publicacion.titulo }} -->
+                            Titulo
+                        </h5>
+                        <p class="fw-light">
+                            <!-- {{ publicacion.descripcion }} -->
+                            descripcion
+                        </p>
+                    </th>
+                    <!-- <th scope="row"
+                        [ngClass]="publicacion.estado === 'P' ? 'text-info' : (publicacion.estado === 'C' ? 'text-success' : 'text-danger')">
+                        {{ publicacion.estado === 'P' ? 'Pendiente' : (publicacion.estado === 'C' ?
+                        'Completado' : 'Desconocido') }}
+                    </th> -->
+                    <th scope="row">
+                        Acciones (Delete, edit)
+                    </th>
+
+            </tbody>
+        </table>
+
+    </div>
+
+</div>

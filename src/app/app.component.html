@@ -1,15 +1,17 @@
 <div *ngIf="!logged">
   <nav class="navbar navbar-expand-lg bg-light text-primary border">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler bg-primary text-white" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    <a class="navbar-brand" href="">Menú</a>
+    <button class="navbar-toggler border" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon text-white"></span>
+      <span class="navbar-toggler-icon text-primary" style="color:black">
+        <i class="bi bi-list"></i>
+      </span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="#">Inicio</a>
+          <a class="nav-link" routerLinkActive="active" routerLink="/">Inicio</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Servicios</a>
@@ -33,12 +35,12 @@
       <!-- <div class="navbar-collapse collapse"> -->
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" routerLink="login">Entrar</a>
+          <a class="nav-link  border border-primary rounded p-2 me-2" routerLinkActive="active" routerLink="/login">Entrar</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="register">Registro</a>
+          <a class="nav-link border border-primary rounded p-2 me-2" routerLink="/register" routerLinkActive="active">Registro</a>
         </li>
-        <li class="nav-item dropdown">
+        <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false"> 
             <img src="../assets/images/images-pages/login.png" alt="perfil" width="30" height="30" class="rounded-circle">
@@ -48,9 +50,9 @@
             <a class="dropdown-item" href="#">Perfil</a>
             <a class="dropdown-item" href="#">Seguridad</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Salir</a>
+            <a class="dropdown-item" (click)="logout()">Salir</a>
           </div>
-        </li>
+        </li> -->
       </ul>
     <!-- </div> -->
     </div>
@@ -63,19 +65,19 @@
 <div class="container-fluid">
   <div class="row flex-nowrap">
     <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light border rounded" *ngIf="logged">
-      <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100">
+      <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100" >
         <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-primary text-decoration-none">
           <span class="fs-5 d-none d-sm-inline">Menu</span>
         </a>
-        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-          <li class="nav-item">
-            <a href="#" class="nav-link align-middle px-0">
-              <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Inicio</span>
+        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" style="width: 100%;" id="menu">
+          <li class="nav-item" style="width: 100%;">
+            <a routerLink="/app" class="nav-link align-middle px-0" routerLinkActive="active">
+              <i class="fs-4 bi-house ps-2"></i> <span class="ms-1 d-none d-sm-inline">Inicio</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link align-middle px-0">
-              <i class="fs-4 bi-speedometer2"></i> <span class="ms-1 d-none d-sm-inline">Actividad</span>
+          <li class="nav-item" style="width: 100%;">
+            <a routerLink="/activities" class="nav-link align-middle px-0" routerLinkActive="active">
+              <i class="fs-4 bi-speedometer2 ps-2"></i> <span class="ms-1 d-none d-sm-inline">Actividad</span>
             </a>
           </li>
 
@@ -92,9 +94,9 @@
               </li>
             </ul>
           </li> -->
-          <li>
-            <a href="#" class="nav-link px-0 align-middle">
-              <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Reuniones</span></a>
+          <li class="nav-item" style="width: 100%;">
+            <a routerLink="/meetings" routerLinkActive="active" class="nav-link px-0 align-middle">
+              <i class="fs-4 bi-table ps-2"></i> <span class="ms-1 d-none d-sm-inline">Reuniones</span></a>
           </li>
           <!-- <li>
             <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
@@ -126,9 +128,9 @@
               </li>
             </ul>
           </li> -->
-          <li>
+          <li class="nav-item" style="width: 100%;">
             <a href="#" class="nav-link px-0 align-middle">
-              <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Comunidad</span> </a>
+              <i class="fs-4 bi-people ps-2"></i> <span class="ms-1 d-none d-sm-inline">Comunidad</span> </a>
           </li>
         </ul>
         <hr>
@@ -136,16 +138,16 @@
           <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle"
             id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30" class="rounded-circle">
-            <span class="d-none d-sm-inline mx-1 text-primary">loser</span>
+            <span class="d-none d-sm-inline mx-1 text-primary">User</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small text-primary" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item text-primary" href="#">New project...</a></li>
-            <li><a class="dropdown-item text-primary" href="#">Settings</a></li>
-            <li><a class="dropdown-item text-primary" href="#">Profile</a></li>
+            <li><a class="dropdown-item text-primary" href="#">Perfil</a></li>
+            <li><a class="dropdown-item text-primary" href="#">Seguridad</a></li>
+            <!-- <li><a class="dropdown-item text-primary" href="#">Profile</a></li> -->
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item text-primary" href="#">Sign out</a></li>
+            <li><a class="dropdown-item text-primary" (click)="logout()">Cerrar Sesión</a></li>
           </ul>
         </div>
       </div>

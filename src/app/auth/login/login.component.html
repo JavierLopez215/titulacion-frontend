@@ -6,7 +6,7 @@
     <div class="col">
 
     </div>
-    
+
     <div class="col-6">
       <div class="card">
         <!-- <div class="card-header text-center">
@@ -14,27 +14,32 @@
         </div>  -->
 
         <div class="text-center">
-          <img class="card-img-top rounded-circle w-25 mt-2 pt-2" src="../../../assets/images/images-pages/users-login.png" alt="login">
+          <img class="card-img-top rounded-circle w-25 mt-2 pt-2"
+            src="../../../assets/images/images-pages/users-login.png" alt="login">
         </div>
-        
-        <div class="card-body">          
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" [(ngModel)]="user.correo" id="email" placeholder="correo@ejemplo.com">
-            
-          </div>
-          
-          <div class="mb-3">
-            <label for="contraseña" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" [(ngModel)]="user.contrasena" id="contraseña">
-          </div>
-          <p class="fs-6 text-danger">{{errores}}</p>
-          <div class="text-center">
-            <button type="button" class="btn btn-primary" (click)="login()">Entrar</button>
-          </div>
+
+        <div class="card-body">
+          <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" name="correo" formControlName="correo" id="email"
+                >
+
+            </div>
+
+            <div class="mb-3">
+              <label for="contrasena" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" formControlName="contrasena" name="contrasena"
+                id="contrasena">
+            </div>
+            <p class="fs-6 text-danger">{{errores}}</p>
+            <div class="text-center">
+              <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary">Entrar</button>
+            </div>
+          </form>
         </div>
         <div class="card-footer text-right">
-          <a href="#" class="link-primary">Recuperar contraseña</a>
+          <a routerLink="/recovery" class="link-primary">Recuperar contraseña</a>
         </div>
       </div>
     </div>
