@@ -10,6 +10,7 @@ import { HomeComponent } from './pages/home/home.component'
 import { ActivitiesComponent } from "./pages/activities/activities.component";
 import { PublicationComponent } from "./pages/publication/publication.component";
 import { MeetingsComponent } from "./pages/meetings/meetings.component";
+import { ProfileComponent } from "./pages/profile/profile.component";
 import { AuthGuard } from './guards/auth.guard';
 
 
@@ -20,8 +21,9 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent, canActivate:[GuestsGuard] },
   { path: 'recovery', component: PassRecoverComponent },
   { path: 'activities', component: ActivitiesComponent },
-  { path: 'publication', component: PublicationComponent },
+  { path: 'publication/:id', component: PublicationComponent },
   { path: 'meetings', component: MeetingsComponent },
+  { path: 'profile', component: ProfileComponent },
   { path: 'app', component: AppComponent2, canActivate:[AuthGuard] }
 
   //path para administrador

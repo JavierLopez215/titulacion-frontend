@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { environment } from "../../environments/environment";
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PublicacionService {
+export class ActivitiesService {
 
   private URL=environment.API_URL; 
 
@@ -14,8 +14,6 @@ export class PublicacionService {
   getPublicaciones(idUsu:number) {
     return this.http.get(`${this.URL}/publicacion/getPubUser/${idUsu}`);
   }
-
-  getPublicacionById(idPub:string) {
-    return this.http.get(`${this.URL}/publicacion/getPubId/${idPub}`);
-  }
 }
+
+

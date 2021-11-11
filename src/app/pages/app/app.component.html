@@ -9,7 +9,7 @@
                 <div class="col-sm-9 p-2">
                     <div class="null">
                         <br>
-                        <h2 class="mb-1 text-center">haz una pregunta a la
+                        <h2 class="mb-1 text-center">{{ user.nombre }} haz una pregunta a la
                             comunidad.</h2>
                         <p class="mb-2 text-center">
                             <span>
@@ -64,31 +64,9 @@
                                     [ngClass]="publicacion.estado === 'P' ? 'text-info' : (publicacion.estado === 'C' ? 'text-success' : 'text-danger')">
                                     {{ publicacion.estado === 'P' ? 'Pendiente' : (publicacion.estado === 'C' ?
                                     'Completado' : 'Desconocido') }}</th>
-                                <!-- <td>Otto</td>
-                                [ngClass]="{'text-info': publicacion.estado === 'P', 'text-success': publicacion.estado === 'C'}">
-
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td> -->
+                                <!--[ngClass]="{'text-info': publicacion.estado === 'P', 'text-success': publicacion.estado === 'C'}">-->
                             </tr>
-                            <!-- <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thorntondddddddddddddddd</td>
-                        <td>@fat</td>
-                        <td>@fat</td>
-                        <td>@fat</td>
-                        <td>@fat</td>
-                      </tr> -->
-                            <!-- <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                        <td>@twitter</td>
-                        <td>@twitter</td>
-                        <td>@twitter</td>
-                      </tr> -->
+                            
                         </tbody>
                     </table>
 
@@ -96,6 +74,9 @@
 
 
 
+            </div>
+            <div class="card-footer">
+                <a class="link-primary" routerLink="/activities">Ver todo</a>
             </div>
         </div>
     </div>

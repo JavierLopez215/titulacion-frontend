@@ -16,6 +16,7 @@ import { AppComponent2 } from "./pages/app/app.component";
 import { ActivitiesComponent } from './pages/activities/activities.component';
 import { PublicationComponent } from './pages/publication/publication.component';
 import { MeetingsComponent } from './pages/meetings/meetings.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { MeetingsComponent } from './pages/meetings/meetings.component';
     AppComponent2,
     ActivitiesComponent,
     PublicationComponent,
-    MeetingsComponent
+    MeetingsComponent,
+    ProfileComponent
 
   ],
   imports: [

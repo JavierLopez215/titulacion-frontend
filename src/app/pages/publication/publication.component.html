@@ -1,4 +1,4 @@
-<div class="card border-primary">
+<div class="card border-primary" *ngIf="publicacion let pub">
     <div class="card-header bg-transparent border-primary">
 
         <div class="row g-3">
@@ -9,7 +9,7 @@
             </div>
             <div class="col">
                 <div>
-                    <h4 class="fw-normal fs-6">Nombre Usuario</h4>
+                    <h4 class="fw-normal fs-6">{{ publicacion.nombre }}</h4>
                     <p class="fw-light fs-6 text-justify">Ha realizado un nueva publicación para la comunidad</p>
                 </div>
             </div>
@@ -17,8 +17,8 @@
 
     </div>
     <div class="card-body p-2">
-        <h4 class="fw-normal fs-6">Título</h4>
-        <h4 class="fw-light fs-6">Descripción</h4>
+        <h4 class="fw-normal fs-6">{{ publicacion.titulo }}</h4>
+        <h4 class="fw-light fs-6">{{ publicacion.descripcion }}</h4>
 
         <hr>
         <h6 class="pb-2">Aportes Adicionales</h6>

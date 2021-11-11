@@ -1,3 +1,4 @@
+import { Profile } from './../../model/Profile';
 import { AuthService } from 'src/app/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { PublicacionService } from "../../services/publicacion.service";
@@ -10,6 +11,7 @@ import { PublicacionService } from "../../services/publicacion.service";
 export class AppComponent2 implements OnInit {
 
   public listaPublicaciones:Array<any> = [];
+  public user : Profile = {} as Profile;
 
   constructor(private authService : AuthService,
     private publicacionService: PublicacionService) {
@@ -20,8 +22,12 @@ export class AppComponent2 implements OnInit {
     
     // console.log(this.publicacionSrv.getPublicaciones(1));
     this.getPublicaciones();
+    this.getDataUser();
   }
 
+  getDataUser(){
+    this.user = this.authService.dataUser() as Profile;
+  }
   getPublicaciones() {
     // console.log(this.loginForm);
     const dataUser:any = this.authService.dataUser();

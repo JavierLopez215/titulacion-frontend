@@ -1,58 +1,116 @@
-
-<h3 class="text-center">Reuniones de Usuario</h3>
-<p class="fw-normal">Solicite a la comunidad tener una reunion para aclarar dudas y tener clases personalizadas de lo que necesites.</p>
-
-<div class="row ps-2 pe-2">
-    <div class="col-md-4">
-        <div class="card border-primary border-3">
-
-            <img src="https://image.shutterstock.com/image-vector/anonymous-man-question-mark-male-260nw-1390079279.jpg"
-                class="rounded-circle mx-auto d-block border" width="200px" height="200px" alt="...">
-
-            <div class="card-body">
-                <h5 class="card-title">Título</h5>
-                <p class="text-justify"> Descripción </p>
-                <b> Fecha:</b> 01/01/2000
-                <br>
-                <b>Estado: </b> Pendiente
-                <br>
-                <b>Aceptado por:</b> ninguno
-            </div>
-        </div>
+<div class="card p-2 border-primary">
+    <h3 class="text-center">Reuniones de Usuario</h3>
+    <p class="fw-normal text-center">Solicite a la comunidad tener una reunion para aclarar dudas y tener clases
+        personalizadas de lo
+        que necesites.</p>
+    <div class="text-center">
+        <button type="button" class="btn btn-primary">Solicitar</button>
     </div>
-    <div class="col-md-4">
-        <div class="card border-success border-3">
+</div>
 
-            <img src="https://media.istockphoto.com/photos/portrait-of-young-smiling-caucasian-man-with-crossed-arms-wearing-picture-id1171169107?k=20&m=1171169107&s=612x612&w=0&h=VkbOnU3zWYCbh3ojzqWFhK7JObxQduGzr4bRxqbgkLU="
-                class="rounded-circle mx-auto d-block border" width="200px" height="200px" alt="...">
 
-            <div class="card-body">
-                <h5 class="card-title">Título 2</h5>
-                <p class="text-justify"> Descripción 2</p>
-                <b> Fecha:</b> 01/01/2021
-                <br>
-                <b>Estado: </b> Aceptado
-                <br>
-                <b>Aceptado por:</b> Usuario 2
+<div class="card mt-2 border-primary">
+    <!-- <div class="card-header bg-primary text-white">
+        <h5>Historial de reuniones</h5>
+    </div> -->
+    <div class="card-body">
+        <ul class="nav nav-tabs nav-fill">
+            <li class="nav-item">
+                <button type="button" class="nav-link text-white" style="background-color: steelblue;"
+                    (click)="btnMisReuniones()">Mis reuniones</button>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="nav-link text-white" style="background-color: teal;"
+                    (click)="btnReunionesComunidad()">R. Aceptadas</button>
+            </li>
+        </ul>
+        <div class="row ps-2 pe-2">
+            <h3 class="text-center">{{ titulo_reuniones }}</h3>
+            <div class="d-flex justify-content-center p-2 m-2">
+                <!-- <div class="col-md-3">
+                    <div class="card border-primary border-3 text-center pt-2">
+
+                        <img src="https://image.shutterstock.com/image-vector/anonymous-man-question-mark-male-260nw-1390079279.jpg"
+                            class="rounded-circle mx-auto d-block border" width="100px" height="100px" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Título</h5>
+                            <p class="text-justify"> Estado </p>
+                            <button type="button" class="btn btn-info">Detalles</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-success border-3 pt-2">
+
+                        <img src="https://media.istockphoto.com/photos/portrait-of-young-smiling-caucasian-man-with-crossed-arms-wearing-picture-id1171169107?k=20&m=1171169107&s=612x612&w=0&h=VkbOnU3zWYCbh3ojzqWFhK7JObxQduGzr4bRxqbgkLU="
+                            class="rounded-circle mx-auto d-block border" width="100px" height="100px" alt="...">
+
+                        <div class="card-body">
+                            <h5 class="card-title">Título</h5>
+                            <p class="text-justify"> Estado </p>
+                            <button type="button" class="btn btn-info">Detalles</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-danger border-3 pt-2">
+
+                        <img src="https://image.shutterstock.com/image-vector/anonymous-man-question-mark-male-260nw-1390079279.jpg"
+                            class="rounded-circle mx-auto d-block border" width="100px" height="100px" alt="...">
+
+                        <div class="card-body">
+                            <h5 class="card-title">Título</h5>
+                            <p class="text-justify"> Estado </p>
+                            <button type="button" class="btn btn-info">Detalles</button>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="row w-100" *ngFor="let reunion_a of listaReunionesAceptadas">
+
+                    <div class="col-md-4 border border-primary">
+                        <div class="row p-2">
+
+                            <div class="col-auto">
+                                <img src="./../../../assets/images/images-pages/login.png" alt="hugenerd" width="50"
+                                    height="50" class="rounded-circle">
+                            </div>
+                            <div class="col">
+                                <h4 class="fw-normal fs-6">{{ reunion_a.nombre + ' ' + reunion_a.apellido}}</h4>
+                                <h4 class="fw-normal fs-6 text-truncate">Aceptó tu solicitud</h4>
+                            </div>
+                            <h4 class="fw-light fs-6 d-inline-block text-truncate pt-2"><b>Título: </b> {{
+                                reunion_a.titulo }}</h4>
+
+                        </div>
+                    </div>
+
+                </div>
             </div>
+
         </div>
 
-    </div>
-    <div class="col-md-4">
-        <div class="card border-danger border-3">
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <td>N°</td>
+                        <td>Fecha</td>
+                        <td>Título</td>
+                        <td>Estado</td>
+                    </tr>
+                </thead>
+                <tbody>
 
-            <img src="https://image.shutterstock.com/image-vector/anonymous-man-question-mark-male-260nw-1390079279.jpg"
-                class="rounded-circle mx-auto d-block border" width="200px" height="200px" alt="...">
-
-            <div class="card-body">
-                <h5 class="card-title">Título</h5>
-                <p class="text-justify"> Descripción </p>
-                <b> Fecha:</b> 01/01/2000
-                <br>
-                <b>Estado: </b> Cancelado
-                <br>
-                <b>Aceptado por:</b> ninguno
-            </div>
+                    <tr *ngFor="let reunion_h of listaHistorialReuniones; let i =index">
+                        <td class="col-md-1">{{ i+1 }}</td>
+                        <td class="col-md-2">{{ reunion_h.fecha_sol | date :'shortDate'}}</td>
+                        <td class="col-md-col">{{ reunion_h.titulo}}</td>
+                        <td class="col-md-3">{{ reunion_h.estado == 'P' ? 'Pendiente' : reunion_h.estado == 'C' ? 'Cancelado' : 'Desconocido' }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+
     </div>
 </div>
