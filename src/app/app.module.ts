@@ -18,6 +18,13 @@ import { PublicationComponent } from './pages/publication/publication.component'
 import { MeetingsComponent } from './pages/meetings/meetings.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 
+// libreria de toast
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from "ngx-toastr";
+import { CommunityComponent } from './pages/community/community.component';
+import { FilesComponent } from './pages/files/files.component';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
+
 
 @NgModule({
   declarations: [
@@ -30,22 +37,31 @@ import { ProfileComponent } from './pages/profile/profile.component';
     ActivitiesComponent,
     PublicationComponent,
     MeetingsComponent,
-    ProfileComponent
-
+    ProfileComponent,
+    CommunityComponent,
+    FilesComponent
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    NgxDocViewerModule,
+    ToastrModule.forRoot({
+      // timeOut: 1000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [
     //JWT
-    {provide: JWT_OPTIONS, useValue: JWT_OPTIONS},
+    { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
     //Interceptor
-    {provide:HTTP_INTERCEPTORS,useClass:TokenInterceptorService,multi:true}
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -17,4 +17,10 @@ export class EspeciallityService {
   getEspecialidadesUsuario(idUsu:number) {
     return this.http.get(`${this.URL}/espec-usu/get/${idUsu}`);
   }
+  deleteEspecialidadUsuario(idEU:number){
+    return this.http.delete(`${this.URL}/espec-usu/delete/${idEU}`);
+  }
+  postEspecialidadUsuario(data:any){
+    return this.http.post(`${this.URL}/espec-usu/post`,data);
+  }
 }

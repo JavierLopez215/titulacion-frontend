@@ -15,7 +15,15 @@ export class PublicacionService {
     return this.http.get(`${this.URL}/publicacion/getPubUser/${idUsu}`);
   }
 
+  getTopPublicaciones(idUsu:number) {
+    return this.http.get(`${this.URL}/publicacion/getTopPubUser/${idUsu}`);
+  }
+
   getPublicacionById(idPub:string) {
     return this.http.get(`${this.URL}/publicacion/getPubId/${idPub}`);
+  }
+
+  getDetallePublicacion(idPub:string) {
+    return this.http.get(`${this.URL}/publicacion/getDetalles/${idPub}`);
   }
 }

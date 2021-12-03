@@ -45,6 +45,15 @@ export class AuthService {
       return null;
   }
 
+  actuaizarDatosUsuario(id:number, profile:Profile){
+    return this.http.post(`${this.URL}/user/update/${id}`, profile);
+  }
+
+  actualizarFotoUsuario(file:any){
+    // console.log(foto);
+    return this.http.post(`${this.URL}/user/updatePicture`, file);
+  }
+
   logout() {
     localStorage.removeItem('token');
   }

@@ -21,18 +21,19 @@ export class AppComponent2 implements OnInit {
   ngOnInit(): void {
     
     // console.log(this.publicacionSrv.getPublicaciones(1));
-    this.getPublicaciones();
+    this.getTopPublicaciones();
     this.getDataUser();
   }
 
   getDataUser(){
     this.user = this.authService.dataUser() as Profile;
   }
-  getPublicaciones() {
+
+  getTopPublicaciones() {
     // console.log(this.loginForm);
     const dataUser:any = this.authService.dataUser();
     const idUsu = dataUser.id;
-    this.publicacionService.getPublicaciones(idUsu).subscribe((res: any) => {
+    this.publicacionService.getTopPublicaciones(idUsu).subscribe((res: any) => {
       
       if (res.ok === 1) {
         // this.router.navigate(['/']);
@@ -42,6 +43,22 @@ export class AppComponent2 implements OnInit {
       }
       else {
         // this.errores = res.mensaje;
+        console.log('error');
+      }
+    })
+  }
+
+  getPublicaciones() {
+    // console.log(this.loginForm);
+    const dataUser:any = this.authService.dataUser();
+    const idUsu = dataUser.id;
+    this.publicacionService.getPublicaciones(idUsu).subscribe((res: any) => {
+      
+      if (res.ok === 1) {
+        this.listaPublicaciones = res.data;
+        console.log(res.data);
+      }
+      else {
         console.log('error');
       }
     })

@@ -11,6 +11,8 @@ import { ActivitiesComponent } from "./pages/activities/activities.component";
 import { PublicationComponent } from "./pages/publication/publication.component";
 import { MeetingsComponent } from "./pages/meetings/meetings.component";
 import { ProfileComponent } from "./pages/profile/profile.component";
+import { CommunityComponent } from "./pages/community/community.component";
+import { FilesComponent } from "./pages/files/files.component";
 import { AuthGuard } from './guards/auth.guard';
 
 
@@ -19,11 +21,13 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate:[GuestsGuard] },
   { path: 'login', component: LoginComponent, canActivate:[GuestsGuard] },
   { path: 'register', component: RegisterComponent, canActivate:[GuestsGuard] },
-  { path: 'recovery', component: PassRecoverComponent },
-  { path: 'activities', component: ActivitiesComponent },
-  { path: 'publication/:id', component: PublicationComponent },
-  { path: 'meetings', component: MeetingsComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'recovery', component: PassRecoverComponent, canActivate:[GuestsGuard] },
+  { path: 'activities', component: ActivitiesComponent, canActivate:[AuthGuard] },
+  { path: 'publication/:id', component: PublicationComponent, canActivate:[AuthGuard] },
+  { path: 'meetings', component: MeetingsComponent, canActivate:[AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard] },
+  { path: 'files', component: FilesComponent, canActivate:[AuthGuard] },
+  { path: 'community', component: CommunityComponent, canActivate:[AuthGuard] },
   { path: 'app', component: AppComponent2, canActivate:[AuthGuard] }
 
   //path para administrador

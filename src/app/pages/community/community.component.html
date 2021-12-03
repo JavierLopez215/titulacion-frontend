@@ -1,0 +1,21 @@
+<p>community works!</p>
+
+<textarea name="textarea" rows="10" cols="50" [(ngModel)]="code"></textarea>
+<button name="favorito" type="button" (click) = "verCode()">Ver</button>
+<hr>
+<div class="bg-light">
+<pre>
+    <code>
+        {{ pre_code }}
+    </code>
+</pre>
+
+<blockquote>
+    <pre class="prettyprint lang-html">
+      <code>
+          {{ pre_code }}
+      </code>
+    </pre>
+  </blockquote>
+
+</div>

@@ -7,14 +7,32 @@
             <div class="row">
                 <div class="row">
                     <div class="col-md-3 mx-auto">
-                        <img src="./../../../assets/images/images-users/{{ user.foto }}" class="card-img-top rounded-circle" alt="...">
+                        <img src="./../../../assets/images/images-users/{{ user.foto }}"
+                            class="card-img-top rounded-circle" alt="...">
                     </div>
-                    <div class="col-12 p-2">
-                        <div class="w-75 mx-auto">
-                            <label for="formFile" class="form-label">Cambiar foto de perfil</label>
-                            <input class="form-control" type="file" id="formFile">
+
+                    <form [formGroup]="updatePhotoUserForm" class="row g-3" (ngSubmit)="updatePhotoUsers()">
+
+                        <div class="col-12 p-2">
+                            <div class="w-75 mx-auto text-center">
+                                <label for="formFile" class="form-label text-success"> Seleccionar Imagen</label>
+                                <input class="form-control" class="d-none" accept="image/png, .jpge, .jpg"
+                                    (change)="onChangeFile($event)" #file formControlName="file" type="file" id="formFile">
+                                <!-- <button type="submit" [disabled]="!updatePhotoUser.valid"
+                                class="btn btn-primary">Guardar</button> -->
+                            </div>
+                            <div class="w-75 mx-auto text-center text-success">
+                                <img *ngIf="archivo_seleccionado" src="{{archivo_seleccionado}}" alt="hugenerd"
+                                    width="50" height="50" class="rounded-circle">
+                                    {{ file_name }}
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="submit" [disabled]="!updatePhotoUserForm.valid"
+                                    class="btn btn-primary">Guardar</button>
+                                <!-- <button type="submit" class="btn btn-primary" (click)="show()">Guardar2</button> -->
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
 
             </div>
@@ -34,44 +52,46 @@
 
                 <div class="col">
                     <form [formGroup]="updateDataForm" class="row g-3" (ngSubmit)="updateDataUser()">
-                    <!-- <form class="row g-3"> -->
+                        <!-- <form class="row g-3"> -->
 
                         <div class="col-md-4">
                             <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" name="nombre" [(ngModel)]="user.nombre" formControlName="nombre" class="form-control" autofocus
-                                id="nombre">
+                            <input type="text" name="nombre" [(ngModel)]="user.nombre" formControlName="nombre"
+                                class="form-control" autofocus id="nombre">
                         </div>
                         <div class="col-md-4">
                             <label for="apellido" class="form-label">Apellido</label>
-                            <input type="text" name="apellido" [(ngModel)]="user.apellido" formControlName="apellido" class="form-control"
-                                id="apellido">
+                            <input type="text" name="apellido" [(ngModel)]="user.apellido" formControlName="apellido"
+                                class="form-control" id="apellido">
                         </div>
                         <div class="col-md-4">
                             <label for="telefono" class="form-label">Teléfono</label>
-                            <input type="text" name="telefono" [(ngModel)]="user.telefono" formControlName="telefono" class="form-control"
-                                id="telefono">
+                            <input type="text" name="telefono" [(ngModel)]="user.telefono" formControlName="telefono"
+                                class="form-control" id="telefono">
                         </div>
                         <div class="col-md-6">
                             <label for="direccion" class="form-label">Dirección</label>
-                            <input type="text" name="direccion" [(ngModel)]="user.direccion" formControlName="direccion" class="form-control"
-                                id="direccion" placeholder="Ciudad, calles..">
+                            <input type="text" name="direccion" [(ngModel)]="user.direccion" formControlName="direccion"
+                                class="form-control" id="direccion" placeholder="Ciudad, calles..">
                         </div>
                         <div class="col-md-6">
                             <label for="correo_reg" class="form-label">Correo electrónico</label>
-                            <input type="email" name="correo_reg" [(ngModel)]="user.correo" formControlName="correo" class="form-control"
-                                id="correo_reg">
+                            <input type="email" name="correo_reg" [(ngModel)]="user.correo" formControlName="correo"
+                                class="form-control" id="correo_reg">
                         </div>
                         <div class="col-12">
                             <label for="perfil_prof" class="form-label">Perfil Profesional</label>
-                            <textarea class="form-control" name="perfil_prof" [(ngModel)]="user.perfil_prof" formControlName="perfil_prof"
-                                id="perfil_prof" rows="3"
+                            <textarea class="form-control" name="perfil_prof" [(ngModel)]="user.perfil_prof"
+                                formControlName="perfil_prof" id="perfil_prof" rows="3"
                                 placeholder="Describa el nivel y área de estudio en el que se especializa"></textarea>
                         </div>
 
 
+
                         <div class="col-12 text-center">
-                            <!-- <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary">Entrar</button> -->
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="submit" [disabled]="!updateDataForm.valid"
+                                class="btn btn-primary">Guardar</button>
+                            <!-- <button type="submit" class="btn btn-primary" (click)="show()">Guardar2</button> -->
                         </div>
                     </form>
                 </div>
@@ -90,21 +110,25 @@
             <div class="row">
                 <div class="col-md-6">
                     <div *ngFor="let m_especialidad of listaEspecialidadesUsuario">
-                    <div class="border rounded-pill p-2 d-inline-block" style="width: fit-content;">
-                        {{ m_especialidad.nombre }}
-                        <button class="border-0 rounded-circle">X</button>
+                        <div class="border rounded-pill p-2 d-inline-block" style="width: fit-content;">
+                            {{ m_especialidad.nombre }}
+                            <button class="border-0 rounded-circle"
+                                (click)="deleteEspeciallityUser(m_especialidad.id)">X</button>
+                        </div>
                     </div>
-                </div>
                 </div>
                 <div class="col-md-6">
                     <h6 class="text-center text-wrapper">Escoja las áreas en las que es especialista</h6>
-                    <div class="list-group border" style="max-height: 300px; overflow:scroll; -webkit-overflow-scrolling: touch;">
-                    <div *ngFor="let especialidad of listaEspecialidades">
-                        <button type="button" class="list-group-item list-group-item-action">{{ especialidad.nombre }}</button>
-                        <!-- <button type="button" class="list-group-item list-group-item-action">Area 2</button> -->
+                    <div class="list-group border"
+                        style="max-height: 300px; overflow:scroll; -webkit-overflow-scrolling: touch;">
+                        <div *ngFor="let especialidad of listaEspecialidades">
+                            <button type="button" class="list-group-item list-group-item-action"
+                                (click)="postEspeciallityUser(especialidad.id)">{{ especialidad.nombre
+                                }}</button>
+                            <!-- <button type="button" class="list-group-item list-group-item-action">Area 2</button> -->
 
-                    </div>
-                        
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -1,12 +1,38 @@
-<h3 class="text-center">Actividad de usuario</h3>
-<p class="text-justify">
-    Revise la actividad que ha tenido recientemente y los aportes de la comunidad en tus publicaciones. Si cree que han
-    sido resueltas todas las dudas puede marcar a la publicación como completada.
+<div class="pt-1">
+    <div class="card border border-secondary">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6 ml-auto mr-auto m-sm-0 col-sm-3 container text-center">
+                    <img alt="search" width="200px" height="200px" class="img-fluid"
+                        src="../../../assets/images/images-pages/computer.jpg">
+                </div>
+                <div class="col-sm-9 p-2">
+                    <div class="null">
+                        <br>
+                        <h2 class="mb-1 text-center">{{ user.nombre }} haz una pregunta a la
+                            comunidad.</h2>
+                        <p class="mb-2 text-center">
+                            <span>
+                                No te qudes con la duda, haz tu pregunta dando click en el boton de abajo y recibiras
+                                ayuda de una comunidad de expertos u otros estudiantes conocedores en el tema.
+                            </span>
+                        </p>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary p-2 m-2" data-bs-toggle="modal"
+                                data-bs-target="#questionModal">
+                                Preguntar
+                            </button>
+                        </div>
 
-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="card-body">
-    <div class="table-responsive-sm">
+    <div class="table-responsive-sm" *ngIf="listaPublicaciones.length > 0">
 
         <table class="table table-sm table-hover">
             <thead>
@@ -18,7 +44,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let publicacion of listaPublicaciones; let i=index" (click)="printData(publicacion)">
-                
+
 
                     <th class="fw-light">
                         {{ publicacion.creado | date :'shortDate'}}
@@ -27,24 +53,92 @@
                     <th scope="row">
                         <h5 class="fw-normal">
                             {{ publicacion.titulo }}
-                            
+
                         </h5>
                         <p class="fw-light">
                             {{ publicacion.descripcion }}
                         </p>
                     </th>
-                    <!-- <th scope="row"
+                    <th scope="row"
                         [ngClass]="publicacion.estado === 'P' ? 'text-info' : (publicacion.estado === 'C' ? 'text-success' : 'text-danger')">
                         {{ publicacion.estado === 'P' ? 'Pendiente' : (publicacion.estado === 'C' ?
                         'Completado' : 'Desconocido') }}
-                    </th> -->
-                    <th scope="row">
-                        Acciones (Delete, edit)
                     </th>
+                    <!-- <th scope="row">
+                        Acciones (Delete, edit)
+                    </th> -->
 
             </tbody>
         </table>
 
+
+
     </div>
 
+    <div class="border border-primary"
+        style="height: 100px; justify-content: center; display: flex; align-items: center;"
+        *ngIf="listaPublicaciones.length == 0">
+        <p class="text-center fs-4">No se ha encontrado publicaciones.</p>
+    </div>
+
+</div>
+
+<!-- modal para preguntas -->
+<div class="modal fade" id="questionModal" tabindex="-1" aria-labelledby="questionModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Pregunta para la comunidad</h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <form class="row g-3" [formGroup]="postDataForm" (ngSubmit)="postPublicacion()">
+                    <div class="col-md-12">
+                        <label for="pregunta" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="pregunta" formControlName="titulo">
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion" formControlName="descripcion">
+                    </div>
+
+                    <!-- dropdowlist -->
+                    <select class="form-select" aria-label="Area" formControlName="area">
+                        <option value="">Seleccionar la especialidad o área</option>
+                        <option [value]="especialidad.id" *ngFor="let especialidad of listaEspecialidades">
+                            {{especialidad.nombre}}</option>
+                    </select>
+
+
+                    <div class="card">
+
+                        <div class="form-group m-0">
+                            <label for="desc_adjuntos" class="form-label">Descripción</label>
+                            <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos">
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="formFileMultiple" class="form-label">Agrega archivos adjuntos</label>
+                            <input class="form-control" type="file" id="formFileMultiple" multiple>
+                        </div>
+
+                        <label for="formFile" class="form-label"></label>
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button> -->
+                <button type="submit" class="btn btn-primary" [disabled]="!postDataForm.valid">Publicar</button>
+            </div>
+
+        </div>
+    </div>
 </div>
