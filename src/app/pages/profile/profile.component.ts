@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { EspeciallityService } from './../../services/especiallity.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
@@ -22,6 +23,7 @@ export class ProfileComponent implements OnInit {
   public file!: File;
   public file_name: string = "";
   public formData=new FormData();
+  public rutaImgProfile = environment.images_URL;
 
   constructor(private authService: AuthService, private especiallityService: EspeciallityService,
     private router: Router, private formBuilder: FormBuilder,

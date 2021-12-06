@@ -1,7 +1,9 @@
+import { environment } from 'src/environments/environment';
 import { Profile } from './model/Profile';
 import { AuthService } from 'src/app/services/auth.service';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -9,7 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent{
-  title = 'app';
+  title = 'Shark App';
+  public rutaImgProfile = environment.images_URL;
   public user : Profile = {} as Profile;
   public logged:boolean=false;
   constructor(public authService:AuthService, 
