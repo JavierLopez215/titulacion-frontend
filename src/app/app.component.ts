@@ -17,8 +17,10 @@ export class AppComponent{
   public logged:boolean=false;
   constructor(public authService:AuthService, 
     public router:Router){
-    this.logged = this.authService.isAuth();
-    this.getDataUser();
+    this.authService.usuario.subscribe(res => {
+      this.getDataUser();
+      this.logged = this.authService.isAuth();
+    })
   }
 
 

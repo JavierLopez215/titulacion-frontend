@@ -2,6 +2,7 @@ import { Profile } from './../../model/Profile';
 import { AuthService } from 'src/app/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { PublicacionService } from "../../services/publicacion.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-app',
@@ -14,7 +15,7 @@ export class AppComponent2 implements OnInit {
   public user : Profile = {} as Profile;
 
   constructor(private authService : AuthService,
-    private publicacionService: PublicacionService) {
+    private publicacionService: PublicacionService, private router: Router) {
     // window.location.reload();
    }
 
@@ -65,7 +66,8 @@ export class AppComponent2 implements OnInit {
   }
 
   printData(item:any){
-    console.log('Fila seleccionada: ',item)
+    // console.log('Fila seleccionada: ',item)
+    this.router.navigate(['/publication', item.id]);
   }
 
 }

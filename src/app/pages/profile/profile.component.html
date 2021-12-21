@@ -7,24 +7,36 @@
             <div class="row">
                 <div class="row">
                     <div class="col-md-3 mx-auto">
-                        <img src="{{ rutaImgProfile }}/profile/{{ user.foto }}"
-                            class="card-img-top rounded-circle" alt="...">
+                        <div style="width: 100px; height: 100px; overflow: hidden;" class="rounded-circle">
+                            <img src="{{ rutaImgProfile }}/profile/{{ user.foto }}" class="card-img-top" alt="...">
+                        </div>
+                        <!-- <img src="{{ rutaImgProfile }}/profile/{{ user.foto }}"
+                            class="card-img-top rounded-circle" alt="..."> -->
                     </div>
 
                     <form [formGroup]="updatePhotoUserForm" class="row g-3" (ngSubmit)="updatePhotoUsers()">
 
                         <div class="col-12 p-2">
                             <div class="w-75 mx-auto text-center">
-                                <label for="formFile" class="form-label text-success"> Seleccionar Imagen</label>
+                                <label for="formFile" class="form-label text-success">Seleccionar Imagen..</label>
                                 <input class="form-control" class="d-none" accept="image/png, .jpge, .jpg"
-                                    (change)="onChangeFile($event)" #file formControlName="file" type="file" id="formFile">
+                                    (change)="onChangeFile($event)" #file formControlName="file" type="file"
+                                    id="formFile">
                                 <!-- <button type="submit" [disabled]="!updatePhotoUser.valid"
                                 class="btn btn-primary">Guardar</button> -->
                             </div>
                             <div class="w-75 mx-auto text-center text-success">
-                                <img *ngIf="archivo_seleccionado" src="{{archivo_seleccionado}}" alt="hugenerd"
-                                    width="50" height="50" class="rounded-circle">
-                                    {{ file_name }}
+                                <div class="row w-100" style="width: auto;">
+                                    <div class=" text-success" style="width: auto;">
+                                        <div class="rounded-circle" style="width: 50px; height: 50px; overflow: hidden;">
+                                        <img *ngIf="archivo_seleccionado" src="{{archivo_seleccionado}}" alt="..."
+                                            style="width: 50px; height: auto;" class="card-img-top">
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        {{ file_name }}
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-12 text-center">
                                 <button type="submit" [disabled]="!updatePhotoUserForm.valid"

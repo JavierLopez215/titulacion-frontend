@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from "../../environments/environment";
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,26 @@ import { environment } from "../../environments/environment";
 export class AuthService {
 
   private URL = environment.API_URL;
-  private user : Profile = {} as Profile;
+  private user: Profile = {} as Profile;
+
+  private usuarioSubject: BehaviorSubject<string>;
+  public usuario: Observable<string>;
 
   constructor(private http: HttpClient,
-    private jwtHelper: JwtHelperService) { }
+    private jwtHelper: JwtHelperService) {
+    this.usuarioSubject = new BehaviorSubject<string>(localStorage.getItem('usuario')!);
+    this.usuario = this.usuarioSubject.asObservable();
+  }
 
   login(login: Login) {
     return this.http.post(`${this.URL}/user/login`, login);
+
+  }
+
+  actualizarToken(){
+    if(this.isAuth())
+    var token = localStorage.getItem("token");
+    this.usuarioSubject.next(token!);
   }
 
   register(profile: Profile) {
@@ -45,16 +59,17 @@ export class AuthService {
       return null;
   }
 
-  actuaizarDatosUsuario(id:number, profile:Profile){
-    return this.http.post(`${this.URL}/user/update/${id}`, profile);
+  actuaizarDatosUsuario(id: number, profile: Profile) {
+    return this.http.post(`${this.URL}/user/update`, profile);
   }
 
-  actualizarFotoUsuario(file:any){
+  actualizarFotoUsuario(file: any) {
     // console.log(foto);
     return this.http.post(`${this.URL}/user/updatePicture`, file);
   }
 
   logout() {
+    this.usuarioSubject.next("");
     localStorage.removeItem('token');
   }
 

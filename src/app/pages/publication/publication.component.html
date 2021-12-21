@@ -1,11 +1,10 @@
 <div class="card border-primary" *ngIf="publicacion let pub">
     <div class="card-header bg-transparent border-primary">
-
         <div class="row g-3">
-
             <div class="col-auto text-center">
-                <img src="./../../../assets/images/images-users/{{ publicacion.foto }}" alt="hugenerd" width="50"
-                    height="50" class="rounded-circle">
+                <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
+                    <img class="card-img-top" src="{{ rutaImg }}/profile/{{ publicacion.foto }}" alt="...">
+                </div>
             </div>
             <div class="col">
                 <div>
@@ -28,7 +27,7 @@
         <h4 class="fw-light fs-6">{{ publicacion.descripcion }}</h4>
 
         <hr>
-        <h6 class="pb-2">Aportes Adicionales</h6>
+        <h6 class="pb-2">Recursos Adjuntos</h6>
 
 
 
@@ -39,7 +38,7 @@
                         data-bs-toggle="collapse" attr.data-bs-target="#panelDetalle{{ indice + 1}}"
                         attr.aria-expanded="{{ indice == 0 ? 'true' : 'false' }}"
                         attr.aria-controls="panelDetalle{{ indice + 1}}">
-                        {{ item.descripcion }}
+                        Anexo {{indice+1}} - {{ item.tipo }}
                     </button>
                 </h2>
                 <div id="panelDetalle{{ indice + 1}}"
@@ -47,104 +46,81 @@
                     attr.aria-labelledby="panelDetalleHeader{{ indice + 1}}">
                     <div class="accordion-body">
 
-                        <!-- <iframe *ngIf="item.tipo_archivo == '.pdf'" src="http://127.0.0.1:4200/assets/files/{{item.archivo }}"
+                        <!-- <iframe *ngIf="item.tipo == 'pdf'" class="e2e-iframe-untrusted-src" src="https://rua.ua.es/dspace/bitstream/10045/44986/1/RECIEN_08_01.pdf"
+                            style="width: 100%; height: 300px;" frameborder="1"></iframe>
+                            <a href="{{ rutaArchivos +'/'+ item.contenido | safe : 'url' }}" target="_blank">Ver</a>
+
+                        <img *ngIf="item.tipo == 'jpg' || item.tipo == 'png' || item.tipo == 'jpge'" 
+                            style="width: auto; height: auto; overflow: hidden;"
+                            src="{{ rutaArchivos +'/'+item.contenido | safe : 'url'}}" alt="hugenerd">
+
+                         <ngx-doc-viewer *ngIf="item.tipo == '.docx'"
+                            url="{{ rutaArchivos+'/'+item.contenido | safe : 'resourceUrl'}}" viewer="google"
+                            style="width:100%;height:93vh;">
+                        </ngx-doc-viewer>
+
+                        <iframe *ngIf="item.tipo == 'txt'" src="{{ rutaArchivos+'/'+item.contenido | safe : 'url' }}"
                             style="width: 100%; height: 300px;" frameborder="0"></iframe> -->
-                        <img *ngIf="item.tipo_archivo == '.jpg'" src="./../../../assets/files/{{item.archivo }}" alt="hugenerd"
-                            width="50" height="50" class="rounded-circle">
 
-                            <ngx-doc-viewer *ngIf="item.tipo_archivo == '.pdf'"
-                            url="http://127.0.0.1:4200/assets/files/{{item.archivo }}" viewer="google"
-                            style="width:100%;height:93vh;">
-                        </ngx-doc-viewer>
-                        <ngx-doc-viewer *ngIf="item.tipo_archivo == '.docx'"
-                            url="http://127.0.0.1:4200/assets/files/{{item.archivo }}" viewer="google"
-                            style="width:100%;height:93vh;">
-                        </ngx-doc-viewer>
+                        <div class="card border-0" style="height: 300px; overflow: auto;" *ngIf="item.tipo == 'code'">
+                            <p>{{ item.descripcion | safe : 'url' }}</p>
+                            <pre class="prettyprint border-0" style="background-color: white;">
+                                <!-- <code style="overflow: auto;"> -->
+                               {{ item.contenido.trim() }}
+                            </pre>
+                        </div>
+                        <div *ngIf="item.tipo == 'URL'">
+                            <p class="text-justify">{{ item.descripcion }}</p>
+                            <div class="text-center">
+                                <a href="{{ item.contenido  | safe : 'url' }}" target="_blank">{{
+                                    item.contenido}}</a>
+                            </div>
 
-                        <iframe *ngIf="item.tipo_archivo == '.txt'" src="http://127.0.0.1:4200/assets/files/ejemplo3.txt"
-                            style="width: 100%; height: 300px;" frameborder="0"></iframe>
+                        </div>
 
-                            <blockquote >
-                                <pre *ngIf="item.tipo_archivo == 'code'" class="prettyprint">
-                                  
-                                      {{ item.archivo.trim() }}
-                                
-                                </pre>
-                              </blockquote>
+
+                        <div class="card w-100 border-0 m-0 p-0" style="height: auto;"
+                            *ngIf="item.tipo != 'code' && item.tipo!='URL'">
+                            <div class="row g-0">
+                                <div class="col-md-1 border border-primary border-2 rounded m-2 p-1">
+                                    <img src="{{ getTipoArchivo(item.tipo) | safe : 'resourceUrl'}}"
+                                        class="img-fluid rounded-start border-primary" alt="...">
+                                    <div class="text-center bg-light m-2">
+                                        <!-- <button type="button" class="btn btn-labeled btn-success"> -->
+                                        <a href="{{rutaArchivos+'/'+item.contenido}}"
+                                            class="btn btn-labeled btn-success" target="_blank">
+                                            <span class="btn-label"><i class="bi bi-eye-fill"></i></span>
+                                        </a>
+                                        <!-- </button> -->
+                                        <!-- <button type="button" class="btn btn-labeled btn-primary"> -->
+                                        <!-- <a target="_blank" rel="noopener noreferrer" href="{{rutaArchivos+'/'+item.contenido}}" download="item.contenido" class="btn btn-labeled btn-primary">
+                                            <span class="btn-label"><i class="bi bi-arrow-down-circle-fill"></i></span>
+                                        </a> -->
+                                        <!-- </button> -->
+                                    </div>
+                                </div>
+
+                                <div class="col-md-auto">
+                                    <div class="card-body">
+                                        <!-- <h5 class="card-title">Card title</h5> -->
+                                        <p class="card-text" style="overflow: auto;">{{item.descripcion}}</p>
+                                        <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-
         </div>
-
-
-
-
-        <!-- <div class="row ps-2 pe-2">
-            <div class="col-md-2">
-                <div class="card">
-                    <img src="https://www.openkm.com/resources/images/icon/document-management-big.png" width="200px"
-                        class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text fs-6">Descripción 1</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="card">
-                    <img src="https://www.openkm.com/resources/images/icon/document-management-big.png"
-                        class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text fs-6">Descripción 2</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <div class="card">
-                    <img src="https://www.openkm.com/resources/images/icon/document-management-big.png"
-                        class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">Descripción 3</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-2">
-                <div class="card">
-                    <img src="https://www.openkm.com/resources/images/icon/document-management-big.png"
-                        class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">Descripción 4</p>
-                    </div>
-                </div>
-            </div>
-
-
-            
-        </div> -->
-
-        <!-- <a href="./../../../assets/files/ejemplo2.pdf">Source</a> -->
-
-        <!-- <iframe src="http://127.0.0.1:4200/assets/files/ejemplo2.pdf" style="width: 100%; height: 400px;"
-            frameborder="0"></iframe> -->
-
-        <!-- <iframe src="http://127.0.0.1:4200/assets/files/ejemplo.docx" style="width: 100%; height: 400px;" frameborder="0"></iframe> -->
-
-        <!-- <iframe width="100%" height="100%" frameBorder="1" src="http://127.0.0.1:4200/assets/files/ejemplo.docx"></iframe> -->
-        <!-- <iframe width="100%" height="100%" frameBorder="1"
-            src="http://127.0.0.1:4200/assets/files/ejemplo3.txt"></iframe> -->
-
-        <!-- <ngx-doc-viewer [url]="./../../files/ejemplo2.pdf" viewer="google" style="width:100%;height:50vh;"></ngx-doc-viewer> -->
-        <!-- <ngx-doc-viewer url="http://127.0.0.1:4200/assets/files/ejemplo2.pdf" viewer="google"
-  style="width:100%;height:93vh;">
-</ngx-doc-viewer> -->
 
         <div class="text-center bg-light p-2 mt-2 border-primary border rounded">
             <button type="button" class="btn btn-outline-primary me-2">Comentar</button>
-            <button type="button" class="btn btn-outline-primary me-2">Calificar</button>
+
+            <button type="button" class="btn btn-outline-primary me-2"
+                (click)="abrirModalCalificacion()">Calificar</button>
+            <!-- *ngIf="publicacion.id_usuario_pub != user.id" -->
         </div>
 
     </div>
@@ -169,3 +145,65 @@
         </div>
     </div>
 </div>
+
+<!-- Modal para mostrar calificaciones -->
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+    <div class="modal-dialog modal-lg border border-primary border-2 bg-light rounded" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" aria-label="Close" (click)="cerrarModalCalificacion()"></button>
+                <!-- <h4 class="modal-title">Editar</h4> -->
+            </div>
+            <div class="modal-body">
+                <form class="" [formGroup]="addCalificacion" (ngSubmit)="postCalificacion()">
+                    <div class="card p-2 border border-primary">
+                        <div class="mb-3">
+                            <label for="calificacionInput" class="form-label">Calificación 1 - 5</label>
+                            <input type="range" min="0" max="5" step="1" class="form-range" id="calificacion" formControlName="calificacion">
+                        </div>
+                        <div class="mb-3">
+                            <label for="motivo_cal" class="form-label">Comentario:</label>
+                            <input type="text" class="form-control" id="motivo_cal" formControlName="motivo_cal">
+                        </div>
+
+                        <div class="col-12 text-center">
+                            <button class="btn btn-primary" type="submit" [disabled]="!addCalificacion.valid">Guardar</button>
+                        </div>
+                    </div>
+                </form>
+
+                <h3>Calificaciones</h3>
+                <div class="card p-2" *ngFor="let calif of listaCalificaciones">
+                    <div class="row g-3">
+                        <div class="col-auto text-center">
+                            <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
+                                <img class="card-img-top" src="{{ rutaImg }}/profile/{{ calif.foto }}" alt="...">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div>
+                                <!-- <h4 class="fw-normal fs-6">{{ publicacion.nombre }}</h4> -->
+                                <div class="float-sm-start">{{ calif.nombre }}</div>
+                                <!-- <div class="float-sm-end"> Puntaje: {{ calif.calificacion }}</div> -->
+                                <br>
+                                <p class="text-muted fs-6 text-justify">{{ calif.creacion | date :'shortDate' }}"</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <p class="text-muted">
+                            {{calif.motivo_cal}}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" (click)="cerrarModalCalificacion()">Cerrar</button>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal !-->
+
+    </div>

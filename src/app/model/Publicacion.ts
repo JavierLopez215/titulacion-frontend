@@ -1,3 +1,5 @@
+import { DetallePublicacion } from "./DetallePublicacion";
+
 export interface Publicacion {
     id: number;
     id_usuario_pub: number;
@@ -10,4 +12,6 @@ export interface Publicacion {
     especialidad : string;
     activo : string;
     creado : Date;
+    listaDetalles: Array<DetallePublicacion>;
+    // formData : FormData;
 }

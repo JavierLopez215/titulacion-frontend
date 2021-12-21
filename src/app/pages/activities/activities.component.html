@@ -85,17 +85,144 @@
 
 <!-- modal para preguntas -->
 <div class="modal fade" id="questionModal" tabindex="-1" aria-labelledby="questionModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="width: 100%;">
+            <div class="modal-header" style="width: 100%;">
                 <h5 class="modal-title">Pregunta para la comunidad</h5>
 
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body" style="width: 100%;">
 
-                <form class="row g-3" [formGroup]="postDataForm" (ngSubmit)="postPublicacion()">
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <form class="" [formGroup]="postDataForm" (ngSubmit)="postPublicacion()">
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label for="pregunta" class="form-label">Título</label>
+                                    <input type="text" class="form-control" id="pregunta" name="titulo"
+                                        formControlName="titulo">
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="descripcion" class="form-label">Descripción</label>
+                                    <!-- <input type="text" class="form-control" id="descripcion"
+                                        formControlName="descripcion"> -->
+                                    <textarea class="form-control" rows="3" name="descripcion" name="descripcion"
+                                        formControlName="descripcion"></textarea>
+                                </div>
+
+                                <!-- dropdowlist -->
+                                <div class="col-md-12">
+                                    <label for="descripcion" class="form-label">Especialidad/Área</label>
+                                    <select class="form-select" aria-label="Area" formControlName="area">
+                                        <option value="">Seleccionar la especialidad o área</option>
+                                        <option [value]="especialidad.id"
+                                            *ngFor="let especialidad of listaEspecialidades">
+                                            {{especialidad.nombre}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-primary" [disabled]="!postDataForm.valid">Publicar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+
+                    <div class="col-md-6 border">
+
+                        <div class="card p-2 border-0">
+
+                            <div class="card-header bg-primary border-rounded text-white">
+                                Recursos Adjuntos
+                            </div>
+                            <form class=""
+                                [formGroup]="tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode "
+                                (ngSubmit)="AddResource()">
+                                <select class="form-select border-primary" aria-label="Tipo"
+                                    (change)="tipoRecursoChange($event)">
+                                    <option value="">Seleccionar tipo de recurso</option>
+                                    <option [value]="'file'">Archivo</option>
+                                    <option [value]="'code'">Codigo</option>
+                                    <option [value]="'URL'">URL</option>
+                                </select>
+
+
+                                <div *ngIf="tipo_aporte != ''">
+                                    <div class="form-group mb-3">
+                                        <label for="desc_adjuntos" class="form-label">Encabezado</label>
+                                        <!-- <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos"> -->
+                                        <textarea class="form-control" name="desc_adjuntos" rows="2"
+                                            formControlName="encabezado"></textarea>
+                                    </div>
+
+                                    <div class="mb-3 text-center" *ngIf="tipo_aporte == 'file'">
+                                        <label for="formFileMultiple"
+                                            class="form-label text-success">Seleccionar..</label>
+                                        <input class="form-control d-none" type="file" id="formFileMultiple" name="file"
+                                            formControlName="file" (change)="onChangeFile($event)">
+                                        <br>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" id="label-input" disabled
+                                                value="{{ archivo_seleccionado }}">
+                                            <button class="btn btn-outline-primary" type="submit" id="btnAddFile"
+                                                [disabled]="!addFile.valid">Añadir</button>
+                                        </div>
+                                    </div>
+                                    <div class="input-group mb-3" *ngIf="tipo_aporte == 'URL'">
+                                        <input type="text" class="form-control" id="inputURL" placeholder="URL"
+                                            formControlName="link">
+                                        <button class="btn btn-outline-primary" type="submit" id="btnAddURL"
+                                            [disabled]="!addURL.valid">Añadir</button>
+                                    </div>
+
+
+                                    <div class="input-group mb-3" *ngIf="tipo_aporte == 'code'">
+                                        <!-- <label for="desc_adjuntos" class="form-label">Código</label> -->
+                                        <!-- <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos"> -->
+                                        <textarea class="form-control" rows="5" placeholder="Código"
+                                            style="overflow: auto;" formControlName="code"></textarea>
+                                        <button class="btn btn-outline-primary" [disabled]="!addCode.valid"
+                                            type="submit" id="btnAddCode">Añadir</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <caption>Lista de recursos adjuntos</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">N°</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Contenido</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listaAdjuntos; let i = index">
+                                <th scope="row">1</th>
+                                <td>{{ item.tipo }}</td>
+                                <td>{{ item.contenido }}</td>
+                                <td><button class="btn-danger" type="button" (click)="EliminarAdjunto(i)">Eliminar</button>
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <!-- <form class="row g-3" [formGroup]="postDataForm" (ngSubmit)="postPublicacion()">
                     <div class="col-md-12">
                         <label for="pregunta" class="form-label">Título</label>
                         <input type="text" class="form-control" id="pregunta" formControlName="titulo">
@@ -106,7 +233,6 @@
                         <input type="text" class="form-control" id="descripcion" formControlName="descripcion">
                     </div>
 
-                    <!-- dropdowlist -->
                     <select class="form-select" aria-label="Area" formControlName="area">
                         <option value="">Seleccionar la especialidad o área</option>
                         <option [value]="especialidad.id" *ngFor="let especialidad of listaEspecialidades">
@@ -132,7 +258,7 @@
                     </div>
 
 
-                </form>
+                </form> -->
             </div>
             <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button> -->

@@ -1,5 +1,6 @@
+import { UtillitiesService } from './services/utillities.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
-import { NgModule } from '@angular/core';
+import { NgModule, PipeTransform } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +26,8 @@ import { CommunityComponent } from './pages/community/community.component';
 import { FilesComponent } from './pages/files/files.component';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
+import { PipeFiles } from './pipes/pipe-transform';
+
 
 @NgModule({
   declarations: [
@@ -39,7 +42,8 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
     MeetingsComponent,
     ProfileComponent,
     CommunityComponent,
-    FilesComponent
+    FilesComponent,
+    PipeFiles
     
   ],
   imports: [
@@ -54,14 +58,16 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
       // timeOut: 1000,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
-    }),
+    })
   ],
   providers: [
     //JWT
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
     //Interceptor
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },
+    UtillitiesService
+
   ],
   bootstrap: [AppComponent]
 })

@@ -101,12 +101,10 @@ export class ProfileComponent implements OnInit {
 
     const idUsu = this.user.id;
     this.authService.actuaizarDatosUsuario(idUsu, this.updateDataForm.value).subscribe((res: any) => {
-
-      // console.log(res)
-
       if (res.ok === 1) {
         this.user = res.data;
         localStorage.setItem('token', res.token);
+        this.authService.actualizarToken();
         this.toastr.success('Datos actualizados correctamente', 'Safisfactorio');
       }
       else {
@@ -144,6 +142,7 @@ export class ProfileComponent implements OnInit {
         this.user = res.data;
         localStorage.setItem('token', res.token);
         this.toastr.success('Datos actualizados correctamente', 'Safisfactorio');
+        this.authService.actualizarToken();
         this.updatePhotoUserForm.reset();
         this.file_name="";
         this.archivo_seleccionado=null;

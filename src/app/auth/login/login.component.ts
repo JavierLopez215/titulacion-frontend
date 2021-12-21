@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit {
       console.log(res);
       if (res.ok === 1) {
         localStorage.setItem('token', res.token);
-        window.location.reload();
-        // this.router.navigate(['/']);
+        this.authService.actualizarToken();
+        this.router.navigate(['app']);
         this.errores = '';
       }
       else {
