@@ -14,6 +14,7 @@ import { ProfileComponent } from "./pages/profile/profile.component";
 import { CommunityComponent } from "./pages/community/community.component";
 import { FilesComponent } from "./pages/files/files.component";
 import { AuthGuard } from './guards/auth.guard';
+import { MeetingDetailsComponent } from './pages/meeting-details/meeting-details.component';
 
 
 const routes: Routes = [
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'activities', component: ActivitiesComponent, canActivate:[AuthGuard] },
   { path: 'publication/:id', component: PublicationComponent, canActivate:[AuthGuard] },
   { path: 'meetings', component: MeetingsComponent, canActivate:[AuthGuard] },
+  { path: 'meetings/:id', component: MeetingDetailsComponent, canActivate:[AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard] },
   { path: 'files', component: FilesComponent, canActivate:[AuthGuard] },
   { path: 'community', component: CommunityComponent, canActivate:[AuthGuard] },

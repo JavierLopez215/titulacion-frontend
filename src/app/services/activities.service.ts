@@ -12,7 +12,7 @@ export class ActivitiesService {
   constructor(private http: HttpClient) { }
 
   getPublicaciones(idUsu:number) {
-    return this.http.get(`${this.URL}/publicacion/getPubUser/${idUsu}`);
+    return this.http.get(`${this.URL}/publicacion/getPubUser/${idUsu}`,{observe: 'events', reportProgress: true});
   }
 }
 

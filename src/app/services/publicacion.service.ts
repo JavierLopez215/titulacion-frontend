@@ -13,28 +13,31 @@ export class PublicacionService {
   constructor(private http: HttpClient) { }
 
   getPublicaciones(idUsu:number) {
-    return this.http.get(`${this.URL}/publicacion/getPubUser/${idUsu}`);
+    return this.http.get(`${this.URL}/publicacion/getPubUser/${idUsu}`,{observe: 'events', reportProgress: true});
   }
 
   getTopPublicaciones(idUsu:number) {
-    return this.http.get(`${this.URL}/publicacion/getTopPubUser/${idUsu}`);
+    return this.http.get(`${this.URL}/publicacion/getTopPubUser/${idUsu}`,{observe: 'events', reportProgress: true});
   }
 
   getPublicacionById(idPub:string) {
-    return this.http.get(`${this.URL}/publicacion/getPubId/${idPub}`);
+    return this.http.get(`${this.URL}/publicacion/getPubId/${idPub}`,{observe: 'events', reportProgress: true});
   }
 
   getDetallePublicacion(idPub:string) {
-    return this.http.get(`${this.URL}/publicacion/getDetalles/${idPub}`);
+    return this.http.get(`${this.URL}/publicacion/getDetalles/${idPub}`,{observe: 'events', reportProgress: true});
   }
 
   postPublicacion(publicacion:Publicacion) {
-    // console.log(publicacion)
-    // console.log(archivos)
-    
-    return this.http.post(`${this.URL}/publicacion/post`,publicacion);
+    return this.http.post(`${this.URL}/publicacion/post`,publicacion,{observe: 'events', reportProgress: true});
   }
   postArchivosPublicacion(files:FormData) {
     return this.http.post(`${this.URL}/publicacion/saveFiles`,files);
   }
+
+  //publicaciones de la comunidad
+  getPublicacionesCommunity(idUsu:number) {
+    return this.http.get(`${this.URL}/publicacion/getPubCom/${idUsu}`,{observe: 'events', reportProgress: true});
+  }
+
 }

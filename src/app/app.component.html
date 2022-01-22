@@ -1,7 +1,7 @@
 <div *ngIf="!logged">
-  
-    <nav class="navbar navbar-expand-lg bg-light text-primary border">
-      <div class="container-fluid">
+
+  <nav class="navbar navbar-expand-lg bg-light text-primary border">
+    <div class="container-fluid">
       <a class="navbar-brand" href="#">Menú</a>
       <button class="navbar-toggler border" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
         aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,8 +13,8 @@
       <div class="collapse navbar-collapse" id="navbarMenu">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link border border-primary rounded p-2 me-2 text-center"
-             routerLinkActive="active" routerLink="/app">Inicio</a>
+            <a class="nav-link border border-primary rounded p-2 me-2 text-center" routerLinkActive="active"
+              routerLink="/app">Inicio</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Servicios</a>
@@ -63,8 +63,8 @@
       </div>
 
     </div>
-    </nav>
- 
+  </nav>
+
 </div>
 
 
@@ -83,7 +83,8 @@
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" style="width: 100%;" id="menu"> -->
 <div class="container-fluid overflow-hidden">
   <div class="row vh-100 overflow-auto">
-    <div class="col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-light d-flex sticky-top" *ngIf="logged">
+    <div class=" col col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-light d-flex sticky-top border border-primary rounded "
+      *ngIf="logged">
       <div
         class="d-flex flex-sm-column flex-row flex-grow-1 py-4 align-items-center align-items-sm-start px-3 pt-2 text-primary side">
         <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-primary text-decoration-none">
@@ -127,22 +128,22 @@
               class="rounded-circle">
             <span class="d-none d-sm-inline mx-1 text-primary">{{ user.nombre }}</span>
           </a>
-          <ul class="dropdown-menu dropdown-menu-dark text-small" aria-labelledby="dropdownUser1">
-            <li><a class="dropdown-item" routerLink="/profile" routerLinkActive="active">Perfil</a></li>
-            <li><a class="dropdown-item" href="#">Seguridad</a></li>
+          <ul class="dropdown-menu dropdown-menu-light text-small text-primary" aria-labelledby="dropdownUser1">
+            <li><a class="dropdown-item text-primary" routerLink="/profile" routerLinkActive="active">Perfil</a></li>
+            <li><a class="dropdown-item text-primary" href="#">Seguridad</a></li>
             <!-- <li><a class="dropdown-item text-primary" href="#">Profile</a></li> -->
             <li>
-              <hr class="dropdown-divider">
+              <hr class="dropdown-divider text-primary">
             </li>
-            <li><a class="dropdown-item" (click)="logout()">Cerrar Sesión</a></li>
+            <li><a class="dropdown-item text-primary" (click)="logout()">Cerrar Sesión</a></li>
           </ul>
         </div>
       </div>
     </div>
-    <div class="col d-flex flex-column h-sm-100">
-      <main class="row overflow-auto">
-        <div class="col pt-4">
-          <router-outlet></router-outlet>
+    <div class="col d-flex flex-column h-sm-100 col-sm-9 col-xl-10">
+      <main class="row">
+        <div class="col pt-2">
+              <router-outlet></router-outlet>
         </div>
       </main>
 

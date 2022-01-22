@@ -1,0 +1,162 @@
+<div class="container" *ngIf="ec_reunion==='P'">
+    <div class="text-center">
+        <br>
+        <br>
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="ec_reunion==='C'">
+    <div class="card border-primary" *ngIf="reunion">
+        <!-- <div class="card-header bg-transparent border-primary text-center">
+            <div>{{reunion.nombreA + ' ha aceptado reunirse con ' + reunion.nombreS}}</div>
+
+        </div> -->
+
+        <div class="card-body p-2">
+            <br>
+            <p class="text-center fw-bold">{{reunion.nombreA + ' ha aceptado reunirse con ' + reunion.nombreS}}</p>
+
+            <div class="text-center mx-auto" style="width: 300px;">
+                <div class="d-inline-block p-3">
+                    <div style="width: 100px; height: 100px; overflow: hidden;" class="rounded-circle">
+                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ reunion.fotoS }}" alt="...">
+                    </div>
+                    <div class="p-1 fw-normal fs-6">{{reunion.nombreS}}</div>
+                </div>
+                <!-- </div> -->
+                <div class="d-inline-block p-3">
+                    <!-- <div class="col-auto text-center"> -->
+                    <div style="width: 100px; height: 100px; overflow: hidden;" class="rounded-circle">
+                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ reunion.fotoA }}" alt="...">
+                    </div>
+                    <div class="p-1 fw-normal fs-6">{{reunion.nombreA}}</div>
+                </div>
+            </div>
+
+            <hr class="m-2 text-primary">
+            <h5 class="text-center"> Detalles</h5>
+            <div class="fw-bold fs-6 p-2">{{'Título: ' + reunion.titulo }}</div>
+            <!-- <h4 class="fw-normal fs-6">{{ publicacion.area }}</h4> -->
+            <h4 class="fw-normal fs-6 p-2 text-justify"><b>Descripción:</b> {{  reunion.descripcion }}</h4>
+            <div class="row">
+                <div class="col-md-4">
+                    <h4 class="fw-light fs-6 p-2"><b>Fecha solicitud: </b> {{ reunion.fecha_sol | date :'dd/MM/yyyy' }}</h4>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="fw-light fs-6 p-2"><b>Fecha aceptación: </b> {{ reunion.fecha_ace | date :'dd/MM/yyyy' }}</h4>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="fw-light fs-6 p-2"><b>Hora: </b> {{ reunion.hora }}</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center bg-light p-2 mt-2 border-primary border rounded">
+            <!-- <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
+                    data-bs-target="#modalAddComentario">Comentar</button> -->
+
+            <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#modalCalificacionComentario"
+            *ngIf="user.id == reunion.id_usuario_sol || user.id == reunion.id_usuario_ace">Calificar</button>
+            <!-- *ngIf="publicacion.id_usuario_pub != user.id" -->
+        </div>
+    </div>
+</div>
+
+<!-- spinner detalle publicacion -->
+<div class="container" *ngIf="ec_calificacion_reunion==='P'">
+    <div class="text-center">
+        <br>
+        <br>
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-2 border border-primary rounded p-2">
+    <div *ngIf="ec_calificacion_reunion==='C' && listaCalificaciones.length > 0">
+        <h6 class="pb-2">Calificaciones de la reunion</h6>
+        <div *ngFor="let calificacion of listaCalificaciones; let i_cal = index">
+            <div class="row g-3 p-2">
+
+                <div class="col-auto text-center">
+                    <!-- <img src="{{rutaImg + '/profile/' + comentario.foto}}" alt="..." width="50" height="50"
+                        class="rounded-circle"> -->
+                    <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
+                        <img class="card-img-top" src="{{rutaImg + '/profile/' + calificacion.fotoC}}" alt="...">
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <div class="float-sm-start fw-normal fs-6">{{calificacion.nombreC}}</div>
+                        <div class="float-sm-end">
+                            {{ calificacion.calificacion }} <i class="bi bi-star-fill"></i></div><br>
+                        <p class="float-sm-start fw-light p-0 m-0">{{calificacion.creado | date :'dd/MM/yyyy'}}</p>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <p class="fw-light fs-6 text-justify ps-2 pe-2 pt-0 pb-0 mb-0">{{calificacion.motivo_cal}}</p>
+                </div>
+            </div>
+            <hr class="m-3" *ngIf="i_cal < listaCalificaciones.length-1">
+
+        </div>
+    </div>
+    <h3 class="text-center" *ngIf="ec_calificacion_reunion==='C' && listaCalificaciones.length === 0">
+        No se han encontrado calificaciones.
+    </h3>
+</div>
+
+<!-- modal para ingreso de calificaciones -->
+
+<div class="modal fade" id="modalCalificacionComentario" tabindex="-1" aria-labelledby="modalCalifComentario"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCalifReunion">Calificar reunión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card p-2 border border-primary" *ngIf="user.id == reunion.id_usuario_sol || user.id == reunion.id_usuario_ace">
+                    
+                    <form class="" [formGroup]="addCalificacion" (ngSubmit)="postCalificacion()">
+
+                        <div class="mb-1">
+                            <label for="calificacionInput" class="form-label">Calificación 0 - 5</label>
+                            <input type="range" min="0" max="5" step="1" (ngModelChange)="cambioCalificacionReunion($event)" class="form-range" id="calificacion"
+                                formControlName="calificacion">
+                        </div>
+
+                        <div class="mb-1 text-center">
+                            {{_val_calificacion}} <i class="bi bi-star-fill"></i>
+                        </div>
+                        
+                        <div class="mb-1">
+                            <label for="motivo_cal" class="form-label">Comentario:</label>
+                            <input type="text" class="form-control" id="motivo_cal" formControlName="motivo_cal">
+                        </div>
+
+                        <div class="col-12 text-center">
+                            <button class="btn btn-primary" type="submit"
+                                [disabled]="!addCalificacion.valid">Guardar</button>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Guardar</button>
+            </div> -->
+        </div>
+    </div>
+</div>

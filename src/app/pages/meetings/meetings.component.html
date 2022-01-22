@@ -4,7 +4,8 @@
         personalizadas de lo
         que necesites.</p>
     <div class="text-center">
-        <button type="button" class="btn btn-primary">Solicitar</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#modalAddSolicitud">Solicitar</button>
     </div>
 </div>
 
@@ -24,51 +25,39 @@
                     (click)="btnReunionesComunidad()">R. Aceptadas</button>
             </li>
         </ul>
-        <div class="row ps-2 pe-2">
-            <h3 class="text-center">{{ titulo_reuniones }}</h3>
+        <h3 class="text-center">{{ titulo_reuniones }}</h3>
+        <!-- spinner de carga -->
+        <div class="container" *ngIf="ec_ReunionesAce==='P'">
+            <div class="text-center">
+                <br>
+                <br>
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                  </div>
+            </div>
+        </div>
+
+        <div *ngIf="listaReunionesAceptadas.length === 0 && ec_ReunionesAce==='C'">
+
+            <br>
+            <p class="text-center fs-6">No se ha encontrado solicitudes aceptadas.</p>
+            <!-- <div class="text-center"> -->
+                <!-- <button type="button" class="btn btn-primary p-2 m-2" data-bs-toggle="modal"
+                    data-bs-target="#questionModal">
+                    Preguntar
+                </button> -->
+                <!-- <a class="link-primary" routerLink="/activities">Ir a tu actividad</a> -->
+            <!-- </div> -->
+                <hr>
+        </div>
+
+
+        <div class="row ps-2 pe-2" *ngIf="listaReunionesAceptadas.length > 0 && ec_ReunionesAce==='C'">
             <div class="d-flex justify-content-center p-2 m-2">
-                <!-- <div class="col-md-3">
-                    <div class="card border-primary border-3 text-center pt-2">
-
-                        <img src="https://image.shutterstock.com/image-vector/anonymous-man-question-mark-male-260nw-1390079279.jpg"
-                            class="rounded-circle mx-auto d-block border" width="100px" height="100px" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Título</h5>
-                            <p class="text-justify"> Estado </p>
-                            <button type="button" class="btn btn-info">Detalles</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card border-success border-3 pt-2">
-
-                        <img src="https://media.istockphoto.com/photos/portrait-of-young-smiling-caucasian-man-with-crossed-arms-wearing-picture-id1171169107?k=20&m=1171169107&s=612x612&w=0&h=VkbOnU3zWYCbh3ojzqWFhK7JObxQduGzr4bRxqbgkLU="
-                            class="rounded-circle mx-auto d-block border" width="100px" height="100px" alt="...">
-
-                        <div class="card-body">
-                            <h5 class="card-title">Título</h5>
-                            <p class="text-justify"> Estado </p>
-                            <button type="button" class="btn btn-info">Detalles</button>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-md-3">
-                    <div class="card border-danger border-3 pt-2">
-
-                        <img src="https://image.shutterstock.com/image-vector/anonymous-man-question-mark-male-260nw-1390079279.jpg"
-                            class="rounded-circle mx-auto d-block border" width="100px" height="100px" alt="...">
-
-                        <div class="card-body">
-                            <h5 class="card-title">Título</h5>
-                            <p class="text-justify"> Estado </p>
-                            <button type="button" class="btn btn-info">Detalles</button>
-                        </div>
-                    </div>
-                </div> -->
+                
                 <div class="row w-100" *ngFor="let reunion_a of listaReunionesAceptadas">
 
-                    <div class="col-md-4 border border-primary">
+                    <div class="col-md-4 border border-primary" (click)="detallePublicacion(reunion_a)">
                         <div class="row p-2">
 
                             <div class="col-auto">
@@ -76,7 +65,7 @@
                                     height="50" class="rounded-circle">
                             </div>
                             <div class="col">
-                                <h4 class="fw-normal fs-6">{{ reunion_a.nombre + ' ' + reunion_a.apellido}}</h4>
+                                <h4 class="fw-normal fs-6">{{ reunion_a.nombreA}}</h4>
                                 <h4 class="fw-normal fs-6 text-truncate">Aceptó tu solicitud</h4>
                             </div>
                             <h4 class="fw-light fs-6 d-inline-block text-truncate pt-2"><b>Título: </b> {{
@@ -90,7 +79,31 @@
 
         </div>
 
-        <div class="table-responsive">
+
+        <!-- spinner de carga lista solicitudes Historial -->
+        <div class="container" *ngIf="ec_ReunionesHis==='P'">
+            <div class="text-center">
+                <br>
+                <br>
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                  </div>
+            </div>
+        </div>
+
+        <div *ngIf="listaHistorialReuniones.length === 0 && ec_ReunionesHis==='C'">
+            <p class="text-center fs-6">No se ha encontrado solicitudes pendientes.</p>
+            <!-- <div class="text-center"> -->
+                <!-- <button type="button" class="btn btn-primary p-2 m-2" data-bs-toggle="modal"
+                    data-bs-target="#questionModal">
+                    Preguntar
+                </button> -->
+                <!-- <a class="link-primary" routerLink="/activities">Ir a tu actividad</a> -->
+            <!-- </div> -->
+
+        </div>
+
+        <div class="table-responsive" *ngIf="listaHistorialReuniones.length > 0 && ec_ReunionesHis==='C'">
             <table class="table align-middle">
                 <thead>
                     <tr>
@@ -104,13 +117,141 @@
 
                     <tr *ngFor="let reunion_h of listaHistorialReuniones; let i =index">
                         <td class="col-md-1">{{ i+1 }}</td>
-                        <td class="col-md-2">{{ reunion_h.fecha_sol | date :'shortDate'}}</td>
+                        <td class="col-md-2">{{ reunion_h.fecha_sol | date :'dd/MM/yyyy'}}</td>
                         <td class="col-md-col">{{ reunion_h.titulo}}</td>
-                        <td class="col-md-3">{{ reunion_h.estado == 'P' ? 'Pendiente' : reunion_h.estado == 'C' ? 'Cancelado' : 'Desconocido' }}</td>
+                        <td class="col-md-3">{{ reunion_h.estado == 'P' ? 'Pendiente' : reunion_h.estado == 'C' ?
+                            'Cancelado' : 'Desconocido' }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalAddSolicitud" tabindex="-1" aria-labelledby="modalAddSolicitud" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="width: 100%;">
+            <div class="modal-header" style="width: 100%;">
+                <h5 class="modal-title">Solicitar reunión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body" style="width: 100%;">
+
+                <div class="row g-3">
+
+                    <div class="col-md-12">
+                        <form class="" [formGroup]="addSolicitudReunion" (ngSubmit)="postSolicitudReunion()">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="fecha_sol" class="form-label">Fecha</label>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <!-- <input type="text" class="form-control" id="comentario" name="titulo"
+                                        formControlName="comentario"> -->
+                                            <!-- <ngb-datepicker #dp formControlName="fecha_sol" id="fecha_sol"
+                                        (navigate)="date = $event.next"></ngb-datepicker> -->
+                                            <input class="form-control" id="fecha_sol" placeholder="yyyy-mm-dd"
+                                                name="fecha_sol" readonly formControlName="fecha_sol" ngbDatepicker
+                                                #d="ngbDatepicker">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()"
+                                                    type="button"><span><i class="bi bi-calendar3"></i></span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6 mb-1">
+                                    <label for="hora" class="form-label">Hora</label>
+                                    <div class="mx-auto" style="width: 200px;">
+
+                                        <ngb-timepicker formControlName="hora" [spinners]="false"
+                                            id="hora">
+                                        </ngb-timepicker>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="titulo" class="form-label">Título</label>
+                                    <input type="text" class="form-control" id="titulo" formControlName="titulo">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="comentario" class="form-label">Descripcion</label>
+                                    <!-- <input type="text" class="form-control" id="descripcion"
+                                        formControlName="descripcion"> -->
+                                    <textarea class="form-control" rows="4" name="descripcion" name="descripcion"
+                                        formControlName="descripcion"></textarea>
+                                </div>
+
+                                <!-- dropdowlist -->
+                                <!-- <div class="col-md-12">
+                                    <label for="descripcion" class="form-label">Especialidad/Área</label>
+                                    <select class="form-select" aria-label="Area" formControlName="area">
+                                        <option value="">Seleccionar la especialidad o área</option>
+                                        <option [value]="especialidad.id"
+                                            *ngFor="let especialidad of listaEspecialidades">
+                                            {{especialidad.nombre}}</option>
+                                    </select>
+                                </div> -->
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-primary"
+                                        [disabled]="!addSolicitudReunion.valid">Solicitar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+
+                <!-- <form class="row g-3" [formGroup]="postDataForm" (ngSubmit)="postPublicacion()">
+                    <div class="col-md-12">
+                        <label for="pregunta" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="pregunta" formControlName="titulo">
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion" formControlName="descripcion">
+                    </div>
+
+                    <select class="form-select" aria-label="Area" formControlName="area">
+                        <option value="">Seleccionar la especialidad o área</option>
+                        <option [value]="especialidad.id" *ngFor="let especialidad of listaEspecialidades">
+                            {{especialidad.nombre}}</option>
+                    </select>
+
+
+                    <div class="card">
+
+                        <div class="form-group m-0">
+                            <label for="desc_adjuntos" class="form-label">Descripción</label>
+                            <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos">
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="formFileMultiple" class="form-label">Agrega archivos adjuntos</label>
+                            <input class="form-control" type="file" id="formFileMultiple" multiple>
+                        </div>
+
+                        <label for="formFile" class="form-label"></label>
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+
+
+                </form> -->
+            </div>
+            <!-- <div class="modal-footer"> -->
+            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button> -->
+            <!-- <button type="submit" class="btn btn-primary" [disabled]="!postDataForm.valid">Publicar</button> -->
+            <!-- </div> -->
+
+        </div>
     </div>
 </div>

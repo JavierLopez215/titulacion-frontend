@@ -9,6 +9,7 @@ import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DetallePublicacion } from 'src/app/model/DetallePublicacion';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-activities',
@@ -61,6 +62,7 @@ export class ActivitiesComponent implements OnInit {
     code: ['', [Validators.required,
     Validators.maxLength(1000)]]
   });
+  estado_consulta: string = 'P';
 
   constructor(private authService: AuthService,
     private activitiesService: ActivitiesService, private router: Router,
@@ -151,6 +153,7 @@ export class ActivitiesComponent implements OnInit {
         this.archivo_seleccionado = "";
         this.tipo_aporte = "";
         this.listaAdjuntos = [];
+        this.getPublicaciones();
       }
       else {
         // this.errores = res.mensaje;
@@ -180,15 +183,31 @@ export class ActivitiesComponent implements OnInit {
     const idUsu = dataUser.id;
     this.activitiesService.getPublicaciones(idUsu).subscribe((res: any) => {
 
-      if (res.ok === 1) {
-        // this.router.navigate(['/']);
-        // this.errores = '';
-        this.listaPublicaciones = res.data;
-        console.log(res.data);
+      if (res.type === HttpEventType.DownloadProgress) {
+        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log(res.total); //total bytes to download
+        this.estado_consulta = 'P'
       }
-      else {
-        // this.errores = res.mensaje;
-        console.log('error');
+      if (res.type === HttpEventType.UploadProgress) {
+        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+
+        this.estado_consulta = 'P'
+        // console.log(res.loaded); //uploaded bytes
+        // console.log(res.total); //total bytes to upload
+      }
+
+      if (res.type === HttpEventType.Response) {
+        this.estado_consulta = 'C'
+        if (res.body.ok === 1) {
+          // this.router.navigate(['/']);
+          // this.errores = '';
+          this.listaPublicaciones = res.body.data;
+          // console.log(res.data);
+        }
+        else {
+          // this.errores = res.mensaje;
+          console.log('error');
+        }
       }
     }, (err: any) => {
       console.log(err);
@@ -223,18 +242,6 @@ export class ActivitiesComponent implements OnInit {
     this.aux_adjunto = {} as DetallePublicacion;
     switch (this.tipo_aporte) {
       case 'file':
-        // this.formData = new FormData();
-        // console.log('addFile')
-        // console.log(this.formData)
-        // this.formData = new FormData();
-
-        // this.aux_adjunto.id = 0;
-        // this.aux_adjunto.id_publicacion = 0;
-        // this.aux_adjunto.descripcion = this.addFile.value.encabezado;
-        // this.aux_adjunto.contenido = this.archivo_seleccionado;
-        // this.aux_adjunto.archivo = this.archivo;
-        // this.aux_adjunto.tipo = this.extension;
-
         this.adjunto.id = 0;
         this.adjunto.id_publicacion = 0;
         this.adjunto.descripcion = this.addFile.value.encabezado;

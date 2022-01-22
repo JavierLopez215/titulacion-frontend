@@ -1,52 +1,76 @@
-<div class="card border-primary" *ngIf="publicacion let pub">
-    <div class="card-header bg-transparent border-primary">
-        <div class="row g-3">
-            <div class="col-auto text-center">
-                <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
-                    <img class="card-img-top" src="{{ rutaImg }}/profile/{{ publicacion.foto }}" alt="...">
+<!-- spinner publicacion -->
+<div class="container" *ngIf="ec_publicacion==='P'">
+    <div class="text-center">
+        <br>
+        <br>
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="ec_publicacion==='C'">
+    <div class="card border-primary" *ngIf="publicacion let pub">
+        <div class="card-header bg-transparent border-primary">
+            <div class="row g-3">
+                <div class="col-auto text-center">
+                    <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
+                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ publicacion.foto }}" alt="...">
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <!-- <h4 class="fw-normal fs-6">{{ publicacion.nombre }}</h4> -->
+                        <div class="float-sm-start">{{ publicacion.nombre }}</div>
+                        <div class="float-sm-end"
+                            [ngClass]="publicacion.estado === 'P' ? 'text-info' : (publicacion.estado === 'C' ? 'text-success' : 'text-danger')">
+                            {{ publicacion.estado === 'P' ? 'Pendiente' : (publicacion.estado === 'C' ?
+                            'Completado' : 'Desconocido') }}</div><br>
+                        <p class="fw-light fs-6 text-justify">Ha realizado una nueva publicación de "{{
+                            publicacion.especialidad }}"</p>
+                    </div>
                 </div>
             </div>
-            <div class="col">
-                <div>
-                    <!-- <h4 class="fw-normal fs-6">{{ publicacion.nombre }}</h4> -->
-                    <div class="float-sm-start">{{ publicacion.nombre }}</div>
-                    <div class="float-sm-end"
-                        [ngClass]="publicacion.estado === 'P' ? 'text-info' : (publicacion.estado === 'C' ? 'text-success' : 'text-danger')">
-                        {{ publicacion.estado === 'P' ? 'Pendiente' : (publicacion.estado === 'C' ?
-                        'Completado' : 'Desconocido') }}</div><br>
-                    <p class="fw-light fs-6 text-justify">Ha realizado una nueva publicación de "{{
-                        publicacion.especialidad }}"</p>
-                </div>
-            </div>
+
         </div>
 
-    </div>
-    <div class="card-body p-2">
-        <h4 class="fw-normal fs-6">{{ publicacion.titulo }}</h4>
-        <h4 class="fw-normal fs-6">{{ publicacion.area }}</h4>
-        <h4 class="fw-light fs-6">{{ publicacion.descripcion }}</h4>
+        <div class="card-body p-2">
+            <h4 class="fw-normal fs-6">{{ publicacion.titulo }}</h4>
+            <!-- <h4 class="fw-normal fs-6">{{ publicacion.area }}</h4> -->
+            <h4 class="fw-light fs-6">{{ publicacion.descripcion }}</h4>
 
-        <hr>
-        <h6 class="pb-2">Recursos Adjuntos</h6>
+            <hr>
 
+            <!-- spinner detalle publicacion -->
+            <div class="container" *ngIf="ec_detallePub==='P'">
+                <div class="text-center">
+                    <br>
+                    <br>
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+            </div>
 
+            <div *ngIf="ec_detallePub==='C' && listaDetallePublicacion.length > 0">
+                <h6 class="pb-2">Recursos Adjuntos</h6>
 
-        <div class="accordion" id="acordeonPanel">
-            <div class="accordion-item" *ngFor="let item of listaDetallePublicacion;let indice=index">
-                <h2 class="accordion-header" id="panelDetalleHeader">
-                    <button class="accordion-button {{ indice == 0 ? '' : 'collapsed' }}" type="button"
-                        data-bs-toggle="collapse" attr.data-bs-target="#panelDetalle{{ indice + 1}}"
-                        attr.aria-expanded="{{ indice == 0 ? 'true' : 'false' }}"
-                        attr.aria-controls="panelDetalle{{ indice + 1}}">
-                        Anexo {{indice+1}} - {{ item.tipo }}
-                    </button>
-                </h2>
-                <div id="panelDetalle{{ indice + 1}}"
-                    class="accordion-collapse collapse {{ indice == 0 ? 'show' : '' }}"
-                    attr.aria-labelledby="panelDetalleHeader{{ indice + 1}}">
-                    <div class="accordion-body">
+                <!-- Recursos adjuntos de publicacion -->
+                <div class="accordion" id="acordeonPanel">
+                    <div class="accordion-item" *ngFor="let item of listaDetallePublicacion;let indice=index">
+                        <h2 class="accordion-header" id="panelDetalleHeader">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                attr.data-bs-target="#panelDetalle{{ indice + 1}}"
+                                attr.aria-expanded="{{ indice == 0 ? 'true' : 'false' }}"
+                                attr.aria-controls="panelDetalle{{ indice + 1}}">
+                                Anexo {{indice+1}} - {{ item.tipo }}
+                            </button>
+                        </h2>
+                        <div id="panelDetalle{{ indice + 1}}" class="accordion-collapse collapse"
+                            attr.aria-labelledby="panelDetalleHeader{{ indice + 1}}">
+                            <div class="accordion-body">
 
-                        <!-- <iframe *ngIf="item.tipo == 'pdf'" class="e2e-iframe-untrusted-src" src="https://rua.ua.es/dspace/bitstream/10045/44986/1/RECIEN_08_01.pdf"
+                                <!-- <iframe *ngIf="item.tipo == 'pdf'" class="e2e-iframe-untrusted-src" src="https://rua.ua.es/dspace/bitstream/10045/44986/1/RECIEN_08_01.pdf"
                             style="width: 100%; height: 300px;" frameborder="1"></iframe>
                             <a href="{{ rutaArchivos +'/'+ item.contenido | safe : 'url' }}" target="_blank">Ver</a>
 
@@ -62,35 +86,53 @@
                         <iframe *ngIf="item.tipo == 'txt'" src="{{ rutaArchivos+'/'+item.contenido | safe : 'url' }}"
                             style="width: 100%; height: 300px;" frameborder="0"></iframe> -->
 
-                        <div class="card border-0" style="height: 300px; overflow: auto;" *ngIf="item.tipo == 'code'">
-                            <p>{{ item.descripcion | safe : 'url' }}</p>
-                            <pre class="prettyprint border-0" style="background-color: white;">
-                                <!-- <code style="overflow: auto;"> -->
-                               {{ item.contenido.trim() }}
-                            </pre>
-                        </div>
-                        <div *ngIf="item.tipo == 'URL'">
-                            <p class="text-justify">{{ item.descripcion }}</p>
-                            <div class="text-center">
-                                <a href="{{ item.contenido  | safe : 'url' }}" target="_blank">{{
-                                    item.contenido}}</a>
-                            </div>
+                                <div class="card border-0" style="max-height: 300px; overflow: auto;"
+                                    *ngIf="item.tipo == 'code'">
+                                    <div class="text-justify">{{ item.descripcion | safe : 'url' }}</div>
 
-                        </div>
+                                    <!-- <div class="">
+                                    <pre class="prettyprint border-0 text-wrap" style="background-color: white;"> -->
+                                    <!-- <code style="overflow: auto;"> -->
+                                    <!-- {{ item.contenido.trim() }} -->
+                                    <!-- </pre>
+                                </div> -->
+                                    <!-- <br> -->
+                                    <!-- <div class="container"> -->
+                                    <pre class="m-0">
+                                    <code [highlight]="item.contenido" (highlighted)="onHighlight($event)"></code>
+                                </pre>
+                                    <!-- </div> -->
+
+                                </div>
+                                <div *ngIf="item.tipo == 'URL'">
+                                    <p class="text-justify">{{ item.descripcion }}</p>
+                                    <div class="text-center">
+                                        <a href="{{ item.contenido  | safe : 'url' }}" target="_blank">{{
+                                            item.contenido}}</a>
+                                    </div>
+
+                                </div>
 
 
-                        <div class="card w-100 border-0 m-0 p-0" style="height: auto;"
-                            *ngIf="item.tipo != 'code' && item.tipo!='URL'">
-                            <div class="row g-0">
-                                <div class="col-md-1 border border-primary border-2 rounded m-2 p-1">
+                                <div class="card w-100 border-0 m-0 p-0" style="height: auto;"
+                                    *ngIf="item.tipo != 'code' && item.tipo!='URL'">
+                                    <p class="card-text" style="overflow: auto;">{{item.descripcion}}</p>
+                                    <!-- <div class="row g-0"> -->
+                                    <!-- <div class="col-md-1 border border-primary border-2 rounded m-2 p-1">
                                     <img src="{{ getTipoArchivo(item.tipo) | safe : 'resourceUrl'}}"
-                                        class="img-fluid rounded-start border-primary" alt="...">
-                                    <div class="text-center bg-light m-2">
+                                        class="img-fluid rounded-start border-primary" alt="..."> -->
+                                    <div class="text-center" style="width: auto;">
+                                        <!-- {{item.contenido}} -->
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-auto text-truncate">{{item.contenido}}</div>
+                                            <div class="col-md-auto"><a href="{{rutaArchivos+'/'+item.contenido}}"
+                                                    class="btn btn-labeled btn-success" target="_blank">
+                                                    <span class="btn-label"><i class="bi bi-eye-fill"></i></span>
+                                                </a></div>
+                                        </div>
+
                                         <!-- <button type="button" class="btn btn-labeled btn-success"> -->
-                                        <a href="{{rutaArchivos+'/'+item.contenido}}"
-                                            class="btn btn-labeled btn-success" target="_blank">
-                                            <span class="btn-label"><i class="bi bi-eye-fill"></i></span>
-                                        </a>
+
                                         <!-- </button> -->
                                         <!-- <button type="button" class="btn btn-labeled btn-primary"> -->
                                         <!-- <a target="_blank" rel="noopener noreferrer" href="{{rutaArchivos+'/'+item.contenido}}" download="item.contenido" class="btn btn-labeled btn-primary">
@@ -98,16 +140,17 @@
                                         </a> -->
                                         <!-- </button> -->
                                     </div>
-                                </div>
+                                    <!-- </div> -->
 
-                                <div class="col-md-auto">
-                                    <div class="card-body">
-                                        <!-- <h5 class="card-title">Card title</h5> -->
-                                        <p class="card-text" style="overflow: auto;">{{item.descripcion}}</p>
-                                        <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
-                                    </div>
+                                    <!-- <div class="col-md-auto">
+                                    <div class="card-body"> -->
+                                    <!-- <h5 class="card-title">Card title</h5> -->
+                                    <!-- <p class="card-text" style="overflow: auto;">{{item.descripcion}}</p> -->
+                                    <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+                                    <!-- </div> -->
 
                                 </div>
+                                <!-- </div> -->
                             </div>
                         </div>
                     </div>
@@ -116,7 +159,8 @@
         </div>
 
         <div class="text-center bg-light p-2 mt-2 border-primary border rounded">
-            <button type="button" class="btn btn-outline-primary me-2">Comentar</button>
+            <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
+                data-bs-target="#modalAddComentario">Comentar</button>
 
             <button type="button" class="btn btn-outline-primary me-2"
                 (click)="abrirModalCalificacion()">Calificar</button>
@@ -124,26 +168,90 @@
         </div>
 
     </div>
-
 </div>
-<br>
-<div class="card">
-    <h6 class="p-2">Comentarios</h6>
-    <div>
-        <div class="row g-3 p-2">
 
-            <div class="col-auto text-center">
-                <img src="./../../../assets/images/images-pages/login.png" alt="hugenerd" width="50" height="50"
-                    class="rounded-circle">
+
+<br>
+
+<div class="container" *ngIf="ec_comentarioPub==='P'">
+    <div class="text-center">
+        <br>
+        <br>
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+    </div>
+</div>
+
+<div class="card" *ngIf="ec_comentarioPub==='C'">
+    <h6 class="p-2">Comentarios</h6>
+    <div *ngIf="listaComentarios.length > 0">
+        <div *ngFor="let comentario of listaComentarios; let i_com = index">
+            <div class="row g-3 p-2">
+
+                <div class="col-auto text-center">
+                    <!-- <img src="{{rutaImg + '/profile/' + comentario.foto}}" alt="..." width="50" height="50"
+                        class="rounded-circle"> -->
+                    <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
+                        <img class="card-img-top" src="{{rutaImg + '/profile/' + comentario.foto}}" alt="...">
+                    </div>
+                </div>
+                <div class="col">
+                    <div>
+                        <div class="float-sm-start fw-normal fs-6">{{comentario.nombre + ' - '}}</div>
+                        <div class="float-sm-start"
+                            [ngClass]="publicacion.id_usuario_pub == comentario.id_usu_comenta ? 'text-info' : (comentario.tipo === 'Especialista' ? 'text-success' : 'text-warning')">
+                            {{ publicacion.id_usuario_pub === comentario.id_usu_comenta ? 'Propietario' :
+                            comentario.tipo }}</div><br>
+                        <div class="float-sm-end fw-bold">
+                            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal"
+                                data-bs-target="#modalCalificacionComentario"
+                                (click)="getCalificacionesComentarios(comentario.id)">
+                                {{comentario.calificacion}} <i class="bi bi-star-fill"></i>
+                            </button>
+                        </div>
+                        <p class="float-sm-start fw-light p-0 m-0">{{comentario.creado | date :'dd/MM/yyyy'}}</p>
+                    </div>
+
+                </div>
+
             </div>
-            <div class="col">
-                <div>
-                    <h4 class="fw-normal fs-6">Nombre Usuario</h4>
-                    <p class="fw-light fs-6 text-justify">Comentario 1</p>
+            <div class="row">
+                <div class="col-12">
+                    <p class="fw-light fs-6 text-justify ps-2 pe-2 pt-0 pb-0">{{comentario.comentario}}</p>
+                    <div class="text-end" *ngIf="comentario.adjuntos > 0">
+                        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse"
+                            href="#collapseCalificacionesComentarios{{ i_com + 1}}" role="button" aria-expanded="false"
+                            attr.aria-controls="collapseCalificacionesComentarios{{ i_com + 1}}"
+                            >
+                            Ver recursos adjuntos
+                        </a>
+                    </div>
+
+                </div>
+                <div class="col12">
+                    <div class="collapse" id="collapseCalificacionesComentarios{{ i_com + 1}}">
+                        <div class="card card-body">
+                            Lista de archivos adjuntos
+                            <div class="card" *ngFor="let detalle_item of comentario.listaDetalles; let i_det = index">
+                                <p>{{detalle_item.descripcion}}</p>
+                                <hr>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             </div>
+            <hr class="m-3">
+
         </div>
     </div>
+    <h3 class="text-center" *ngIf="listaComentarios.length === 0">
+        No se han encontrado comentarios todavía.
+    </h3>
+    <h4 class="text-center" *ngIf="listaComentarios.length === 0">
+        Sé el primero en comentar
+    </h4>
 </div>
 
 <!-- Modal para mostrar calificaciones -->
@@ -156,49 +264,66 @@
                 <!-- <h4 class="modal-title">Editar</h4> -->
             </div>
             <div class="modal-body">
-                <form class="" [formGroup]="addCalificacion" (ngSubmit)="postCalificacion()">
-                    <div class="card p-2 border border-primary">
-                        <div class="mb-3">
+                <div class="card p-2 border border-primary" *ngIf="user.id != publicacion.id_usuario_pub">
+                    <form class="" [formGroup]="addCalificacion" (ngSubmit)="postCalificacion()">
+
+                        <div class="mb-1">
                             <label for="calificacionInput" class="form-label">Calificación 1 - 5</label>
-                            <input type="range" min="0" max="5" step="1" class="form-range" id="calificacion" formControlName="calificacion">
+                            <input type="range" min="0" max="5" step="1" class="form-range" id="calificacion" (ngModelChange)="cambioCalificacionPublicacion($event)"
+                                formControlName="calificacion" >
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-1 text-center">
+                            {{_calificacion_publicacion}} <i class="bi bi-star-fill"></i>
+                        </div>
+                        <div class="mb-1">
                             <label for="motivo_cal" class="form-label">Comentario:</label>
                             <input type="text" class="form-control" id="motivo_cal" formControlName="motivo_cal">
                         </div>
 
                         <div class="col-12 text-center">
-                            <button class="btn btn-primary" type="submit" [disabled]="!addCalificacion.valid">Guardar</button>
+                            <button class="btn btn-primary" type="submit"
+                                [disabled]="!addCalificacion.valid">Guardar</button>
                         </div>
-                    </div>
-                </form>
 
-                <h3>Calificaciones</h3>
-                <div class="card p-2" *ngFor="let calif of listaCalificaciones">
-                    <div class="row g-3">
-                        <div class="col-auto text-center">
-                            <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
-                                <img class="card-img-top" src="{{ rutaImg }}/profile/{{ calif.foto }}" alt="...">
+                    </form>
+                </div>
+
+                <!-- calendar
+                        <input type="text" ngbDatepicker #d="ngbDatepicker"/> -->
+                <h3 class="mt-2">Calificaciones</h3>
+                <div *ngIf="listaCalificaciones.length > 0">
+                    <div class="card    p-2" *ngFor="let calif of listaCalificaciones">
+                        <div class="row g-3">
+                            <div class="col-auto text-center">
+                                <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
+                                    <img class="card-img-top" src="{{ rutaImg }}/profile/{{ calif.foto }}" alt="...">
+                                </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div>
-                                <!-- <h4 class="fw-normal fs-6">{{ publicacion.nombre }}</h4> -->
-                                <div class="float-sm-start">{{ calif.nombre }}</div>
-                                <!-- <div class="float-sm-end"> Puntaje: {{ calif.calificacion }}</div> -->
-                                <br>
-                                <p class="text-muted fs-6 text-justify">{{ calif.creacion | date :'shortDate' }}"</p>
+                            <div class="col">
+                                <div>
+                                    <!-- <h4 class="fw-normal fs-6">{{ publicacion.nombre }}</h4> -->
+                                    <div class="float-sm-start">{{ calif.nombre }}</div>
+                                    <!-- <div class="float-sm-end"> Puntaje: {{ calif.calificacion }}</div> -->
+                                    <br>
+                                    <p class="text-muted fs-6 text-justify">{{ calif.creacion | date :'dd/MM/yyyy'}}"
+                                    </p>
+                                </div>
                             </div>
+
                         </div>
 
-                    </div>
-
-                    <div class="row">
-                        <p class="text-muted">
-                            {{calif.motivo_cal}}
-                        </p>
+                        <div class="row">
+                            <p class="text-muted">
+                                {{calif.motivo_cal}}
+                            </p>
+                        </div>
                     </div>
                 </div>
+
+                <div *ngIf="listaCalificaciones.length === 0">
+                    <h4 class="text-center">La publicación aun no ha sido calificada</h4>
+                </div>
+
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" (click)="cerrarModalCalificacion()">Cerrar</button>
@@ -207,3 +332,315 @@
         </div><!-- /.modal !-->
 
     </div>
+</div>
+
+<!-- Modal para ingreso de nuevos comentarios -->
+
+<!-- <div class="modal fade" id="modalAddComentario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalAddComentario" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card p-2 border border-primary" *ngIf="user.id != publicacion.id_usuario_pub">
+                    <form class="" [formGroup]="addCalificacion" (ngSubmit)="postCalificacion()">
+
+                        <div class="mb-3">
+                            <label for="calificacionInput" class="form-label">Calificación 1 - 5</label>
+                            <input type="range" min="0" max="5" step="1" class="form-range" id="calificacion"
+                                formControlName="calificacion">
+                        </div>
+                        <div class="mb-3">
+                            <label for="motivo_cal" class="form-label">Comentario:</label>
+                            <input type="text" class="form-control" id="motivo_cal" formControlName="motivo_cal">
+                        </div>
+
+                        <div class="col-12 text-center">
+                            <button class="btn btn-primary" type="submit"
+                                [disabled]="!addCalificacion.valid">Guardar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+<!-- Modal para agregar comentario -->
+
+<div class="modal fade" id="modalAddComentario" tabindex="-1" aria-labelledby="modalAddComentario" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="width: 100%;">
+            <div class="modal-header" style="width: 100%;">
+                <h5 class="modal-title">Agregar comentario</h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body" style="width: 100%;">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <form class="" [formGroup]="addComentario" (ngSubmit)="postAdjuntosComentarios()">
+                            <div class="row g-3">
+                                <!-- <div class="col-md-12">
+                                    <label for="pregunta" class="form-label">Comentario</label>
+                                    <input type="text" class="form-control" id="comentario" name="titulo"
+                                        formControlName="comentario">
+                                </div> -->
+
+                                <div class="col-md-12">
+                                    <label for="comentario" class="form-label">Comentario</label>
+                                    <!-- <input type="text" class="form-control" id="descripcion"
+                                        formControlName="descripcion"> -->
+                                    <textarea class="form-control" rows="4" name="comentario" name="comentario"
+                                        formControlName="comentario"></textarea>
+                                </div>
+
+                                <!-- dropdowlist -->
+                                <!-- <div class="col-md-12">
+                                    <label for="descripcion" class="form-label">Especialidad/Área</label>
+                                    <select class="form-select" aria-label="Area" formControlName="area">
+                                        <option value="">Seleccionar la especialidad o área</option>
+                                        <option [value]="especialidad.id"
+                                            *ngFor="let especialidad of listaEspecialidades">
+                                            {{especialidad.nombre}}</option>
+                                    </select>
+                                </div> -->
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-primary"
+                                        [disabled]="!addComentario.valid">Comentar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <!-- Listado de adjuntos de comentario -->
+                    <div class="col-md-6 border">
+
+                        <div class="card p-2 border-0">
+
+                            <div class="card-header bg-primary border-rounded text-white">
+                                Recursos Adjuntos
+                            </div>
+                            <form class=""
+                                [formGroup]="tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode "
+                                (ngSubmit)="AddResource()">
+                                <select class="form-select border-primary" aria-label="Tipo"
+                                    (change)="tipoRecursoChange($event)">
+                                    <option value="">Seleccionar tipo de recurso</option>
+                                    <option [value]="'file'">Archivo</option>
+                                    <option [value]="'code'">Codigo</option>
+                                    <option [value]="'URL'">URL</option>
+                                </select>
+
+
+                                <div *ngIf="tipo_aporte != ''">
+                                    <div class="form-group mb-3">
+                                        <label for="desc_adjuntos" class="form-label">Encabezado</label>
+                                        <!-- <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos"> -->
+                                        <textarea class="form-control" name="desc_adjuntos" rows="2"
+                                            formControlName="encabezado"
+                                            style="resize: none; white-space: pre;"></textarea>
+                                    </div>
+
+                                    <div class="mb-3 text-center" *ngIf="tipo_aporte == 'file'">
+                                        <label for="formFileMultiple"
+                                            class="form-label text-success">Seleccionar..</label>
+                                        <input class="form-control d-none" type="file" id="formFileMultiple" name="file"
+                                            formControlName="file" (change)="onChangeFile($event)">
+                                        <br>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" id="label-input" disabled
+                                                value="{{ archivo_seleccionado }}">
+                                            <button class="btn btn-outline-primary" type="submit" id="btnAddFile"
+                                                [disabled]="!addFile.valid">Añadir</button>
+                                        </div>
+                                    </div>
+                                    <div class="input-group mb-3" *ngIf="tipo_aporte == 'URL'">
+                                        <input type="text" class="form-control" id="inputURL" placeholder="URL"
+                                            formControlName="link">
+                                        <button class="btn btn-outline-primary" type="submit" id="btnAddURL"
+                                            [disabled]="!addURL.valid">Añadir</button>
+                                    </div>
+
+
+                                    <div class="input-group mb-3" *ngIf="tipo_aporte == 'code'">
+                                        <!-- <label for="desc_adjuntos" class="form-label">Código</label> -->
+                                        <!-- <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos"> -->
+                                        <textarea class="form-control" rows="5" placeholder="Código"
+                                            style="overflow: auto;" formControlName="code"></textarea>
+                                        <button class="btn btn-outline-primary" [disabled]="!addCode.valid"
+                                            type="submit" id="btnAddCode">Añadir</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <caption>Lista de recursos adjuntos</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">N°</th>
+                                <th scope="col">Tipo</th>
+                                <th scope="col">Contenido</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of listaAdjuntos; let i = index">
+                                <th scope="row">1</th>
+                                <td>{{ item.tipo }}</td>
+                                <td>{{ item.contenido }}</td>
+                                <td><button class="btn-danger" type="button"
+                                        (click)="EliminarAdjunto(i)">Eliminar</button>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <!-- <form class="row g-3" [formGroup]="postDataForm" (ngSubmit)="postPublicacion()">
+                    <div class="col-md-12">
+                        <label for="pregunta" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="pregunta" formControlName="titulo">
+                    </div>
+
+                    <div class="col-md-12">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion" formControlName="descripcion">
+                    </div>
+
+                    <select class="form-select" aria-label="Area" formControlName="area">
+                        <option value="">Seleccionar la especialidad o área</option>
+                        <option [value]="especialidad.id" *ngFor="let especialidad of listaEspecialidades">
+                            {{especialidad.nombre}}</option>
+                    </select>
+
+
+                    <div class="card">
+
+                        <div class="form-group m-0">
+                            <label for="desc_adjuntos" class="form-label">Descripción</label>
+                            <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos">
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="formFileMultiple" class="form-label">Agrega archivos adjuntos</label>
+                            <input class="form-control" type="file" id="formFileMultiple" multiple>
+                        </div>
+
+                        <label for="formFile" class="form-label"></label>
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+
+
+                </form> -->
+            </div>
+            <!-- <div class="modal-footer"> -->
+            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button> -->
+            <!-- <button type="submit" class="btn btn-primary" [disabled]="!postDataForm.valid">Publicar</button> -->
+            <!-- </div> -->
+
+        </div>
+    </div>
+</div>
+
+<!-- modal  para agregar calificaciones a comentarios -->
+
+<div class="modal fade" id="modalCalificacionComentario" tabindex="-1" aria-labelledby="modalCalifComentario"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCalifComentario">Calificaciones comentario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card p-2 border border-primary" *ngIf="user.id != publicacion.id_usuario_pub">
+                    
+                    <form class="" [formGroup]="addCalificacion" (ngSubmit)="postCalificacion()">
+
+                        <div class="mb-1">
+                            <label for="calificacionInput" class="form-label">Calificación 1 - 5</label>
+                            <input type="range" min="0" max="5" step="1" (ngModelChange)="cambioCalificacionComentario($event)" class="form-range" id="calificacion"
+                                formControlName="calificacion">
+                        </div>
+
+                        <div class="mb-1 text-center">
+                            {{_calificacion_comentario}} <i class="bi bi-star-fill"></i>
+                        </div>
+                        
+                        <div class="mb-1">
+                            <label for="motivo_cal" class="form-label">Comentario:</label>
+                            <input type="text" class="form-control" id="motivo_cal" formControlName="motivo_cal">
+                        </div>
+
+                        <div class="col-12 text-center">
+                            <button class="btn btn-primary" type="submit"
+                                [disabled]="!addCalificacion.valid">Guardar</button>
+                        </div>
+
+                    </form>
+                </div>
+
+
+                <div *ngIf="listaCalificaciones.length > 0">
+                    <div class="card    p-2" *ngFor="let cal_com of listaCalificacionesComentarios">
+                        <div class="row g-3">
+                            <div class="col-auto text-center">
+                                <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
+                                    <img class="card-img-top" src="{{ rutaImg }}/profile/{{ cal_com.foto }}" alt="...">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <!-- <h4 class="fw-normal fs-6">{{ publicacion.nombre }}</h4> -->
+                                    <div class="float-sm-start">{{ cal_com.nombre }}</div>
+                                    <div class="float-sm-end"> Puntaje: {{ cal_com.calificacion }} <i class="bi bi-star-fill"></i></div>
+                                    <br>
+                                    <p class="text-muted fs-6 text-justify">{{ cal_com.creacion | date :'dd/MM/yyyy' }}"
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <p class="text-muted">
+                                {{cal_com.motivo_cal}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

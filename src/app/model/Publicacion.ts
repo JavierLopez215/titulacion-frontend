@@ -13,5 +13,6 @@ export interface Publicacion {
     activo : string;
     creado : Date;
     listaDetalles: Array<DetallePublicacion>;
+    // area:string;
     // formData : FormData;
 }

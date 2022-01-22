@@ -31,38 +31,51 @@
     </div>
 </div>
 
-<div class="card-body">
+<div class="container" *ngIf="estado_consulta==='P'">
+    <div class="text-center">
+        <br>
+        <br>
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
+    </div>
+</div>
+
+<div class="card mt-2 p-0 border-primary border rounded" *ngIf="estado_consulta==='C'">
     <div class="table-responsive-sm" *ngIf="listaPublicaciones.length > 0">
 
-        <table class="table table-sm table-hover">
-            <thead>
-                <tr>
+        <table class="table table-sm table-hover align-middle">
+            <thead class="m-3 bg-primary text-white border-white p-3" style="height: 50px;">
+                <tr class="align-middle">
                     <th scope="col">Fecha</th>
                     <th scope="col">Tema</th>
                     <th scope="col">Estado</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr *ngFor="let publicacion of listaPublicaciones; let i=index" (click)="printData(publicacion)">
+            <tbody class="border border-primary table-bordered">
+                <tr class="p-0" *ngFor="let publicacion of listaPublicaciones; let i=index" (click)="printData(publicacion)">
 
-
-                    <th class="fw-light">
-                        {{ publicacion.creado | date :'shortDate'}}
+                    <th class="fw-light m-2">
+                        <p class="fw-light m-0"><small>{{ publicacion.creado | date :'dd/MM/yyyy'}}</small></p>
                         <!-- Fecha Publicación -->
                     </th>
                     <th scope="row">
-                        <h5 class="fw-normal">
+                        
+                        <p class="fw-normal m-0"><strong>{{ publicacion.titulo }}</strong></p>
+                        <!-- <h5 class="fw-normal">
                             {{ publicacion.titulo }}
-
-                        </h5>
-                        <p class="fw-light">
+                        </h5> -->
+                        <p class="fw-light m-0"><small>{{ publicacion.descripcion }}</small></p>
+                        <!-- <p class="fw-light">
                             {{ publicacion.descripcion }}
-                        </p>
+                        </p> -->
                     </th>
-                    <th scope="row"
+                    <th scope="row" class="fw-light m-2"
                         [ngClass]="publicacion.estado === 'P' ? 'text-info' : (publicacion.estado === 'C' ? 'text-success' : 'text-danger')">
+                        
+                        <p class="fw-normal m-0"><strong>
                         {{ publicacion.estado === 'P' ? 'Pendiente' : (publicacion.estado === 'C' ?
-                        'Completado' : 'Desconocido') }}
+                        'Completado' : 'Desconocido') }}</strong></p>
                     </th>
                     <!-- <th scope="row">
                         Acciones (Delete, edit)
@@ -77,7 +90,7 @@
 
     <div class="border border-primary"
         style="height: 100px; justify-content: center; display: flex; align-items: center;"
-        *ngIf="listaPublicaciones.length == 0">
+        *ngIf="listaPublicaciones.length == 0 ">
         <p class="text-center fs-4">No se ha encontrado publicaciones.</p>
     </div>
 
@@ -157,7 +170,7 @@
                                         <label for="desc_adjuntos" class="form-label">Encabezado</label>
                                         <!-- <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos"> -->
                                         <textarea class="form-control" name="desc_adjuntos" rows="2"
-                                            formControlName="encabezado"></textarea>
+                                            formControlName="encabezado" style="resize: none; white-space: pre;"></textarea>
                                     </div>
 
                                     <div class="mb-3 text-center" *ngIf="tipo_aporte == 'file'">
@@ -260,10 +273,10 @@
 
                 </form> -->
             </div>
-            <div class="modal-footer">
+            <!-- <div class="modal-footer"> -->
                 <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button> -->
-                <button type="submit" class="btn btn-primary" [disabled]="!postDataForm.valid">Publicar</button>
-            </div>
+                <!-- <button type="submit" class="btn btn-primary" [disabled]="!postDataForm.valid">Publicar</button> -->
+            <!-- </div> -->
 
         </div>
     </div>

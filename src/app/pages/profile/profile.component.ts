@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
   public listaEspecialidadesUsuario: Array<any> = [];
   public file!: File;
   public file_name: string = "";
-  public formData=new FormData();
+  public formData = new FormData();
   public rutaImgProfile = environment.images_URL;
 
   constructor(private authService: AuthService, private especiallityService: EspeciallityService,
@@ -47,6 +47,14 @@ export class ProfileComponent implements OnInit {
     this.getDataUser();
     this.getListaEspecialidades();
     this.getListaMisEspecialidades();
+    this.updateDataForm.patchValue({
+      nombre: this.user.nombre,
+      apellido: this.user.apellido,
+      direccion: this.user.direccion,
+      perfil_prof: this.user.perfil_prof,
+      telefono: this.user.telefono,
+      correo: this.user.correo
+    });
   }
 
   postEspeciallityUser(idEs: number) {
@@ -120,8 +128,9 @@ export class ProfileComponent implements OnInit {
       //  console.log(event.target.files[0].name);
       this.file = <File>event.target.files[0];
       const reader = new FileReader();
-      reader.onload = e => {this.archivo_seleccionado = reader.result;
-      this.file_name = event.target.files[0].name;
+      reader.onload = e => {
+        this.archivo_seleccionado = reader.result;
+        this.file_name = event.target.files[0].name;
       };
       reader.readAsDataURL(this.file);
       // reader.onload = e => console.log(reader.result);
@@ -133,7 +142,7 @@ export class ProfileComponent implements OnInit {
     // const dataUser: any = this.authService.dataUser();
     // const idUsu = dataUser.id;
     this.formData = new FormData();
-    this.formData.append('file',this.file);
+    this.formData.append('file', this.file);
     // console.log(this.formData)
     this.authService.actualizarFotoUsuario(this.formData).subscribe((res: any) => {
 
@@ -144,8 +153,8 @@ export class ProfileComponent implements OnInit {
         this.toastr.success('Datos actualizados correctamente', 'Safisfactorio');
         this.authService.actualizarToken();
         this.updatePhotoUserForm.reset();
-        this.file_name="";
-        this.archivo_seleccionado=null;
+        this.file_name = "";
+        this.archivo_seleccionado = null;
         // this.router.navigate(['/']);
         // this.errores = '';
         // this.listaEspecialidadesUsuario = res.data;
