@@ -17,7 +17,9 @@
 
         <div class="card-body p-2">
             <br>
-            <p class="text-center fw-bold">{{reunion.nombreA + ' ha aceptado reunirse con ' + reunion.nombreS}}</p>
+            <p class="text-center fw-bold" *ngIf="reunion.estado!='A'">Reunion en estado {{ reunion.estado == 'P' ? 'pendiente' : reunion.estado == 'C' ?
+                'cancelado' : reunion.estado == 'A' ? 'aceptado' : 'desconocido' }}</p>
+            <p class="text-center fw-bold" *ngIf="reunion.estado=='A'">{{reunionA.nombreA + ' ha aceptado reunirse con ' + reunionA.nombreS}}</p>
 
             <div class="text-center mx-auto" style="width: 300px;">
                 <div class="d-inline-block p-3">
@@ -27,39 +29,61 @@
                     <div class="p-1 fw-normal fs-6">{{reunion.nombreS}}</div>
                 </div>
                 <!-- </div> -->
-                <div class="d-inline-block p-3">
+                <div class="d-inline-block p-3" *ngIf="reunion.estado == 'A'">
                     <!-- <div class="col-auto text-center"> -->
                     <div style="width: 100px; height: 100px; overflow: hidden;" class="rounded-circle">
-                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ reunion.fotoA }}" alt="...">
+                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ reunionA.fotoA }}" alt="...">
                     </div>
-                    <div class="p-1 fw-normal fs-6">{{reunion.nombreA}}</div>
+                    <div class="p-1 fw-normal fs-6">{{reunionA.nombreA}}</div>
                 </div>
             </div>
 
             <hr class="m-2 text-primary">
             <h5 class="text-center"> Detalles</h5>
-            <div class="fw-bold fs-6 p-2">{{'Título: ' + reunion.titulo }}</div>
+            <div class="fs-6 p-2"><b>Título:</b> {{ reunion.titulo }}</div>
             <!-- <h4 class="fw-normal fs-6">{{ publicacion.area }}</h4> -->
-            <h4 class="fw-normal fs-6 p-2 text-justify"><b>Descripción:</b> {{  reunion.descripcion }}</h4>
-            <div class="row">
+            <h4 class="fw-normal fs-6 p-2 text-justify"><b>Descripción:</b> {{ reunion.descripcion }}</h4>
+            <div class="row g-5">
                 <div class="col-md-4">
-                    <h4 class="fw-light fs-6 p-2"><b>Fecha solicitud: </b> {{ reunion.fecha_sol | date :'dd/MM/yyyy' }}</h4>
+                    <h4 class="fw-light fs-6 p-2"><b>Fecha solicitud: </b> {{ reunion.fecha_sol | date :'dd/MM/yyyy' }}
+                    </h4>
                 </div>
-                <div class="col-md-4">
-                    <h4 class="fw-light fs-6 p-2"><b>Fecha aceptación: </b> {{ reunion.fecha_ace | date :'dd/MM/yyyy' }}</h4>
+                <div class="col-md-4" *ngIf="reunion.estado == 'A'">
+                    <h4 class="fw-light fs-6 p-2"><b>Fecha aceptación: </b> {{ reunionA.fecha_ace | date :'dd/MM/yyyy' }}
+                    </h4>
                 </div>
                 <div class="col-md-4">
                     <h4 class="fw-light fs-6 p-2"><b>Hora: </b> {{ reunion.hora }}</h4>
                 </div>
             </div>
+            <hr class="m-2 text-primary">
+            <h5 class="m-2">Contactos</h5>
+            <div class="row g-5">
+                <div class="col-md-4">
+                    <h4 class="fw-light fs-6 p-2"><b>Correo-solicitó: </b> {{ reunion.correoS }}</h4>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="fw-light fs-6 p-2"><b>Teléfono-solicitó: </b> {{ reunion.telefonoS }}</h4>
+                </div>
+            </div>
+            <div class="row g-5" *ngIf="reunion.estado == 'A'">
+                <div class="col-md-4">
+                    <h4 class="fw-light fs-6 p-2"><b>Correo-aceptó: </b> {{ reunionA.correoA }}</h4>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="fw-light fs-6 p-2"><b>Teléfono-aceptó: </b> {{ reunionA.telefonoA }}</h4>
+                </div>
+            </div>
         </div>
 
-        <div class="text-center bg-light p-2 mt-2 border-primary border rounded">
+        <div class="text-center bg-light p-2 mt-2 border-primary border rounded" *ngIf="reunion.estado == 'A'">
             <!-- <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
                     data-bs-target="#modalAddComentario">Comentar</button> -->
 
-            <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#modalCalificacionComentario"
-            *ngIf="user.id == reunion.id_usuario_sol || user.id == reunion.id_usuario_ace">Calificar</button>
+            <button type="button" class="btn btn-outline-primary me-2"
+                data-bs-toggle="modal" data-bs-target="#modalCalificacionComentario"
+                *ngIf="user.id == reunion.id_usuario_sol || user.id == reunion.id_usuario_ace && reunion.estado == 'A'"
+                (click)="validarOtraCalificacion()">Calificar</button>
             <!-- *ngIf="publicacion.id_usuario_pub != user.id" -->
         </div>
     </div>
@@ -76,7 +100,7 @@
     </div>
 </div>
 
-<div class="card mt-2 border border-primary rounded p-2">
+<div class="card mt-2 border border-primary rounded p-2" *ngIf="reunion.estado == 'A'">
     <div *ngIf="ec_calificacion_reunion==='C' && listaCalificaciones.length > 0">
         <h6 class="pb-2">Calificaciones de la reunion</h6>
         <div *ngFor="let calificacion of listaCalificaciones; let i_cal = index">
@@ -116,8 +140,8 @@
 
 <!-- modal para ingreso de calificaciones -->
 
-<div class="modal fade" id="modalCalificacionComentario" tabindex="-1" aria-labelledby="modalCalifComentario"
-    aria-hidden="true">
+<div class="modal fade" *ngIf="reunion.estado == 'A'" id="modalCalificacionComentario" tabindex="-1"
+    aria-labelledby="modalCalifComentario" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -125,33 +149,36 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="card p-2 border border-primary" *ngIf="user.id == reunion.id_usuario_sol || user.id == reunion.id_usuario_ace">
-                    
-                    <form class="" [formGroup]="addCalificacion" (ngSubmit)="postCalificacion()">
+                <div *ngIf="reunion.estado == 'A'">
+                    <div class="card p-2 border border-primary"
+                        *ngIf="user.id == reunion.id_usuario_sol || user.id == reunion.id_usuario_ace">
 
-                        <div class="mb-1">
-                            <label for="calificacionInput" class="form-label">Calificación 0 - 5</label>
-                            <input type="range" min="0" max="5" step="1" (ngModelChange)="cambioCalificacionReunion($event)" class="form-range" id="calificacion"
-                                formControlName="calificacion">
-                        </div>
+                        <form class="" [formGroup]="addCalificacion" (ngSubmit)="guardarCalificacion()">
 
-                        <div class="mb-1 text-center">
-                            {{_val_calificacion}} <i class="bi bi-star-fill"></i>
-                        </div>
-                        
-                        <div class="mb-1">
-                            <label for="motivo_cal" class="form-label">Comentario:</label>
-                            <input type="text" class="form-control" id="motivo_cal" formControlName="motivo_cal">
-                        </div>
+                            <div class="mb-1">
+                                <label for="calificacionInput" class="form-label">Calificación 0 - 5</label>
+                                <input type="range" min="0" max="5" step="1"
+                                    (ngModelChange)="cambioCalificacionReunion($event)" class="form-range"
+                                    id="calificacion" formControlName="calificacion">
+                            </div>
 
-                        <div class="col-12 text-center">
-                            <button class="btn btn-primary" type="submit"
-                                [disabled]="!addCalificacion.valid">Guardar</button>
-                        </div>
+                            <div class="mb-1 text-center">
+                                {{_val_calificacion}} <i class="bi bi-star-fill"></i>
+                            </div>
 
-                    </form>
+                            <div class="mb-1">
+                                <label for="motivo_cal" class="form-label">Comentario:</label>
+                                <input type="text" class="form-control" id="motivo_cal" formControlName="motivo_cal">
+                            </div>
+
+                            <div class="col-12 text-center">
+                                <button class="btn btn-primary" type="submit"
+                                    [disabled]="!addCalificacion.valid">Guardar</button>
+                            </div>
+
+                        </form>
+                    </div>
                 </div>
-
             </div>
             <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

@@ -20,6 +20,10 @@ export class PublicacionService {
     return this.http.get(`${this.URL}/publicacion/getTopPubUser/${idUsu}`,{observe: 'events', reportProgress: true});
   }
 
+  getColPublicaciones(idUsu:number) {
+    return this.http.get(`${this.URL}/publicacion/getColPubUser/${idUsu}`,{observe: 'events', reportProgress: true});
+  }
+
   getPublicacionById(idPub:string) {
     return this.http.get(`${this.URL}/publicacion/getPubId/${idPub}`,{observe: 'events', reportProgress: true});
   }

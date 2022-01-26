@@ -25,8 +25,12 @@ export class MeetingsService {
     return this.http.get(`${this.URL}/reunion/aceptadasComunidad/getIdUsuSol/${idUsu}`,{observe: 'events', reportProgress: true});
   }
 
-  getReunionById(idReu:number) {
+  getReunionAceById(idReu:number) {
     return this.http.get(`${this.URL}/reunion/getIdReu/${idReu}`,{observe: 'events', reportProgress: true});
+  }
+
+  getReunionPenById(idReu:number) {
+    return this.http.get(`${this.URL}/reunion/getIdReuP/${idReu}`,{observe: 'events', reportProgress: true});
   }
 
   getReunionHistorialComunidad(idUsu:number) {
@@ -43,6 +47,10 @@ export class MeetingsService {
 
   postCalificacionReunion(calificacion:CalificacionReunion){
     return this.http.post(`${this.URL}/calificacion/post/reunion`,calificacion,{observe: 'events', reportProgress: true});
+  }
+
+  updateCalificacionReunion(calificacion:CalificacionReunion){
+    return this.http.put(`${this.URL}/calificacion/update/reunion/${calificacion.id}`,calificacion,{observe: 'events', reportProgress: true});
   }
 
 }

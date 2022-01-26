@@ -40,14 +40,7 @@
         <div *ngIf="listaReunionesAceptadas.length === 0 && ec_ReunionesAce==='C'">
 
             <br>
-            <p class="text-center fs-6">No se ha encontrado solicitudes aceptadas.</p>
-            <!-- <div class="text-center"> -->
-                <!-- <button type="button" class="btn btn-primary p-2 m-2" data-bs-toggle="modal"
-                    data-bs-target="#questionModal">
-                    Preguntar
-                </button> -->
-                <!-- <a class="link-primary" routerLink="/activities">Ir a tu actividad</a> -->
-            <!-- </div> -->
+            <p class="text-center fs-6">No se ha encontrado solicitudes aceptadas recientes.</p>
                 <hr>
         </div>
 
@@ -92,7 +85,7 @@
         </div>
 
         <div *ngIf="listaHistorialReuniones.length === 0 && ec_ReunionesHis==='C'">
-            <p class="text-center fs-6">No se ha encontrado solicitudes pendientes.</p>
+            <p class="text-center fs-6">No se ha encontrado otras solicitudes</p>
             <!-- <div class="text-center"> -->
                 <!-- <button type="button" class="btn btn-primary p-2 m-2" data-bs-toggle="modal"
                     data-bs-target="#questionModal">
@@ -115,12 +108,12 @@
                 </thead>
                 <tbody>
 
-                    <tr *ngFor="let reunion_h of listaHistorialReuniones; let i =index">
+                    <tr *ngFor="let reunion_h of listaHistorialReuniones; let i =index" (click)="abrirDetalleReunion(reunion_h)">
                         <td class="col-md-1">{{ i+1 }}</td>
                         <td class="col-md-2">{{ reunion_h.fecha_sol | date :'dd/MM/yyyy'}}</td>
                         <td class="col-md-col">{{ reunion_h.titulo}}</td>
                         <td class="col-md-3">{{ reunion_h.estado == 'P' ? 'Pendiente' : reunion_h.estado == 'C' ?
-                            'Cancelado' : 'Desconocido' }}</td>
+                            'Cancelado' : reunion_h.estado == 'A' ? 'Aceptado' : 'Desconocido' }}</td>
                     </tr>
                 </tbody>
             </table>

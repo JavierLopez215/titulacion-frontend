@@ -224,7 +224,7 @@ export class MeetingsComponent implements OnInit {
         this.ec_ReunionesHis = 'C';
         if (res.body.ok === 1) {
           this.listaHistorialReuniones = res.body.data;
-          // console.log(this.listaHistorialReuniones);
+          console.log(this.listaHistorialReuniones);
         }
         else {
           // this.errores = res.mensaje;
@@ -298,6 +298,11 @@ export class MeetingsComponent implements OnInit {
 
   detallePublicacion(reunion_a:any){
     this.router.navigate(['/meetings', reunion_a.id]);
+  }
+
+  abrirDetalleReunion(reunion:Reunion){
+    console.log(reunion)
+    this.router.navigate(['/meetings', reunion.id]);
   }
 }
 

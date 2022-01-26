@@ -22,9 +22,12 @@ export class MeetingDetailsComponent implements OnInit {
   ec_reunion:string ='P'
   ec_calificacion_reunion:string = 'P'
   ec_postCalificacion:string = 'P'
+  otraCalificacion:boolean = false;
+  aux_calificacion:CalificacionReunion = {} as CalificacionReunion;
 
   public user = {} as Profile;
   public reunion = {} as Reunion;
+  public reunionA = {fotoA:'profile.png'} as Reunion;
   listaCalificaciones: Array<CalificacionReunion> = [];
   public _val_calificacion: any = 0;
   calificacionReunion:CalificacionReunion = {} as CalificacionReunion;
@@ -38,7 +41,6 @@ export class MeetingDetailsComponent implements OnInit {
   });
   
 
-
   constructor(private authService: AuthService,
     // private formBuilder: FormBuilder,
     private meetingsService: MeetingsService,
@@ -48,7 +50,8 @@ export class MeetingDetailsComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.getReunionId();
+    this.getReunionPenId();
+    this.getReunionAceId();
     this.getDataUser();
     this.getCalificacionesReunionId();
   }
@@ -57,13 +60,13 @@ export class MeetingDetailsComponent implements OnInit {
     this.user = this.authService.dataUser() as Profile;
   }
 
-  getReunionId() {
+  getReunionPenId() {
     this.ec_reunion = 'P'
     // this.getDataUser();
 
     // const dataUser:any = this.authService.dataUser();
     const idReu = this.acRouter.snapshot.paramMap.get('id') || "";
-    this.meetingsService.getReunionById(+idReu).subscribe((res: any) => {
+    this.meetingsService.getReunionPenById(+idReu).subscribe((res: any) => {
 
       if (res.type === HttpEventType.DownloadProgress) {
         this.ec_reunion = 'P'
@@ -76,7 +79,40 @@ export class MeetingDetailsComponent implements OnInit {
         this.ec_reunion = 'C';
         if (res.body.ok === 1) {
           this.reunion = res.body.data[0] as Reunion;
-          console.log(this.reunion)
+          console.log('reunion',res.body)
+        }
+        else {
+          this.toastr.error('Ha ocurrido un error', 'Error');
+          // console.log('error');
+        }
+      }
+    }, (err) => {
+      this.ec_reunion = 'C';
+      this.toastr.error('Ha ocurrido un error', 'Error');
+    })
+
+  }
+
+  getReunionAceId() {
+    this.ec_reunion = 'P'
+    // this.getDataUser();
+
+    // const dataUser:any = this.authService.dataUser();
+    const idReu = this.acRouter.snapshot.paramMap.get('id') || "";
+    this.meetingsService.getReunionAceById(+idReu).subscribe((res: any) => {
+
+      if (res.type === HttpEventType.DownloadProgress) {
+        this.ec_reunion = 'P'
+      }
+      if (res.type === HttpEventType.UploadProgress) {
+        this.ec_reunion = 'P'
+      }
+
+      if (res.type === HttpEventType.Response) {
+        this.ec_reunion = 'C';
+        if (res.body.ok === 1) {
+          this.reunionA = res.body.data[0] as Reunion;
+          // console.log(res.body)
         }
         else {
           this.toastr.error('Ha ocurrido un error', 'Error');
@@ -109,7 +145,7 @@ export class MeetingDetailsComponent implements OnInit {
         this.ec_calificacion_reunion = 'C';
         if (res.body.ok === 1) {
           this.listaCalificaciones = res.body.data as Array<CalificacionReunion>;
-          console.log(this.listaCalificaciones)
+          // console.log(this.listaCalificaciones)
         }
         else {
           this.toastr.error('Ha ocurrido un error', 'Error');
@@ -128,6 +164,38 @@ export class MeetingDetailsComponent implements OnInit {
     this._val_calificacion = e;
   }
 
+  validarOtraCalificacion(){
+    this.otraCalificacion=false
+    let index = 0
+    var calificacion;
+    if(this.listaCalificaciones.length > 0){
+      do {
+        calificacion = this.listaCalificaciones[index];
+        if(calificacion.id_usuario_cali == this.user.id){
+          this.addCalificacion.patchValue({
+            calificacion: calificacion.calificacion,
+            motivo_cal : calificacion.motivo_cal
+          });
+          this.aux_calificacion=calificacion
+          this.otraCalificacion=true;
+          
+        }
+        index=index+1;
+          console.log(index)
+      } while (index <= (this.listaCalificaciones.length-1) && this.otraCalificacion==false);
+
+    }
+  }
+
+  guardarCalificacion(){
+    if(this.otraCalificacion){
+      this.updateCalificacion();
+    }else{
+      this.postCalificacion();
+    }
+  }
+
+  
   postCalificacion(){
     this.getDataUser();
     this.calificacionReunion = this.addCalificacion.value as CalificacionReunion;
@@ -156,9 +224,47 @@ export class MeetingDetailsComponent implements OnInit {
           // localStorage.setItem('token', res.token);
           this.toastr.success('Datos ingresados correctamente', 'Safisfactorio');
           // this.authService.actualizarToken();
-          this.addCalificacion.reset();
-          this.getCalificacionesReunionId();
+          // this.addCalificacion.reset();
+          // this.getCalificacionesReunionId();
+          window.location.reload()
 
+        }
+        else {
+          // this.errores = res.mensaje;
+          console.log(res);
+        }
+      }
+    });
+  }
+
+  updateCalificacion(){
+    this.getDataUser();
+    this.calificacionReunion = this.addCalificacion.value as CalificacionReunion;
+    this.calificacionReunion.id = this.aux_calificacion.id
+
+    this.meetingsService.updateCalificacionReunion(this.calificacionReunion).subscribe((res: any) => {
+
+      if (res.type === HttpEventType.DownloadProgress) {
+        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        this.ec_postCalificacion = 'P'
+      }
+      if (res.type === HttpEventType.UploadProgress) {
+        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+
+        this.ec_postCalificacion = 'P'
+      }
+
+      if (res.type === HttpEventType.Response) {
+        this.ec_postCalificacion = 'C';
+        if (res.body.ok === 1) {
+
+          // this.user = res.data;
+          // localStorage.setItem('token', res.token);
+          this.toastr.success('Datos ingresados correctamente', 'Safisfactorio');
+          // this.authService.actualizarToken();
+          // this.addCalificacion.reset();
+          // this.getCalificacionesReunionId();
+          window.location.reload()
         }
         else {
           // this.errores = res.mensaje;
