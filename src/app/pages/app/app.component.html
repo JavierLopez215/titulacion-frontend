@@ -45,14 +45,19 @@
         <br>
         <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Cargando...</span>
-          </div>
+        </div>
     </div>
 </div>
 
 <div class="pt-1" *ngIf="ec_publicaciones==='C'">
     <div class="col-ms-9">
         <div class="card border border-secondary">
-            <div class="card-header bg-primary text-white">Actividad Reciente</div>
+            <div class="card-header bg-primary text-white">Actividad Reciente
+                <div class="float-end"><button type="button" class="btn btn-sm fw-bold btn-light"
+                        data-bs-toggle="tooltip" data-bs-placement="left" title="Actualizar registros"
+                        (click)="actualizarRegistros()"><strong><span><i
+                                    class="bi bi-arrow-clockwise"></i></span></strong></button></div>
+            </div>
 
             <div class="card-body">
                 <div class="table-responsive-sm" *ngIf="listaPublicaciones.length > 0">
@@ -60,9 +65,9 @@
                     <table class="table table-sm table-hover align-middle mb-0">
                         <thead class="m-3 border-white p-3">
                             <tr class="align-middle">
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Tema</th>
-                                <th scope="col">Estado</th>
+                                <th class="border">Fecha</th>
+                                <th class="border">Tema</th>
+                                <th class="border">Estado</th>
                                 <!-- <th scope="col">Last</th>
                         <th scope="col">Handle</th>
                         <th scope="col">Handle</th>
@@ -71,7 +76,7 @@
 
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="border border-primary table-bordered">
                             <tr *ngFor="let publicacion of listaPublicaciones; let i =index"
                                 (click)="printData(publicacion)">
                                 <th class="fw-light m-2">
@@ -85,10 +90,8 @@
                                 <th scope="row"
                                     [ngClass]="publicacion.estado === 'P' ? 'text-info' : (publicacion.estado === 'C' ? 'text-success' : 'text-danger')">
                                     <p class="fw-normal m-0">
-                                        <strong>
                                             {{ publicacion.estado === 'P' ? 'Pendiente' : (publicacion.estado === 'C' ?
                                             'Completado' : 'Desconocido') }}
-                                        </strong>
                                     </p>
                                 </th>
                                 <!--[ngClass]="{'text-info': publicacion.estado === 'P', 'text-success': publicacion.estado === 'C'}">-->

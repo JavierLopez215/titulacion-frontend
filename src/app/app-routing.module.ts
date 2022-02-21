@@ -24,12 +24,13 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent, canActivate:[GuestsGuard] },
   { path: 'recovery', component: PassRecoverComponent, canActivate:[GuestsGuard] },
   { path: 'activities', component: ActivitiesComponent, canActivate:[AuthGuard] },
-  { path: 'publication/:id', component: PublicationComponent, canActivate:[AuthGuard] },
+  { path: 'activities/:id', component: PublicationComponent, canActivate:[AuthGuard] },
   { path: 'meetings', component: MeetingsComponent, canActivate:[AuthGuard] },
   { path: 'meetings/:id', component: MeetingDetailsComponent, canActivate:[AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard] },
-  { path: 'files', component: FilesComponent, canActivate:[AuthGuard] },
+  { path: 'files', component: FilesComponent},
   { path: 'community', component: CommunityComponent, canActivate:[AuthGuard] },
+  { path: 'community/:id', component: PublicationComponent, canActivate:[AuthGuard] },
   { path: 'app', component: AppComponent2, canActivate:[AuthGuard] }
 
   //path para administrador

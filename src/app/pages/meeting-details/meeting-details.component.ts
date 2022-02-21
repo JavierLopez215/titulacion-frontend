@@ -22,8 +22,11 @@ export class MeetingDetailsComponent implements OnInit {
   ec_reunion:string ='P'
   ec_calificacion_reunion:string = 'P'
   ec_postCalificacion:string = 'P'
+  ec_acepReunion:string = 'P'
   otraCalificacion:boolean = false;
   aux_calificacion:CalificacionReunion = {} as CalificacionReunion;
+  public msj_confirm:string=''
+  opcion_sel=''
 
   public user = {} as Profile;
   public reunion = {} as Reunion;
@@ -48,6 +51,7 @@ export class MeetingDetailsComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private toastr: ToastrService) { }
+    
 
   ngOnInit(): void {
     this.getReunionPenId();
@@ -79,7 +83,6 @@ export class MeetingDetailsComponent implements OnInit {
         this.ec_reunion = 'C';
         if (res.body.ok === 1) {
           this.reunion = res.body.data[0] as Reunion;
-          console.log('reunion',res.body)
         }
         else {
           this.toastr.error('Ha ocurrido un error', 'Error');
@@ -257,13 +260,7 @@ export class MeetingDetailsComponent implements OnInit {
       if (res.type === HttpEventType.Response) {
         this.ec_postCalificacion = 'C';
         if (res.body.ok === 1) {
-
-          // this.user = res.data;
-          // localStorage.setItem('token', res.token);
-          this.toastr.success('Datos ingresados correctamente', 'Safisfactorio');
-          // this.authService.actualizarToken();
-          // this.addCalificacion.reset();
-          // this.getCalificacionesReunionId();
+          this.toastr.success('Datos actualizados correctamente.', 'Safisfactorio');
           window.location.reload()
         }
         else {
@@ -273,4 +270,93 @@ export class MeetingDetailsComponent implements OnInit {
       }
     });
   }
+
+  aceptarReunionCom(){
+    this.getDataUser();
+    const _reunion ={
+      id:this.reunion.id,
+      id_usuario_ace:this.user.id
+    } as Reunion
+    this.meetingsService.aceptarReunion(_reunion).subscribe((res: any) => {
+
+      if (res.type === HttpEventType.DownloadProgress) {
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        this.ec_acepReunion = 'P'
+      }
+      if (res.type === HttpEventType.UploadProgress) {
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        this.ec_acepReunion = 'P'
+      }
+
+      if (res.type === HttpEventType.Response) {
+        this.ec_acepReunion = 'C';
+        if (res.body.ok === 1) {
+          this.toastr.success('Reunion aceptada', 'Safisfactorio');
+          this.getReunionPenId();
+          this.getReunionAceId();
+          
+        }
+        else {
+          this.ec_acepReunion = 'C';
+          // this.errores = res.mensaje;
+          console.log(res);
+          this.toastr.success('Ha ocurrido un error', 'Error');
+        }
+      }
+    },(error)=>{
+      this.ec_acepReunion = 'C';
+      this.toastr.success('Ha ocurrido un error', 'Error');
+    });
+  }
+
+  opcionCancel(){
+    this.msj_confirm='¿Desea Cancelar?'
+    this.opcion_sel='C'
+  }
+
+  opcionEliminar(){
+      this.msj_confirm='¿Desea Eiminar?'
+      this.opcion_sel='E'
+  }
+
+  confirmarOpcion(){
+    switch (this.opcion_sel) {
+      case 'E':
+        this.eliminarReunion()
+        break;
+    }
+  }
+
+  eliminarReunion(){
+    this.meetingsService.eliminarReunion(this.reunion.id).subscribe((res: any) => {
+
+      if (res.type === HttpEventType.DownloadProgress) {
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        this.ec_acepReunion = 'P'
+      }
+      if (res.type === HttpEventType.UploadProgress) {
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        this.ec_acepReunion = 'P'
+      }
+
+      if (res.type === HttpEventType.Response) {
+        this.ec_acepReunion = 'C';
+        if (res.body.ok === 1) {
+          this.toastr.success('Ha eliminado la reunion', 'Satisfactorio');
+          this.router.navigate(['/meetings']);
+        }
+        else {
+          this.ec_acepReunion = 'C';
+          // this.errores = res.mensaje;
+          console.log(res);
+          this.toastr.error('Ha ocurrido un error', 'Error');
+        }
+      }
+    },(error)=>{
+      this.ec_acepReunion = 'C';
+      this.toastr.error('Ha ocurrido un error', 'Error');
+    });
+  }
+
+  
 }

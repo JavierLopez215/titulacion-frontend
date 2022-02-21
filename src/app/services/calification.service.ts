@@ -1,3 +1,4 @@
+import { CalificacionComentario } from './../model/CalificacionComentario';
 import { CalificacionPublicacion } from '../model/CalificacionPublicacion';
 import { environment } from './../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
@@ -28,5 +29,9 @@ export class CalificationService {
 
   getCalificacionComentarioId(idCom: number) {
     return this.http.get(`${this.URL}/calificacion/comentarioId/${idCom}`,{observe: 'events', reportProgress: true});
+  }
+
+  postCalificacionComentario(calificacion: CalificacionComentario) {
+    return this.http.post(`${this.URL}/calificacion/post/comentario`, calificacion,{observe: 'events', reportProgress: true});
   }
 }

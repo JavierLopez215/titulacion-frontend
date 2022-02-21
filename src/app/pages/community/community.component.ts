@@ -86,17 +86,21 @@ export class CommunityComponent implements OnInit {
         }
         else {
           // this.errores = res.mensaje;
+          this.estado_consultaCol='C';
+          this.toastr.error('Ha ocurrido un error', 'Error')
           console.log('error');
         }
       }
       
     }, (err: any) => {
+      this.estado_consultaCol='C';
+      this.toastr.error('Ha ocurrido un error', 'Error')
       console.log(err);
     })
   }
 
   printData(item: any) {
-    this.router.navigate(['/publication', item.id]);
+    this.router.navigate(['/community', item.id]);
   }
 
 }

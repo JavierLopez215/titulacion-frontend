@@ -63,6 +63,8 @@ export class ActivitiesComponent implements OnInit {
     Validators.maxLength(1000)]]
   });
   estado_consulta: string = 'P';
+  oc_value: string = '';
+  ec_postPublicacion: string='P';
 
   constructor(private authService: AuthService,
     private activitiesService: ActivitiesService, private router: Router,
@@ -140,25 +142,43 @@ export class ActivitiesComponent implements OnInit {
 
     this.publicacionService.postPublicacion(this.publicacion).subscribe((res: any) => {
 
-      if (res.ok === 1) {
+      if (res.type === HttpEventType.DownloadProgress) {
+        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        this.ec_postPublicacion = 'P'
+      }
+      if (res.type === HttpEventType.UploadProgress) {
+        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
 
-        // this.user = res.data;
-        // localStorage.setItem('token', res.token);
-        this.toastr.success('Datos ingresados correctamente', 'Safisfactorio');
-        // this.authService.actualizarToken();
-        this.postDataForm.reset();
-        this.addCode.reset();
-        this.addFile.reset();
-        this.addURL.reset();
-        this.archivo_seleccionado = "";
-        this.tipo_aporte = "";
-        this.listaAdjuntos = [];
-        this.getPublicaciones();
+        this.ec_postPublicacion = 'P'
       }
-      else {
-        // this.errores = res.mensaje;
-        console.log(res);
+
+      if (res.type === HttpEventType.Response) {
+        this.ec_postPublicacion = 'C';
+        if (res.body.ok === 1) {
+
+          // this.user = res.data;
+          // localStorage.setItem('token', res.token);
+          this.toastr.success('Datos ingresados correctamente', 'Safisfactorio');
+          // this.authService.actualizarToken();
+          this.postDataForm.reset();
+          this.addCode.reset();
+          this.addFile.reset();
+          this.addURL.reset();
+          this.archivo_seleccionado = "";
+          this.tipo_aporte = "";
+          this.listaAdjuntos = [];
+          this.getPublicaciones();
+        }
+        else {
+          // this.errores = res.mensaje;
+          this.ec_postPublicacion = 'C';
+          this.toastr.error('Ha ocurrido un error', 'Error');
+          console.log(res);
+        }
       }
+    },(err)=>{
+      this.ec_postPublicacion = 'C';
+      this.toastr.error('Ha ocurrido un error', 'Error');
     });
   }
 
@@ -215,7 +235,7 @@ export class ActivitiesComponent implements OnInit {
   }
 
   printData(item: any) {
-    this.router.navigate(['/publication', item.id]);
+    this.router.navigate(['/activities', item.id]);
   }
 
   onChangeFile(event: any): void {
@@ -281,7 +301,31 @@ export class ActivitiesComponent implements OnInit {
   }
 
   EliminarAdjunto(index: number) {
-    console.log(index);
+    this.listaAdjuntos.splice(index);
+  }
+
+  onChangeCode(value: any) {
+    this.oc_value = value;
+    if (this.oc_value == '') {
+      this.oc_value = 'Ninguno'
+    }
+    console.log(value)
+  }
+
+  onHighlight(e: any) {
+    const response = {
+      language: e.language,
+      relevance: e.relevance,
+      second_best: '{...}',
+      top: '{...}',
+      value: e.value
+    }
+    console.log(e)
+  }
+
+  actualizarRegistros(){
+    this.getPublicaciones();
+    this.getListaEspecialidades();
   }
 
 }

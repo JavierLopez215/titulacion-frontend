@@ -32,4 +32,9 @@ export class ComentariesService {
   getCalificacionCommentariosId(idCom:number) {
     return this.http.get(`${this.URL}/calificacion/comentarioId/${idCom}`,{observe: 'events', reportProgress: true});
   }
+
+  deleteComentario(idCom:number){
+    return this.http.put(`${this.URL}/comentario/delete/${idCom}`,{},{observe: 'events', reportProgress: true});
+
+  }
 }

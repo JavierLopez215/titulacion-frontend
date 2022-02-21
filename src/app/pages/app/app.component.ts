@@ -35,6 +35,7 @@ export class AppComponent2 implements OnInit {
 
   getTopPublicaciones() {
     // console.log(this.loginForm);
+    this.ec_publicaciones='P';
     const dataUser: any = this.authService.dataUser();
     const idUsu = dataUser.id;
     this.publicacionService.getTopPublicaciones(idUsu).subscribe((res: any) => {
@@ -69,25 +70,13 @@ export class AppComponent2 implements OnInit {
     })
   }
 
-  getPublicaciones() {
-    // console.log(this.loginForm);
-    const dataUser: any = this.authService.dataUser();
-    const idUsu = dataUser.id;
-    this.publicacionService.getPublicaciones(idUsu).subscribe((res: any) => {
-
-      if (res.ok === 1) {
-        this.listaPublicaciones = res.data;
-        console.log(res.data);
-      }
-      else {
-        console.log('error');
-      }
-    })
-  }
-
   printData(item: any) {
     // console.log('Fila seleccionada: ',item)
-    this.router.navigate(['/publication', item.id]);
+    this.router.navigate(['/activities', item.id]);
+  }
+
+  actualizarRegistros(){
+    this.getTopPublicaciones();
   }
 
 }

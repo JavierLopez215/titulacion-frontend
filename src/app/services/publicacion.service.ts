@@ -44,4 +44,12 @@ export class PublicacionService {
     return this.http.get(`${this.URL}/publicacion/getPubCom/${idUsu}`,{observe: 'events', reportProgress: true});
   }
 
+  eliminarPublicacion(idPub:number){
+    return this.http.put(`${this.URL}/publicacion/delete/${idPub}`,{id:idPub},{observe: 'events', reportProgress: true});
+  }
+
+  completarPublicacion(idPub:number){
+    return this.http.put(`${this.URL}/publicacion/comPublicacion/${idPub}`,{id:idPub},{observe: 'events', reportProgress: true});
+  }
+
 }

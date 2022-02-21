@@ -53,4 +53,15 @@ export class MeetingsService {
     return this.http.put(`${this.URL}/calificacion/update/reunion/${calificacion.id}`,calificacion,{observe: 'events', reportProgress: true});
   }
 
+  aceptarReunion(reunion:Reunion){
+    return this.http.put(`${this.URL}/reunion/aceptar/${reunion.id}`,reunion,{observe: 'events', reportProgress: true});
+  }
+
+  cancelarReunion(idReu:number){
+    return this.http.put(`${this.URL}/reunion/cancelar/${idReu}`,{id:idReu},{observe: 'events', reportProgress: true});
+  }
+
+  eliminarReunion(idReu:number){
+    return this.http.put(`${this.URL}/reunion/delete/${idReu}`,{id:idReu},{observe: 'events', reportProgress: true});
+  }
 }

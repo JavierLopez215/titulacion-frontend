@@ -45,12 +45,12 @@
         </div>
 
 
-        <div class="row ps-2 pe-2" *ngIf="listaReunionesAceptadas.length > 0 && ec_ReunionesAce==='C'">
-            <div class="d-flex justify-content-center p-2 m-2">
+        <div *ngIf="listaReunionesAceptadas.length > 0 && ec_ReunionesAce==='C'">
+            
                 
-                <div class="row w-100" *ngFor="let reunion_a of listaReunionesAceptadas">
+                <div class="row g-3 m-2">
 
-                    <div class="col-md-4 border border-primary" (click)="detallePublicacion(reunion_a)">
+                    <div class="col-md-4 border border-primary" *ngFor="let reunion_a of listaReunionesAceptadas" (click)="detallePublicacion(reunion_a)">
                         <div class="row p-2">
 
                             <div class="col-auto">
@@ -68,7 +68,6 @@
                     </div>
 
                 </div>
-            </div>
 
         </div>
 
@@ -96,24 +95,30 @@
 
         </div>
 
-        <div class="table-responsive" *ngIf="listaHistorialReuniones.length > 0 && ec_ReunionesHis==='C'">
-            <table class="table align-middle">
-                <thead>
-                    <tr>
-                        <td>N°</td>
-                        <td>Fecha</td>
-                        <td>Título</td>
-                        <td>Estado</td>
+        <div class="table-responsive-sm m-0" *ngIf="listaHistorialReuniones.length > 0 && ec_ReunionesHis==='C'">
+            <table class="table table-sm table-hover align-middle">
+                <thead class="bg-primary text-white border-secondary">
+                    <tr class="align-middle m-2">
+                        <th class="border">Fecha</th>
+                        <th class="border">Tema</th>
+                        <th class="border">Estado</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="border border-primary table-bordered">
 
-                    <tr *ngFor="let reunion_h of listaHistorialReuniones; let i =index" (click)="abrirDetalleReunion(reunion_h)">
-                        <td class="col-md-1">{{ i+1 }}</td>
-                        <td class="col-md-2">{{ reunion_h.fecha_sol | date :'dd/MM/yyyy'}}</td>
-                        <td class="col-md-col">{{ reunion_h.titulo}}</td>
-                        <td class="col-md-3">{{ reunion_h.estado == 'P' ? 'Pendiente' : reunion_h.estado == 'C' ?
-                            'Cancelado' : reunion_h.estado == 'A' ? 'Aceptado' : 'Desconocido' }}</td>
+                    <tr class="p-0" *ngFor="let reunion_h of listaHistorialReuniones; let i=index" (click)="abrirDetalleReunion(reunion_h)">
+                        <th class="col-2 fw-light">
+                            <!-- <p class="fw-light"> -->
+                                <small>{{ reunion_h.fecha_sol | date :'dd/MM/yyyy'}}</small>
+                            <!-- </p> -->
+                        </th>
+                        <th class="col-8 fw-light">
+                            <!-- <p class="fw-light"> -->
+                                {{reunion_h.titulo}}
+                            <!-- </p>  -->
+                        </th>
+                        <th class="col-2 fw-light" [ngClass]="reunion_h.estado == 'P' ? 'text-info' : (reunion_h.estado == 'A' ? 'text-success' : (reunion_h.estado == 'C' ? 'text-danger': 'text-secondary'))">{{ reunion_h.estado == 'P' ? 'Pendiente' : reunion_h.estado == 'C' ?
+                            'Cancelado' : reunion_h.estado == 'A' ? 'Aceptado' : 'Desconocido' }}</th>
                     </tr>
                 </tbody>
             </table>
