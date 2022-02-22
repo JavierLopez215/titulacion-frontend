@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   login(login: Login) {
-    return this.http.post(`${this.URL}/user/login`, login);
+    return this.http.post(`${this.URL}/user/login`, login,{observe: 'events', reportProgress: true});
 
   }
 
@@ -36,7 +36,7 @@ export class AuthService {
   }
 
   register(profile: Profile) {
-    return this.http.post(`${this.URL}/user/register`, profile);
+    return this.http.post(`${this.URL}/user/register`, profile,{observe: 'events', reportProgress: true});
   }
 
   isAuth(): boolean {

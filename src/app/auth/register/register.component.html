@@ -54,7 +54,9 @@
 
                                 <div class="col-12 text-center">
                                     <h3 *ngIf="errores">{{ errores }}</h3>
-                                    <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary">Entrar</button> 
+                                    <button type="submit" [disabled]="!registerForm.valid || ec_register == 'P'" class="btn btn-primary">
+                                        <span *ngIf="ec_register!='C'" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        Registrar</button> 
                                     <!-- <button type="submit" class="btn btn-primary">Registrarse</button> -->
                                 </div>
                             </form>

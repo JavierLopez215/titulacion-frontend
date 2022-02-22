@@ -87,7 +87,7 @@
         </div>
     </div>
 
-    <div class="border border-primary"
+    <div class=""
         style="height: 100px; justify-content: center; display: flex; align-items: center;"
         *ngIf="listaPublicaciones.length == 0 ">
         <p class="text-center fs-4">No se ha encontrado publicaciones.</p>
@@ -138,7 +138,9 @@
                                 </div>
                                 <div class="col-md-12 text-center">
                                     <button type="submit" class="btn btn-primary"
-                                        [disabled]="!postDataForm.valid">Publicar</button>
+                                        [disabled]="!postDataForm.valid || ec_postPublicacion=='P'">
+                                        <span *ngIf="ec_postPublicacion!='C'" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        Publicar</button>
                                 </div>
                             </div>
                         </form>
@@ -235,7 +237,7 @@
                                 <th scope="row">1</th>
                                 <td>{{ item.tipo }}</td>
                                 <td>{{ item.contenido }}</td>
-                                <td><button class="btn-danger" type="button"
+                                <td><button class="btn btn-danger" type="button"
                                         (click)="EliminarAdjunto(i)">Eliminar</button>
                                 </td>
                             </tr>

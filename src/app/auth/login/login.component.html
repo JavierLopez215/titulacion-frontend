@@ -34,7 +34,9 @@
             </div>
             <p class="fs-6 text-danger">{{errores}}</p>
             <div class="text-center">
-              <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary">Entrar</button>
+              <button type="submit" [disabled]="!loginForm.valid || ec_login=='P'" class="btn btn-primary">
+                <span *ngIf="ec_login!='C'" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Entrar</button>
             </div>
           </form>
         </div>

@@ -64,7 +64,7 @@ export class ActivitiesComponent implements OnInit {
   });
   estado_consulta: string = 'P';
   oc_value: string = '';
-  ec_postPublicacion: string='P';
+  ec_postPublicacion: string='C';
 
   constructor(private authService: AuthService,
     private activitiesService: ActivitiesService, private router: Router,
@@ -75,6 +75,7 @@ export class ActivitiesComponent implements OnInit {
     this.getPublicaciones();
     this.getListaEspecialidades();
     this.getDataUser();
+    this.ec_postPublicacion='C'
   }
 
   getDataUser() {
@@ -143,11 +144,11 @@ export class ActivitiesComponent implements OnInit {
     this.publicacionService.postPublicacion(this.publicacion).subscribe((res: any) => {
 
       if (res.type === HttpEventType.DownloadProgress) {
-        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
         this.ec_postPublicacion = 'P'
       }
       if (res.type === HttpEventType.UploadProgress) {
-        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
 
         this.ec_postPublicacion = 'P'
       }
@@ -204,12 +205,12 @@ export class ActivitiesComponent implements OnInit {
     this.activitiesService.getPublicaciones(idUsu).subscribe((res: any) => {
 
       if (res.type === HttpEventType.DownloadProgress) {
-        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
         // console.log(res.total); //total bytes to download
         this.estado_consulta = 'P'
       }
       if (res.type === HttpEventType.UploadProgress) {
-        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
 
         this.estado_consulta = 'P'
         // console.log(res.loaded); //uploaded bytes
@@ -226,11 +227,15 @@ export class ActivitiesComponent implements OnInit {
         }
         else {
           // this.errores = res.mensaje;
+          this.estado_consulta='C'
           console.log('error');
+          this.toastr.error('Ha ocurrido un error', 'Error');
         }
       }
     }, (err: any) => {
       console.log(err);
+      this.estado_consulta='C'
+      this.toastr.error('Ha ocurrido un error', 'Error');
     })
   }
 

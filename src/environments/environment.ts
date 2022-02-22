@@ -12,10 +12,10 @@ export const environment = {
 
   production: false,
   name: 'Refuerzo Academico',
-  API_URL: 'https://titulacion-backend.vercel.app',
-  images_URL: 'https://titulacion-backend.vercel.app/images',
-  fies_URL: 'https://titulacion-backend.vercel.app/archivos',
-  files_com_URL : 'https://titulacion-backend.vercel.app/archivosComentarios'
+  API_URL: 'http://20.42.109.174:3000',
+  images_URL: 'http://20.42.109.174:3000/images',
+  fies_URL: 'http://20.42.109.174:3000/archivos',
+  files_com_URL : 'http://20.42.109.174:3000/archivosComentarios'
 
 
 };
