@@ -1,5 +1,5 @@
 import { Comentario } from './../model/Comentario';
-import { environment } from './../../environments/environment.prod';
+import { environment } from './../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -31,6 +31,10 @@ export class ComentariesService {
 
   getCalificacionCommentariosId(idCom:number) {
     return this.http.get(`${this.URL}/calificacion/comentarioId/${idCom}`,{observe: 'events', reportProgress: true});
+  }
+
+  getCalificacionUsuComentarioId(idCom: number) {
+    return this.http.get(`${this.URL}/calificacion/comentarioUsuIdCom/${idCom}`,{observe: 'events', reportProgress: true});
   }
 
   deleteComentario(idCom:number){

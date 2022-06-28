@@ -1,5 +1,5 @@
-import { CalificacionReunion } from './../model/CalificacionReunion';
-import { Reunion } from './../model/Reunion';
+import { CalificacionReunion } from '../model/GradeMeeting';
+import { Reunion } from '../model/Meeting';
 import { HttpClient } from '@angular/common/http';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';

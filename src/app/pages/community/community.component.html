@@ -22,18 +22,18 @@
                         </thead>
                         <tbody class="border border-primary table-bordered">
                             <tr *ngFor="let publicacion of listaColPublicaciones; let i =index"
-                                (click)="printData(publicacion)">
-                                <th class="fw-light m-2 col-2">
-                                    <p class="fw-light m-0"><small>{{ publicacion.creado | date :'dd/MM/yyyy'}}</small>
+                                (click)="printData(publicacion)" style="cursor:pointer; cursor: hand">
+                                <th class="font-weight-light m-2 col-2">
+                                    <p class="font-weight-light m-0"><small>{{ publicacion.creado | date :'dd/MM/yyyy'}}</small>
                                     </p>
                                 </th>
                                 <th class="col-8">
-                                    <p class="fw-normal m-0"><strong>{{ publicacion.titulo }}</strong></p>
-                                    <p class="fw-light m-0"><small>{{ publicacion.descripcion }}</small></p>
+                                    <p class="font-weight-normal m-0"><strong>{{ publicacion.titulo }}</strong></p>
+                                    <p class="font-weight-light m-0"><small>{{ publicacion.descripcion }}</small></p>
                                 </th>
                                 <th class="col-2"
                                     [ngClass]="publicacion.estado === 'P' ? 'text-info' : (publicacion.estado === 'C' ? 'text-success' : 'text-danger')">
-                                    <p class="fw-light m-0">
+                                    <p class="font-weight-light m-0">
                                         <strong>
                                             {{ publicacion.estado === 'P' ? 'Pendiente' : (publicacion.estado === 'C' ?
                                             'Completado' : 'Desconocido') }}
@@ -49,7 +49,7 @@
                 </div>
 
                 <div *ngIf="listaColPublicaciones.length === 0">
-                    <p class="text-center fs-4">No se ha encontrado colaboraciones.</p>
+                    <h4 class="text-center">No se ha encontrado colaboraciones.</h4>
                     <!-- <div class="text-center">
                         <!-- <button type="button" class="btn btn-primary p-2 m-2" data-bs-toggle="modal"
                             data-bs-target="#questionModal">
@@ -74,7 +74,7 @@
             <br>
             <br>
             <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Cargando...</span>
+                <span class="sr-only">Cargando...</span>
             </div>
         </div>
     </div>
@@ -98,19 +98,19 @@
                             </thead>
                             <tbody class="border border-primary table-bordered">
                                 <tr *ngFor="let publicacion of listaPublicaciones; let i =index"
-                                    (click)="printData(publicacion)">
-                                    <th class="fw-light m-2 col-2">
-                                        <p class="fw-light m-0"><small>{{ publicacion.creado | date
+                                    (click)="printData(publicacion)" style="cursor:pointer; cursor: hand">
+                                    <th class="font-weight-light m-2 col-2">
+                                        <p class="font-weight-light m-0"><small>{{ publicacion.creado | date
                                                 :'dd/MM/yyyy'}}</small>
                                         </p>
                                     </th>
                                     <th class="col-8">
-                                        <p class="fw-normal m-0"><strong>{{ publicacion.titulo }}</strong></p>
-                                        <p class="fw-light m-0"><small>{{ publicacion.descripcion }}</small></p>
+                                        <p class="font-weight-normal m-0"><strong>{{ publicacion.titulo }}</strong></p>
+                                        <p class="font-weight-light m-0"><small>{{ publicacion.descripcion }}</small></p>
                                     </th>
                                     <th class="col-2"
                                         [ngClass]="publicacion.estado === 'P' ? 'text-info' : (publicacion.estado === 'C' ? 'text-success' : 'text-danger')">
-                                        <p class="fw-light m-0">
+                                        <p class="font-weight-light m-0">
                                             <strong>
                                                 {{ publicacion.estado === 'P' ? 'Pendiente' : (publicacion.estado ===
                                                 'C' ?
@@ -152,7 +152,7 @@
             <br>
             <br>
             <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Cargando...</span>
+                <span class="sr-only">Cargando...</span>
             </div>
         </div>
     </div>

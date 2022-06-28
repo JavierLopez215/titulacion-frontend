@@ -14,8 +14,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class LoginComponent implements OnInit {
 
   public loginForm = this.formBuilder.group({
-    correo: ['', Validators.required],
-    contrasena: ['', Validators.required]
+    correo: ['', [Validators.required,Validators.email]],
+    contrasena: ['', [Validators.required, Validators.minLength(4)]]
   });
 
   ec_login: string = 'C'
@@ -25,6 +25,10 @@ export class LoginComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    
+  }
+
+  ngAfterContentInit(){
     this.ec_login='C';
   }
 

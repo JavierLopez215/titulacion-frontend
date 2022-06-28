@@ -13,13 +13,14 @@ import { MeetingsComponent } from "./pages/meetings/meetings.component";
 import { ProfileComponent } from "./pages/profile/profile.component";
 import { CommunityComponent } from "./pages/community/community.component";
 import { FilesComponent } from "./pages/files/files.component";
+import { AboutComponent } from "./pages/about/about.component";
 import { AuthGuard } from './guards/auth.guard';
 import { MeetingDetailsComponent } from './pages/meeting-details/meeting-details.component';
 
-
 const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate:[GuestsGuard] },
+  { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent, canActivate:[GuestsGuard] },
+  { path: 'about', component: AboutComponent, canActivate:[GuestsGuard] },
   { path: 'login', component: LoginComponent, canActivate:[GuestsGuard] },
   { path: 'register', component: RegisterComponent, canActivate:[GuestsGuard] },
   { path: 'recovery', component: PassRecoverComponent, canActivate:[GuestsGuard] },

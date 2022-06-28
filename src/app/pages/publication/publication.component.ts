@@ -1,25 +1,28 @@
-import { CalificacionComentario } from './../../model/CalificacionComentario';
+import { CalificacionPublicacion } from '../../model/GradePublication';
+import { CalificacionComentario } from '../../model/GradeComment';
 import { Response } from './../../model/Response';
 import { DetalleComentario } from './../../model/DetalleComentario';
-import { Publicacion } from './../../model/Publicacion';
+import { Publicacion } from '../../model/Publication';
 import { Comentario } from './../../model/Comentario';
-import { ToastrService } from 'ngx-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { FormBuilder, Validators } from '@angular/forms';
-import { CalificacionPublicacion } from '../../model/CalificacionPublicacion';
-import { CalificationService } from './../../services/calification.service';
+// import { CalificacionPublicacion } from '../../model/CalificacionPublicacion';
+import { GradeService } from '../../services/grade.service';
 import { Profile } from './../../model/Profile';
 import { PublicacionService } from './../../services/publicacion.service';
 import { ActivitiesService } from './../../services/activities.service';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DetallePublicacion } from 'src/app/model/DetallePublicacion';
+import { DetallePublicacion } from 'src/app/model/PublicationDetail';
 import { environment } from '../../../environments/environment';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { ComentariesService } from 'src/app/services/comentaries.service';
 import { HttpEventType } from '@angular/common/http';
 import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from '@angular/common';
+// import { Modal } from 'bootstrap';
+declare let $:any;
 
 @Component({
   selector: 'app-publication',
@@ -27,6 +30,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./publication.component.scss']
 })
 export class PublicationComponent implements OnInit {
+
 
   publicacion: Publicacion = { foto: 'profile.png' } as Publicacion;
   rutaImg: string = environment.images_URL;
@@ -50,10 +54,14 @@ export class PublicationComponent implements OnInit {
   public aux_listaAdjuntos: Array<any> = [];
   public adjunto: DetalleComentario = {} as DetalleComentario;
   public aux_adjunto: DetalleComentario = {} as DetalleComentario;
-  public selComentario:number = 0;
+  public selComentario: number = 0;
 
   public _calificacion_comentario = 0;
   public _calificacion_publicacion = 0
+
+  public calificacionPub = {} as CalificacionPublicacion;
+  public calificacionCom = {} as CalificacionComentario;
+
 
 
   archivo_seleccionado: string = "";
@@ -114,24 +122,33 @@ export class PublicationComponent implements OnInit {
   msj_confirm: string = '';
   opcion_sel: string = '';
   ec_elimPublicacion: string = '';
-  oc_value:string = '';
+  oc_value: string = '';
   ec_eliminarCom: string = '';
-  ec_postCalificacionCom: string='';
-  otraCalificacion: boolean=false;
-  otraCalificacionCom: boolean=false;
+  ec_postCalificacionCom: string = '';
+  otraCalificacionPub: boolean = false;
+  otraCalificacionCom: boolean = false;
+  idOtraCalificacionPub = 0;
+  idOtraCalificacionCom = 0;
+  modalCalificacionesComentarios: any = document.getElementById('modalCalificacionComentario')
 
 
   constructor(private authService: AuthService,
     private publicationService: PublicacionService,
     private router: Router,
-    private calificationService: CalificationService,
+    private gradeService: GradeService,
     private commentaryService: ComentariesService,
     private acRouter: ActivatedRoute,
     private sanitizer: DomSanitizer,
     private formBuilder: FormBuilder,
     private toastr: ToastrService,
-    private calendar: NgbCalendar,private _location: Location,
-    ) { }
+    private calendar: NgbCalendar, private _location: Location,
+  ) {
+    // this.modalCalificacionesComentarios.addEventListener('show.bs.modal', () => {
+    //   console.log('modal abierto')
+    //   // this.getComentariosPublicacion();
+    // })
+  }
+
 
   ngOnInit(): void {
     // this.sanitizer.bypassSecurityTrustUrl(this.rutaImgProfile);
@@ -145,7 +162,36 @@ export class PublicationComponent implements OnInit {
     // this.getDetalleComentario();
 
     this.getCalificacionesPublicacion();
+
+    // $( "#target" ).click(function() {
+    //   alert( "Handler for .click() called." );
+    // });
+
   }
+
+  ngAfterViewChecked(){
+    // $('#btn-comentar').click(function(){
+    //   alert('Wass up!');
+    //    });
+
+       $( "#target" ).click(function() {
+        console.log('click');
+      });
+
+      // $('#modalAddCalificacionPublicacion').on('hide.bs.modal', function () {
+      //   console.log('modal abierto')
+      // })
+
+      $('#modalAddCalificacionPublicacion').on('shown.bs.modal', function (event:any) {
+        // do something...
+        console.log('modal abierto')
+      })
+
+      $('#modalAddCalificacionPublicacion').on('show.bs.modal', function (event:any) {
+        console.log('modal abierto')
+      })
+  }
+
 
   onHighlight(e: any) {
     const response = {
@@ -165,12 +211,12 @@ export class PublicationComponent implements OnInit {
     this.publicationService.getPublicacionById(idPub).subscribe((res: any) => {
 
       if (res.type === HttpEventType.DownloadProgress) {
-        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
         // console.log(res.total); //total bytes to download
         this.ec_publicacion = 'P'
       }
       if (res.type === HttpEventType.UploadProgress) {
-        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
 
         this.ec_publicacion = 'P'
         // console.log(res.loaded); //uploaded bytes
@@ -216,14 +262,14 @@ export class PublicationComponent implements OnInit {
     // console.log(this.loginForm);
     const dataUser: any = this.authService.dataUser();
     const idPub = this.acRouter.snapshot.paramMap.get('id') || "";
-    this.calificationService.getCalificacionPublicacionId(idPub).subscribe((res: any) => {
+    this.gradeService.getCalificacionPublicacionId(idPub).subscribe((res: any) => {
       if (res.type === HttpEventType.DownloadProgress) {
-        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
         // console.log(res.total); //total bytes to download
         this.ec_calificacionesPub = 'P'
       }
       if (res.type === HttpEventType.UploadProgress) {
-        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
 
         this.ec_calificacionesPub = 'P'
         // console.log(res.loaded); //uploaded bytes
@@ -251,11 +297,11 @@ export class PublicationComponent implements OnInit {
     const idPub = this.acRouter.snapshot.paramMap.get('id') || "";
     this.commentaryService.getCommentariosPublicacionId(idPub).subscribe((res: any) => {
       if (res.type === HttpEventType.DownloadProgress) {
-        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
         this.ec_comentarioPub = 'P'
       }
       if (res.type === HttpEventType.UploadProgress) {
-        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
 
         this.ec_comentarioPub = 'P'
         // console.log(res.loaded); //uploaded bytes
@@ -282,7 +328,7 @@ export class PublicationComponent implements OnInit {
 
 
           }
-          console.log('lista comentarios', this.listaComentarios)
+          // console.log('lista comentarios', this.listaComentarios)
 
         }
         else {
@@ -328,12 +374,12 @@ export class PublicationComponent implements OnInit {
     this.publicationService.getDetallePublicacion(idPub).subscribe((res: any) => {
 
       if (res.type === HttpEventType.DownloadProgress) {
-        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
         // console.log(res.total); //total bytes to download
         this.ec_detallePub = 'P'
       }
       if (res.type === HttpEventType.UploadProgress) {
-        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
 
         this.ec_detallePub = 'P'
         // console.log(res.loaded); //uploaded bytes
@@ -347,7 +393,7 @@ export class PublicationComponent implements OnInit {
           // this.router.navigate(['/']);
           // this.errores = '';
           this.listaDetallePublicacion = res.body.data as Array<DetallePublicacion>;
-          console.log('lista detalles', this.listaDetallePublicacion);
+          // console.log('lista detalles', this.listaDetallePublicacion);
 
         }
         else {
@@ -363,8 +409,31 @@ export class PublicationComponent implements OnInit {
     // console.log('user : ', this.user)
   }
 
-  // agreagr calificacion de publicacion 
-  postCalificacion() {
+
+
+  // Guardar  calificacion de publicacion 
+  guardarCalificacionPublicacion() {
+    console.log(this.otraCalificacionPub)
+    if (this.otraCalificacionPub) {
+      this.updateCalificacionPublicacion();
+    }
+    else {
+      this.postCalificacionPublicacion();
+    }
+  }
+
+  // Guardar  calificacion de comentario 
+  guardarCalificacionComentario(idCom: number) {
+    console.log('Comentario id', idCom)
+    if (this.otraCalificacionCom) {
+      this.updateCalificacionComentario(idCom);
+    }
+    else {
+      this.postCalificacionComentario(idCom);
+    }
+  }
+
+  postCalificacionPublicacion() {
     console.log(this.addCalificacion.value)
     const idPub = this.acRouter.snapshot.paramMap.get('id') || "";
     const dataUser: any = this.authService.dataUser();
@@ -376,14 +445,14 @@ export class PublicationComponent implements OnInit {
       id_publicacion_cal: idPub
     } as CalificacionPublicacion
 
-    this.calificationService.postCalificacionPublicacion(calificacion_).subscribe((res: any) => {
+    this.gradeService.postCalificacionPublicacion(calificacion_).subscribe((res: any) => {
 
       if (res.type === HttpEventType.DownloadProgress) {
-        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
         this.ec_postCalificacionPub = 'P'
       }
       if (res.type === HttpEventType.UploadProgress) {
-        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
 
         this.ec_postCalificacionPub = 'P'
       }
@@ -407,6 +476,41 @@ export class PublicationComponent implements OnInit {
       }
     });
 
+  }
+
+  updateCalificacionPublicacion() {
+    this.getDataUser();
+    this.calificacionPub = this.addCalificacion.value as CalificacionPublicacion;
+    this.calificacionPub.id = this.idOtraCalificacionPub;
+
+    this.gradeService.updateCalificacionPublicacion(this.calificacionPub).subscribe((res: any) => {
+
+      if (res.type === HttpEventType.DownloadProgress) {
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        this.ec_postCalificacionPub = 'P'
+      }
+      if (res.type === HttpEventType.UploadProgress) {
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        this.ec_postCalificacionPub = 'P'
+      }
+
+      if (res.type === HttpEventType.Response) {
+        this.ec_postCalificacionPub = 'C';
+        if (res.body.ok === 1) {
+          this.toastr.success('Datos actualizados correctamente.', 'Safisfactorio');
+          // this.getCalificacionesPublicacion();
+          this.accionesPreviasModalCalificacionesPublicacion()
+          // window.location.reload()
+        }
+        else {
+          // this.errores = res.mensaje;
+          // console.log(res);
+          this.toastr.error('Ha ocurrido un error', 'Error')
+        }
+      }
+    }, (error: any) => {
+      this.toastr.error('Ha ocurrido un error', 'Error')
+    });
   }
 
   AddResource() {
@@ -573,7 +677,7 @@ export class PublicationComponent implements OnInit {
     // console.log("cambio")
     // console.log(event.target.value);
     this.tipo_aporte = event.target.value;
-    this.oc_value=''
+    this.oc_value = ''
     this.addCode.reset();
     this.addFile.reset();
     this.addURL.reset();
@@ -618,6 +722,104 @@ export class PublicationComponent implements OnInit {
     })
   }
 
+  getUsuCalificacionesComentarios(id: number) {
+
+    const dataUser: any = this.authService.dataUser();
+    this.gradeService.getCalificacionComentarioUserId(id).subscribe((res: any) => {
+
+      if (res.type === HttpEventType.DownloadProgress) {
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log(res.total); //total bytes to download
+        // this.ec_calificacionesCom = 'P'
+      }
+      if (res.type === HttpEventType.UploadProgress) {
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+
+        // this.ec_calificacionesCom = 'P'
+        // console.log(res.loaded); //uploaded bytes
+        // console.log(res.total); //total bytes to upload
+      }
+
+      if (res.type === HttpEventType.Response) {
+        // this.ec_calificacionesCom = 'C';
+        if (res.body.ok === 1) {
+
+          if (res.body.data.length > 0) {
+            var calificacion = res.body.data[0];
+            this.addCalificacionComentario.patchValue({
+              calificacion: calificacion.calificacion,
+              motivo_cal: calificacion.motivo_cal
+            });
+            this.otraCalificacionCom = true;
+            this.idOtraCalificacionCom = calificacion.id;
+          }
+          else {
+            this.addCalificacionComentario.patchValue({
+              calificacion: 0,
+              motivo_cal: ''
+            });
+            this.otraCalificacionCom = false;
+          }
+        }
+        else {
+          // this.errores = res.mensaje;
+          console.log('error');
+        }
+      }
+    })
+  }
+
+  getUsuCalificacionesPublicaciones() {
+
+    const dataUser: any = this.authService.dataUser();
+    const idPub = this.acRouter.snapshot.paramMap.get('id') || '';
+
+    this.gradeService.getCalificacionPublicacionUserId(+idPub).subscribe((res: any) => {
+
+      if (res.type === HttpEventType.DownloadProgress) {
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log(res.total); //total bytes to download
+        // this.ec_calificacionesCom = 'P'
+      }
+      if (res.type === HttpEventType.UploadProgress) {
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+
+        // this.ec_calificacionesCom = 'P'
+        // console.log(res.loaded); //uploaded bytes
+        // console.log(res.total); //total bytes to upload
+      }
+
+      if (res.type === HttpEventType.Response) {
+        // this.ec_calificacionesCom = 'C';
+        if (res.body.ok === 1) {
+
+          console.log('calificaion pub: ', res.body.data[0])
+          if (res.body.data.length > 0) {
+            var calificacion = res.body.data[0];
+            this.addCalificacion.patchValue({
+              calificacion: calificacion.calificacion,
+              motivo_cal: calificacion.motivo_cal
+            });
+            this.otraCalificacionPub = true;
+            this.idOtraCalificacionPub = calificacion.id;
+          }
+          else {
+            this.addCalificacion.patchValue({
+              calificacion: 0,
+              motivo_cal: ''
+            });
+            this.otraCalificacionPub = false;
+          }
+        }
+        else {
+          // this.errores = res.mensaje;
+          console.log('error');
+        }
+      }
+    })
+  }
+
+
   postCalificacionComentario(idCom: number) {
     // const idPub = this.acRouter.snapshot.paramMap.get('id') || "";
     const dataUser: any = this.authService.dataUser();
@@ -629,9 +831,9 @@ export class PublicationComponent implements OnInit {
       id_comentario_cal: idCom
     } as CalificacionComentario
 
-    console.log('Calificación comentario',calificacion_)
+    // console.log('Calificación comentario', calificacion_)
 
-    this.calificationService.postCalificacionComentario(calificacion_).subscribe((res: any) => {
+    this.gradeService.postCalificacionComentario(calificacion_).subscribe((res: any) => {
 
       if (res.type === HttpEventType.DownloadProgress) {
         console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
@@ -651,8 +853,10 @@ export class PublicationComponent implements OnInit {
           // localStorage.setItem('token', res.token);
           this.toastr.success('Datos ingresados correctamente', 'Safisfactorio');
           // this.authService.actualizarToken();
-          this.addCalificacionComentario.reset();
+          // this.addCalificacionComentario.reset();
           this.getCalificacionesComentarios(idCom);
+          // this.getComentariosPublicacion();
+          // this.getUsuCalificacionesComentarios(idCom);
 
         }
         else {
@@ -660,8 +864,44 @@ export class PublicationComponent implements OnInit {
           this.toastr.error('Ha ocurrido un error', 'Error');
         }
       }
-    },(err)=>{
+    }, (err) => {
       this.toastr.error('Ha ocurrido un error', 'Error');
+    });
+  }
+
+  updateCalificacionComentario(idCom: number) {
+    this.getDataUser();
+    this.calificacionCom = this.addCalificacionComentario.value as CalificacionComentario;
+    this.calificacionCom.id = this.idOtraCalificacionCom;
+
+    this.gradeService.updateCalificacionComentario(this.calificacionCom).subscribe((res: any) => {
+
+      if (res.type === HttpEventType.DownloadProgress) {
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        this.ec_postCalificacionCom = 'P'
+      }
+      if (res.type === HttpEventType.UploadProgress) {
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        this.ec_postCalificacionCom = 'P'
+      }
+
+      if (res.type === HttpEventType.Response) {
+        this.ec_postCalificacionCom = 'C';
+        if (res.body.ok === 1) {
+          this.toastr.success('Datos actualizados correctamente.', 'Safisfactorio');
+          // this.getCalificacionesComentarios(idCom);
+          this.accionesPreviasModalCalificacionesComentario(idCom);
+          // this.getComentariosPublicacion();
+          // window.location.reload()
+        }
+        else {
+          // this.errores = res.mensaje;
+          // console.log(res);
+          this.toastr.error('Ha ocurrido un error', 'Error')
+        }
+      }
+    }, (error: any) => {
+      this.toastr.error('Ha ocurrido un error', 'Error')
     });
   }
 
@@ -693,11 +933,11 @@ export class PublicationComponent implements OnInit {
         this.eliminarPublicacion()
         break;
 
-        case 'C':
+      case 'C':
         this.completarPublicacion()
         break;
 
-        case 'EC':
+      case 'EC':
         this.eliminarComentario()
         break;
     }
@@ -723,7 +963,7 @@ export class PublicationComponent implements OnInit {
           this.getDetallePublicacion();
           this.getDataUser();
           this.getComentariosPublicacion();
-          
+
         }
         else {
           this.ec_elimPublicacion = 'C';
@@ -737,7 +977,6 @@ export class PublicationComponent implements OnInit {
       this.toastr.error('Ha ocurrido un error', 'Error');
     });
   }
-
 
   eliminarPublicacion() {
     this.publicationService.eliminarPublicacion(this.publicacion.id).subscribe((res: any) => {
@@ -772,21 +1011,21 @@ export class PublicationComponent implements OnInit {
   }
 
 
-  onChangeCode(value:any){
+  onChangeCode(value: any) {
     this.oc_value = value;
-    if (this.oc_value=='') {
+    if (this.oc_value == '') {
       this.oc_value = 'Ninguno'
     }
     console.log(value)
   }
 
-  opcionEliminarComentario(idCom:number){
+  opcionEliminarComentario(idCom: number) {
     this.msj_confirm = '¿Desea Eiminar?'
     this.opcion_sel = 'EC'
-    this.selComentario=idCom;
+    this.selComentario = idCom;
   }
 
-    eliminarComentario(){  
+  eliminarComentario() {
     this.commentaryService.deleteComentario(this.selComentario).subscribe((res: any) => {
 
       if (res.type === HttpEventType.DownloadProgress) {
@@ -804,7 +1043,7 @@ export class PublicationComponent implements OnInit {
           this.toastr.success('Ha eliminado el comentario', 'Satisfactorio');
           // window.history.go(-1)
           this.getComentariosPublicacion();
-          this.selComentario=0;
+          this.selComentario = 0;
         }
         else {
           this.ec_eliminarCom = 'C';
@@ -820,63 +1059,68 @@ export class PublicationComponent implements OnInit {
 
   }
 
-  validarOtraCalificacionPublicacion(){
-    this.otraCalificacion=false
-    let index = 0
-    var calificacion;
-    if(this.listaCalificaciones.length > 0){
-      do {
-        calificacion = this.listaCalificaciones[index];
-        if(calificacion.id_usuario_cal == this.user.id){
-          this.addCalificacion.patchValue({
-            calificacion: calificacion.calificacion,
-            motivo_cal : calificacion.motivo_cal
-          });
-          // this.aux_calificacion=calificacion
-          this.otraCalificacion=true;
-          
-        }
-        index=index+1;
-          // console.log(index)
-      } while (index <= (this.listaCalificaciones.length-1) && this.otraCalificacion==false);
+  // validarOtraCalificacionPublicacion() {
+  //   this.otraCalificacionPub = false
+  //   let index = 0
+  //   var calificacion;
+  //   if (this.listaCalificaciones.length > 0) {
+  //     do {
+  //       calificacion = this.listaCalificaciones[index];
+  //       if (calificacion.id_usuario_cal == this.user.id) {
+  //         this.addCalificacion.patchValue({
+  //           calificacion: calificacion.calificacion,
+  //           motivo_cal: calificacion.motivo_cal
+  //         });
+  //         // this.aux_calificacion=calificacion
+  //         this.otraCalificacionPub = true;
 
-    }
+  //       }
+  //       index = index + 1;
+  //       // console.log(index)
+  //     } while (index <= (this.listaCalificaciones.length - 1) && this.otraCalificacionPub == false);
+
+  //   }
+  // }
+
+  accionesPreviasModalCalificacionesComentario(idCom: number) {
+    console.log(idCom);
+    this.getCalificacionesComentarios(idCom)
+    this.getUsuCalificacionesComentarios(idCom);
   }
 
-  accionesPreviasModalCalificacionesComentario(idCom: number){
-    this.getCalificacionesComentarios(idCom) 
-    this.validarOtraCalificacionComentario()
-  }
 
-
-  accionesPreviasModalCalificacionesPublicacion(){
+  accionesPreviasModalCalificacionesPublicacion() {
+    console.log('pub');
     this.getCalificacionesPublicacion();
-    this.validarOtraCalificacionPublicacion();  
+    this.getUsuCalificacionesPublicaciones();
   }
 
 
-  validarOtraCalificacionComentario(){
-    this.otraCalificacionCom=false
-    let index = 0
-    var calificacion;
-    if(this.listaCalificacionesComentarios.length > 0){
-      do {
-        calificacion = this.listaCalificaciones[index];
-        if(calificacion.id_usuario_cal == this.user.id){
-          this.addCalificacionComentario.patchValue({
-            calificacion: calificacion.calificacion,
-            motivo_cal : calificacion.motivo_cal
-          });
-          // this.aux_calificacion=calificacion
-          this.otraCalificacionCom=true;
-          
-        }
-        index=index+1;
-          // console.log(index)
-      } while (index <= (this.listaCalificacionesComentarios.length-1) && this.otraCalificacion==false);
+  // validarOtraCalificacionComentario() {
+  //   // console.log('validar cometario')
+  //   this.otraCalificacionCom = false
+  //   let index = 0
+  //   var calificacion;
+  //   if (this.listaCalificacionesComentarios.length > 0) {
+  //     do {
+  //       calificacion = this.listaCalificaciones[index];
+  //       // console.log(calificacion);
+  //       if (calificacion.id_usuario_cal == this.user.id) {
+  //         this.addCalificacionComentario.patchValue({
+  //           calificacion: calificacion.calificacion,
+  //           motivo_cal: calificacion.motivo_cal
+  //         });
+  //         // this.aux_calificacion=calificacion
+  //         this.otraCalificacionCom = true;
 
-    }
-  }
+  //       }
+  //       index = index + 1;
+  //       // console.log(index)
+  //     } while (index <= (this.listaCalificacionesComentarios.length - 1) && this.otraCalificacionCom == false);
+
+  //   }
+  // }
+
 
 
 

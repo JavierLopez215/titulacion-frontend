@@ -1,6 +1,6 @@
 import { ToastrService } from 'ngx-toastr';
 import { Profile } from './../../model/Profile';
-import { Reunion } from './../../model/Reunion';
+import { Reunion } from '../../model/Meeting';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MeetingsService } from './../../services/meetings.service';
 import { PublicacionService } from './../../services/publicacion.service';
@@ -248,11 +248,11 @@ export class MeetingsComponent implements OnInit {
     var month = this.addSolicitudReunion.value.fecha_sol.month;
     var year = this.addSolicitudReunion.value.fecha_sol.year;
     var hour = this.addSolicitudReunion.value.hora.hour;
-    var minute = this.addSolicitudReunion.value.hora.hour;
+    var minute = this.addSolicitudReunion.value.hora.minute;
     if (month <= 9) month = '0' + month
     if (day <= 9) day = '0' + day
     if (hour <= 9) hour = '0' + hour
-    if (minute <= 9) hour = '0' + minute
+    if (minute <= 9) minute = '0' + minute
     console.log(`${day}/${month}/${year}`)
     this.reunion_.fecha_sol = new Date(`${year}-${month}-${day}`)
     this.reunion_.hora = `${hour}:${minute}:00`

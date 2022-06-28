@@ -1,13 +1,15 @@
 <div class="container">
 
+  <h3 class="text-center p-2">Inicio de Sesión</h3>
+
   <div class="row">
 
-    <h3 class="text-center p-2">Inicio de Sesión</h3>
     <div class="col">
-
     </div>
 
     <div class="col-6">
+      <!-- <div class="position-relative">
+    <div class="position-absolute top-0 start-50 translate-middle-x"> -->
       <div class="card">
         <!-- <div class="card-header text-center">
           Inicio de Sesión
@@ -20,22 +22,48 @@
 
         <div class="card-body">
           <form [formGroup]="loginForm" (ngSubmit)="login()">
-            <div class="mb-3">
+            <div class="mb-1">
               <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" name="correo" formControlName="correo" id="email"
-                >
+              <input type="email" name="correo" formControlName="correo" id="email" class="form-control" autofocus
+                [ngClass]="loginForm.controls['correo'].invalid && (loginForm.controls['correo'].dirty 
+              || loginForm.controls['correo'].touched) ? 'border border-danger' : ''">
 
+              <div *ngIf="loginForm.controls['correo'].invalid && (loginForm.controls['correo'].dirty 
+              || loginForm.controls['correo'].touched)">
+                <small *ngIf="loginForm.controls['correo'].errors?.required" class="fs-7 text-danger p-0 m-0">
+                  Ingrese un correo.
+                </small>
+                <small *ngIf="loginForm.controls['correo'].errors?.email" class="fs-7 text-danger p-0 m-0">
+                  Correo no válido.
+                </small>
+              </div>
             </div>
 
-            <div class="mb-3">
+
+            <div class="mb-1">
               <label for="contrasena" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" formControlName="contrasena" name="contrasena"
-                id="contrasena">
+              <input type="password" class="form-control" formControlName="contrasena" name="contrasena" id="contrasena"
+                [ngClass]="loginForm.controls['contrasena'].invalid && (loginForm.controls['contrasena'].dirty 
+              || loginForm.controls['contrasena'].touched) ? 'border border-danger' : ''">
             </div>
-            <p class="fs-6 text-danger">{{errores}}</p>
+            <div *ngIf="loginForm.controls['contrasena'].invalid && (loginForm.controls['contrasena'].dirty 
+            || loginForm.controls['contrasena'].touched)" role="alert">
+              <small *ngIf="loginForm.controls['contrasena'].errors?.required" class="fs-7 text-danger p-0 m-0">
+                Ingrese una contraseña
+              </small>
+              <small *ngIf="loginForm.controls['contrasena'].errors?.minlength" class="fs-7 text-danger p-0 m-0">
+                Mínimo 4 caracteres
+              </small>
+              <small *ngIf="loginForm.controls['contrasena'].errors?.maxlength" class="fs-7 text-danger p-0 m-0">
+                Máximo 45 caracteres
+              </small>
+              <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
+            </div>
+            <p class="fs-7 text-danger">{{errores}}</p>
             <div class="text-center">
               <button type="submit" [disabled]="!loginForm.valid || ec_login=='P'" class="btn btn-primary">
-                <span *ngIf="ec_login!='C'" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span *ngIf="ec_login!='C'" class="spinner-border spinner-border-sm" role="status"
+                  aria-hidden="true"></span>
                 Entrar</button>
             </div>
           </form>
@@ -48,7 +76,4 @@
     <div class="col">
     </div>
   </div>
-
-
-
 </div>

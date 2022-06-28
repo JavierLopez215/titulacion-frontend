@@ -1,23 +1,38 @@
 <div *ngIf="!logged">
 
-  <nav class="navbar navbar-expand-lg bg-light text-primary border">
+  <nav class="navbar navbar-expand-lg bg-primary navbar-dark border">
+
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Menú</a>
+      <!-- <a class="navbar-brand" href="#">ARAS-ES</a>
       <button class="navbar-toggler border" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
         aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon text-primary" style="color:black">
           <i class="bi bi-list"></i>
         </span>
+      </button> -->
+
+      <a class="navbar-brand" routerLink="/home">
+        <!-- <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top"> -->
+        <i class="bi bi-bootstrap-fill d-inline-block align-top"></i>
+        ARAS-ES
+      </a>
+
+      <button class="navbar-toggler border border-white" type="button" data-toggle="collapse" data-target="#navbarMenu"
+        aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
       </button>
 
+
       <div class="collapse navbar-collapse" id="navbarMenu">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-6">
           <li class="nav-item">
-            <a class="nav-link border border-primary rounded p-2 me-2 text-center" routerLinkActive="active"
-              routerLink="/app">Inicio</a>
+            <a class="nav-link" routerLinkActive="active" routerLink="/home">Inicio</a>
           </li>
+
+          <!-- <ul class="navbar-nav ml-auto mb-lg-0"> -->
+
           <li class="nav-item">
-            <a class="nav-link" href="#">Servicios</a>
+            <a class="nav-link" routerLinkActive="active" routerLink="/about">Acerca de</a>
           </li>
           <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -30,20 +45,16 @@
           <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li> -->
-          <li class="nav-item">
-            <a class="nav-link" href="#">Acerca de</a>
-          </li>
+
         </ul>
 
         <!-- <div class="navbar-collapse collapse"> -->
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link  border border-primary rounded p-2 me-2 text-center" routerLinkActive="active"
-              routerLink="/login">Entrar</a>
+        <ul class="navbar-nav ml-auto fs-6">
+          <li class="nav-item border border-white rounded border-1 text-center m-1">
+            <a class="nav-link" routerLinkActive="active" routerLink="/login">Entrar</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link border border-primary rounded p-2 me-2 text-center" routerLink="/register"
-              routerLinkActive="active">Registro</a>
+          <li class="nav-item border border-white rounded border-1 text-center m-1">
+            <a class="nav-link" routerLinkActive="active" routerLink="/register">Registro</a>
           </li>
           <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -64,8 +75,10 @@
 
     </div>
   </nav>
-
+  <router-outlet></router-outlet>
 </div>
+
+
 
 
 
@@ -81,69 +94,102 @@
           <span class="fs-5 d-none d-sm-inline">Menu</span>
         </a>
         <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" style="width: 100%;" id="menu"> -->
-<div class="container-fluid overflow-hidden">
+<div class="container-fluid overflow-hidden" *ngIf="logged">
   <div class="row vh-100 overflow-auto">
-    <div class=" col col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-light d-flex sticky-top border border-primary rounded "
-      *ngIf="logged">
+    <div class="col col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-light d-flex sticky-top border border-primary rounded ">
       <div
-        class="d-flex flex-sm-column flex-row flex-grow-1 py-4 align-items-center align-items-sm-start px-3 pt-2 text-primary side">
-        <a href="/" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-primary text-decoration-none">
-          <span class="fs-5">B<span class="d-none d-sm-inline">rand</span></span>
+        class="d-flex flex-sm-column flex-row flex-grow-1 py-4 align-items-center align-items-sm-start px-1 pt-2 text-primary side">
+        <!-- <div class="text-center" style="width: 100%;"> -->
+        <a href="/app" class="d-flex align-items-center pb-sm-3 
+        mb-md-0 me-md-auto text-primary text-decoration-none text-center p-2" style="width:fit-content">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bootstrap-fill" viewBox="0 0 16 16"
+            style="width: 2rem;">
+            <path
+              d="M6.375 7.125V4.658h1.78c.973 0 1.542.457 1.542 1.237 0 .802-.604 1.23-1.764 1.23H6.375zm0 3.762h1.898c1.184 0 1.81-.48 1.81-1.377 0-.885-.65-1.348-1.886-1.348H6.375v2.725z" />
+            <path
+              d="M4.002 0a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4h-8zm1.06 12V3.545h3.399c1.587 0 2.543.809 2.543 2.11 0 .884-.65 1.675-1.483 1.816v.1c1.143.117 1.904.931 1.904 2.033 0 1.488-1.084 2.396-2.888 2.396H5.062z" />
+          </svg>
+          <span class="ml-1 d-none d-sm-inline text-center">ARAS-ES</span>
         </a>
+        <!-- </div> -->
+        <br>
         <ul
-          class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start"
+          class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto justify-content-center align-items-center align-items-sm-center"
           id="menu" style="width: 100%;">
 
           <li class="nav-item" style="width: 100%;">
-            <a routerLink="/app" class="nav-link align-middle px-0" routerLinkActive="active">
-              <i class="fs-4 bi-house ps-2"></i> <span class="ms-1 d-none d-sm-inline">Inicio</span>
+            <a routerLink="/app" class="nav-link align-middle px-2" routerLinkActive="active">
+              <i class="fs-4 bi-house text-center"></i> <span class="ml-1 d-none d-sm-inline">Inicio</span>
             </a>
           </li>
           <li class="nav-item" style="width: 100%;">
-            <a routerLink="/activities" class="nav-link align-middle px-0" routerLinkActive="active">
-              <i class="fs-4 bi-speedometer2 ps-2"></i> <span class="ms-1 d-none d-sm-inline">Actividad</span>
+            <a routerLink="/activities" class="nav-link align-middle px-2" routerLinkActive="active">
+              <i class="fs-4 bi-speedometer2"></i> <span class="ml-1 d-none d-sm-inline">Actividad</span>
             </a>
           </li>
 
           <li class="nav-item" style="width: 100%;">
-            <a routerLink="/meetings" routerLinkActive="active" class="nav-link px-0 align-middle">
-              <i class="fs-4 bi-table ps-2"></i> <span class="ms-1 d-none d-sm-inline">Reuniones</span></a>
-          </li>
-
-
-          <li class="nav-item" style="width: 100%;">
-            <a routerLink="/community" routerLinkActive="active" class="nav-link px-0 align-middle">
-              <i class="fs-4 bi-people ps-2"></i> <span class="ms-1 d-none d-sm-inline">Comunidad</span> </a>
+            <a routerLink="/community" routerLinkActive="active" class="nav-link px-2 align-middle">
+              <i class="fs-4 bi-people"></i> <span class="ml-1 d-none d-sm-inline">Comunidad</span> </a>
           </li>
 
           <li class="nav-item" style="width: 100%;">
-            <a routerLink="/files" routerLinkActive="active" class="nav-link px-0 align-middle">
-              <i class="bi bi-file-earmark ps-2"></i> <span class="ms-1 d-none d-sm-inline">Archivos</span> </a>
+            <a routerLink="/meetings" routerLinkActive="active" class="nav-link px-2 align-middle">
+              <i class="fs-4 bi-table"></i> <span class="ml-1 d-none d-sm-inline">Reuniones</span></a>
           </li>
+
+          <li class="nav-item" style="width: 100%;">
+            <a routerLink="/files" routerLinkActive="active" class="nav-link px-2 align-middle">
+              <i class="bi bi-file-earmark"></i> <span class="ml-1 d-none d-sm-inline">Archivos</span> </a>
+          </li>
+
         </ul>
-        <div class="dropdown py-sm-4 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1 text-primary">
-          <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-primary"
+          <!-- <div class="nav-item dropdown"> -->
+            <div class="nav-item dropdown py-sm-4 mt-sm-auto ml-auto ml-sm-0 flex-shrink-1 text-center text-primary side">
+              <a class="nav-link dropdown-toggle d-flex align-items-center text-decoration-none nav-link text-primary"
+                data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                <img src="{{ rutaImgProfile }}/profile/{{ user.foto }}" alt="..." width="30" height="30"
+                  class="rounded-circle">
+                <span class="d-none d-sm-inline mx-1">{{ user.nombre }}</span>
+              </a>
+              <div class="dropdown-menu text-primary">
+                <a class="dropdown-item text" routerLink="/profile" routerLinkActive="active">Perfil</a>
+                <div class="dropdown-divider"></div>
+                <!-- <a class="dropdown-item" href="#">Separated link</a> -->
+                <a class="dropdown-item" href="#" (click)="logout()">Cerrar Sesión</a>
+              </div>
+            </div>
+          <!-- </div> -->
+        
+        <!-- <div class="nav-item dropdown py-sm-4 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1 text-primary">
+          <a href="#" class="d-flex align-items-center text-decoration-none nav-link dropdown-toggle text-primary"
             id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="{{ rutaImgProfile }}/profile/{{ user.foto }}" alt="perfil" width="30" height="30"
+            <img src="{{ rutaImgProfile }}/profile/{{ user.foto }}" alt="..." width="30" height="30"
               class="rounded-circle">
             <span class="d-none d-sm-inline mx-1 text-primary">{{ user.nombre }}</span>
           </a>
           <ul class="dropdown-menu dropdown-menu-light text-small text-primary" aria-labelledby="dropdownUser1">
             <li><a class="dropdown-item text-primary" routerLink="/profile" routerLinkActive="active">Perfil</a></li>
             <li><a class="dropdown-item text-primary" href="#">Seguridad</a></li>
-            <!-- <li><a class="dropdown-item text-primary" href="#">Profile</a></li> -->
             <li>
               <hr class="dropdown-divider text-primary">
             </li>
-            <li><a class="dropdown-item text-primary" (click)="logout()">Cerrar Sesión</a></li>
+            <li><a class="dropdown-item text-primary" href="#" (click)="logout()">Cerrar Sesión</a></li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="col d-flex flex-column h-sm-100 col-sm-9 col-xl-10">
       <main class="row">
         <div class="col pt-2">
-              <router-outlet></router-outlet>
+
+
+
+
+
+
+
+          <router-outlet></router-outlet>
         </div>
       </main>
 

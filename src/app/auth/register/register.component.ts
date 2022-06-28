@@ -16,13 +16,13 @@ export class RegisterComponent implements OnInit {
   ec_register: string = "C"
 
   public registerForm = this.formBuilder.group({
-    nombre: ['', Validators.required],
-    apellido: ['', Validators.required],
-    direccion: ['', Validators.required],
-    perfil_prof: ['', Validators.required],
-    telefono: ['', Validators.required],
-    correo: ['', Validators.required],
-    contrasena: ['', Validators.required]
+    nombre: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(20),Validators.pattern('[a-zA-Z ]*')]],
+    apellido: ['',[Validators.required, Validators.minLength(3),Validators.maxLength(20),Validators.pattern('[a-zA-Z ]*')]],
+    direccion: ['', [Validators.required, Validators.minLength(5),Validators.maxLength(255)]],
+    perfil_prof: ['', [Validators.required, Validators.minLength(50),Validators.maxLength(1000)]],
+    telefono: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(10),Validators.pattern('[0-9]*')]],
+    correo: ['', [Validators.required, Validators.email]],
+    contrasena: ['', [Validators.required, Validators.minLength(8),Validators.maxLength(255)]]
   });
 
   constructor(private authService: AuthService,

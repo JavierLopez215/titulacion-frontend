@@ -1,4 +1,4 @@
-import { Publicacion } from 'src/app/model/Publicacion';
+import { Publicacion } from 'src/app/model/Publication';
 import { Injectable } from '@angular/core';
 import { environment } from "../../environments/environment";
 import { HttpClient } from '@angular/common/http';

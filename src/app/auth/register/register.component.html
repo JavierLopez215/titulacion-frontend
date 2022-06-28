@@ -16,47 +16,190 @@
                                 <div class="col-md-6">
                                     <label for="nombre" class="form-label">Nombre</label>
                                     <input type="text" name="nombre" formControlName="nombre" class="form-control"
-                                        autofocus id="nombre">
+                                        autofocus id="nombre" [ngClass]="registerForm.controls['nombre'].invalid && (registerForm.controls['nombre'].dirty 
+                                        || registerForm.controls['nombre'].touched) ? 'border border-danger' : ''">
+                                    <!-- Errores ingreso de datos -->
+                                    <div *ngIf="registerForm.controls['nombre'].invalid && 
+                                    (registerForm.controls['nombre'].dirty || 
+                                    registerForm.controls['nombre'].touched)">
+                                        <small *ngIf="registerForm.controls['nombre'].errors?.required"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Dato requerido
+                                        </small>
+                                        <small *ngIf="registerForm.controls['nombre'].errors?.minlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Mínimo 3 caracteres
+                                        </small>
+                                        <small *ngIf="registerForm.controls['nombre'].errors?.maxlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Máximo 20 caracteres
+                                        </small>
+                                        <small *ngIf="registerForm.controls['nombre'].errors?.pattern"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Solo letras
+                                        </small>
+                                        <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="apellido" class="form-label">Apellido</label>
                                     <input type="text" name="apellido" formControlName="apellido" class="form-control"
-                                        id="apellido">
+                                        id="apellido" [ngClass]="registerForm.controls['apellido'].invalid && (registerForm.controls['apellido'].dirty 
+                                        || registerForm.controls['apellido'].touched) ? 'border border-danger' : ''">
+                                    <!-- Errores ingreso de datos -->
+                                    <div *ngIf="registerForm.controls['apellido'].invalid && 
+                                    (registerForm.controls['apellido'].dirty || 
+                                    registerForm.controls['apellido'].touched)">
+                                        <small *ngIf="registerForm.controls['apellido'].errors?.required"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Dato requerido
+                                        </small>
+                                        <small *ngIf="registerForm.controls['apellido'].errors?.minlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Mínimo 3 caracteres
+                                        </small>
+                                        <small *ngIf="registerForm.controls['apellido'].errors?.maxlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Máximo 20 caracteres
+                                        </small>
+                                        <small *ngIf="registerForm.controls['apellido'].errors?.pattern"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Solo letras
+                                        </small>
+                                        <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
+                                    </div>
                                 </div>
                                 <div class="col-md-9">
                                     <label for="direccion" class="form-label">Dirección</label>
                                     <input type="text" name="direccion" formControlName="direccion" class="form-control"
-                                        id="direccion" placeholder="Ciudad, calles..">
+                                        id="direccion" placeholder="Ciudad, calles.." [ngClass]="registerForm.controls['direccion'].invalid && (registerForm.controls['direccion'].dirty 
+                                        || registerForm.controls['direccion'].touched) ? 'border border-danger' : ''">
+                                    <!-- Errores ingreso de datos -->
+                                    <div *ngIf="registerForm.controls['direccion'].invalid && 
+                                    (registerForm.controls['direccion'].dirty || 
+                                    registerForm.controls['direccion'].touched)">
+                                        <small *ngIf="registerForm.controls['direccion'].errors?.required"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Dato requerido
+                                        </small>
+                                        <small *ngIf="registerForm.controls['direccion'].errors?.minlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Mínimo 5 caracteres
+                                        </small>
+                                        <small *ngIf="registerForm.controls['direccion'].errors?.maxlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Máximo 255 caracteres
+                                        </small>
+                                        <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="telefono" class="form-label">Teléfono</label>
                                     <input type="text" name="telefono" formControlName="telefono" class="form-control"
-                                        id="telefono">
+                                        id="telefono" [ngClass]="registerForm.controls['telefono'].invalid && (registerForm.controls['telefono'].dirty 
+                                        || registerForm.controls['telefono'].touched) ? 'border border-danger' : ''">
+                                    <!-- Errores ingreso de datos -->
+                                    <div *ngIf="registerForm.controls['telefono'].invalid && 
+                                    (registerForm.controls['telefono'].dirty || 
+                                    registerForm.controls['telefono'].touched)">
+                                        <small *ngIf="registerForm.controls['telefono'].errors?.required"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Dato requerido
+                                        </small>
+                                        <small *ngIf="registerForm.controls['telefono'].errors?.minlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            10 caracteres
+                                        </small>
+                                        <small *ngIf="registerForm.controls['telefono'].errors?.maxlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            10 caracteres
+                                        </small>
+                                        <small *ngIf="registerForm.controls['telefono'].errors?.pattern"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Solo números
+                                        </small>
+                                        
+                                    </div>
                                 </div>
                                 <div class="col-12">
                                     <label for="perfil_prof" class="form-label">Perfil Profesional</label>
                                     <textarea class="form-control" name="perfil_prof" formControlName="perfil_prof"
-                                        id="perfil_prof" rows="3"
-                                        placeholder="Describa el nivel y área de estudio en el que se especializa"></textarea>
+                                        id="perfil_prof" rows="3" placeholder="Describa el nivel y área de estudio en el que se especializa"
+                                        [ngClass]="registerForm.controls['perfil_prof'].invalid && (registerForm.controls['perfil_prof'].dirty 
+                                        || registerForm.controls['perfil_prof'].touched) ? 'border border-danger' : ''"></textarea>
+                                    <!-- Errores ingreso de datos -->
+                                    <div *ngIf="registerForm.controls['perfil_prof'].invalid && 
+                                    (registerForm.controls['perfil_prof'].dirty || 
+                                    registerForm.controls['perfil_prof'].touched)">
+                                        <small *ngIf="registerForm.controls['perfil_prof'].errors?.required"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Dato requerido
+                                        </small>
+                                        <small *ngIf="registerForm.controls['perfil_prof'].errors?.minlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Mínimo 50 caracteres
+                                        </small>
+                                        <small *ngIf="registerForm.controls['perfil_prof'].errors?.maxlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Máximo 1000 caracteres
+                                        </small>
+                                        <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
+                                    </div>
                                 </div>
                                 <div class="col-md-7">
                                     <label for="correo_reg" class="form-label">Correo electrónico</label>
                                     <input type="email" name="correo_reg" formControlName="correo" class="form-control"
-                                        id="correo_reg">
-                                </div>
+                                        id="correo_reg" [ngClass]="registerForm.controls['correo'].invalid && (registerForm.controls['correo'].dirty 
+                                        || registerForm.controls['correo'].touched) ? 'border border-danger' : ''">
+                                    <!-- Errores ingreso de datos -->
+                                    <div *ngIf="registerForm.controls['correo'].invalid && 
+                                    (registerForm.controls['correo'].dirty || 
+                                    registerForm.controls['correo'].touched)">
+                                        <small *ngIf="registerForm.controls['correo'].errors?.required"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Dato requerido
+                                        </small>
+                                        <small *ngIf="registerForm.controls['correo'].errors?.email"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Correo no válido
+                                        </small>
+                                        
+                                    </div>
+                                    </div>
 
 
                                 <div class="col-md-5">
                                     <label for="contrasena_re" class="form-label">Contraseña</label>
-                                    <input type="password" name="contrasena_reg" formControlName="contrasena"
-                                        class="form-control" id="contrasena_reg">
+                                    <input type="password" name="contrasena_reg" formControlName="contrasena" class="form-control" id="contrasena_reg"
+                                    [ngClass]="registerForm.controls['contrasena'].invalid && (registerForm.controls['contrasena'].dirty 
+                                        || registerForm.controls['contrasena'].touched) ? 'border border-danger' : ''">
+                                        <!-- Errores ingreso de datos -->
+                                    <div *ngIf="registerForm.controls['contrasena'].invalid && 
+                                    (registerForm.controls['contrasena'].dirty || 
+                                    registerForm.controls['contrasena'].touched)">
+                                        <small *ngIf="registerForm.controls['contrasena'].errors?.required"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Dato requerido
+                                        </small>
+                                        <small *ngIf="registerForm.controls['contrasena'].errors?.minlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Mínimo 8 caracteres
+                                        </small>
+                                        <small *ngIf="registerForm.controls['contrasena'].errors?.maxlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Máximo 255 caracteres
+                                        </small>
+                                        
+                                    </div>
                                 </div>
 
                                 <div class="col-12 text-center">
                                     <h3 *ngIf="errores">{{ errores }}</h3>
-                                    <button type="submit" [disabled]="!registerForm.valid || ec_register == 'P'" class="btn btn-primary">
-                                        <span *ngIf="ec_register!='C'" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                        Registrar</button> 
+                                    <button type="submit" [disabled]="!registerForm.valid || ec_register == 'P'"
+                                        class="btn btn-primary">
+                                        <span *ngIf="ec_register!='C'" class="spinner-border spinner-border-sm"
+                                            role="status" aria-hidden="true"></span>
+                                        Registrar</button>
                                     <!-- <button type="submit" class="btn btn-primary">Registrarse</button> -->
                                 </div>
                             </form>

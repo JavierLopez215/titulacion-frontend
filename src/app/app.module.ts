@@ -35,6 +35,7 @@ import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { PipeFiles } from './pipes/pipe-transform';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MeetingDetailsComponent } from './pages/meeting-details/meeting-details.component';
+import { AboutComponent } from './pages/about/about.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { MeetingDetailsComponent } from './pages/meeting-details/meeting-details
     CommunityComponent,
     FilesComponent,
     PipeFiles,
-    MeetingDetailsComponent
+    MeetingDetailsComponent,
+    AboutComponent
     
   ],
   imports: [

@@ -1,6 +1,6 @@
 import { ToastrService } from 'ngx-toastr';
 import { PublicacionService } from './../../services/publicacion.service';
-import { Publicacion } from './../../model/Publicacion';
+import { Publicacion } from '../../model/Publication';
 import { FormBuilder, Validators } from '@angular/forms';
 import { EspeciallityService } from './../../services/especiallity.service';
 import { Profile } from './../../model/Profile';
@@ -8,7 +8,7 @@ import { ActivitiesService } from './../../services/activities.service';
 import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DetallePublicacion } from 'src/app/model/DetallePublicacion';
+import { DetallePublicacion } from 'src/app/model/PublicationDetail';
 import { HttpEventType } from '@angular/common/http';
 
 @Component({
@@ -36,9 +36,9 @@ export class ActivitiesComponent implements OnInit {
   public contenido: string = "";
   public publicacion: Publicacion = {} as Publicacion;
 
-  public postDataForm = this.formBuilder.group({
-    titulo: ['', Validators.required],
-    descripcion: ['', Validators.required],
+  public newPublicationForm = this.formBuilder.group({
+    titulo: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(255)]],
+    descripcion: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(500)]],
     area: ['', Validators.required]
   });
 
@@ -131,10 +131,10 @@ export class ActivitiesComponent implements OnInit {
     }
 
     this.publicacion = {} as Publicacion;
-    this.publicacion.titulo = this.postDataForm.value.titulo;
+    this.publicacion.titulo = this.newPublicationForm.value.titulo;
     this.publicacion.id_usuario_pub = this.user.id;
-    this.publicacion.descripcion = this.postDataForm.value.descripcion;
-    this.publicacion.id_especialidad = this.postDataForm.value.area;
+    this.publicacion.descripcion = this.newPublicationForm.value.descripcion;
+    this.publicacion.id_especialidad = this.newPublicationForm.value.area;
     this.publicacion.listaDetalles = this.listaAdjuntos;
     this.publicacion.estado = "P";
     this.publicacion.activo = "S";
@@ -161,7 +161,7 @@ export class ActivitiesComponent implements OnInit {
           // localStorage.setItem('token', res.token);
           this.toastr.success('Datos ingresados correctamente', 'Safisfactorio');
           // this.authService.actualizarToken();
-          this.postDataForm.reset();
+          this.newPublicationForm.reset();
           this.addCode.reset();
           this.addFile.reset();
           this.addURL.reset();

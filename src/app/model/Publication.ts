@@ -1,4 +1,4 @@
-import { DetallePublicacion } from "./DetallePublicacion";
+import { DetallePublicacion } from "./PublicationDetail";
 
 export interface Publicacion {
     id: number;

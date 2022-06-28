@@ -1,7 +1,7 @@
 import { FormBuilder, Validators } from '@angular/forms';
-import { environment } from './../../../environments/environment.prod';
-import { CalificacionReunion } from './../../model/CalificacionReunion';
-import { Reunion } from './../../model/Reunion';
+import { environment } from './../../../environments/environment';
+import { CalificacionReunion } from '../../model/GradeMeeting';
+import { Reunion } from '../../model/Meeting';
 import { Profile } from './../../model/Profile';
 import { ToastrService } from 'ngx-toastr';
 import { MeetingsService } from './../../services/meetings.service';
@@ -248,11 +248,11 @@ export class MeetingDetailsComponent implements OnInit {
     this.meetingsService.updateCalificacionReunion(this.calificacionReunion).subscribe((res: any) => {
 
       if (res.type === HttpEventType.DownloadProgress) {
-        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
         this.ec_postCalificacion = 'P'
       }
       if (res.type === HttpEventType.UploadProgress) {
-        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
 
         this.ec_postCalificacion = 'P'
       }

@@ -25,8 +25,8 @@ export class AuthService {
   }
 
   login(login: Login) {
+    // console.log(login);
     return this.http.post(`${this.URL}/user/login`, login,{observe: 'events', reportProgress: true});
-
   }
 
   actualizarToken(){

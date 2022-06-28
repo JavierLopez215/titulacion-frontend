@@ -1,4 +1,70 @@
-<p>files works!</p>
+<!-- <p>files works!</p> -->
 <!-- 
 <input type="text" name="msj" id="msj" [(ngModel)]="mensaje">
 <button type="button" (click)="onPostUser()">Enviar</button> -->
+
+<div class="card p-2 border-1">
+
+    <div class="card-header bg-primary border-rounded text-white">
+        Agregar Archivos
+    </div>
+    <form class="" [formGroup]=" addFile" (ngSubmit)="GuardarRecurso()">
+
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <div class="form-group mb-3">
+                    <label for="desc_adjuntos" class="form-label mt-1">Descripción</label>
+                    <!-- <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos"> -->
+                    <textarea class="form-control" name="desc_adjuntos" rows="2" formControlName="encabezado"></textarea>
+                </div>
+
+                <div class="mb-3 text-center">
+                    <label for="formFileMultiple" class="form-label text-success">Seleccionar..</label>
+                    <input class="form-control d-none" type="file" id="formFileMultiple" name="file"
+                        formControlName="file" (change)="cambioArchivoCargado($event)">
+                    <br>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="label-input" disabled
+                            value="{{ archivo_seleccionado }}">
+                            <button class="btn btn-outline-danger" id="btnAddFile" (click)="CancelarCargaArchivo()"
+                            *ngIf="this.addFile.value.file">X</button>
+                        <button class="btn btn-outline-primary" type="submit" id="btnAddFile"
+                            [disabled]="!addFile.valid">Añadir</button>
+                            
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- <h5 class="text-center">
+                    Etiquetas
+                </h5> -->
+                <div class="card mb-2" style="max-height: 100px; min-height: 100px;" style="max-height: 100px; overflow:scroll; -webkit-overflow-scrolling: touch;">
+                    <h6 class="text-center text-wrapper">Etiquetas seleccionadas</h6>
+                    <div *ngFor="let etiqueta_sel of listaEtiquetasSeleccionadas;let indice=index">
+                        <div class="border rounded-pill p-2 d-inline-block" style="width: fit-content;">
+                            {{ etiqueta_sel.etiqueta }}
+                            <button class="border-0 rounded-circle"
+                                (click)="deleteEspecialidad(indice)">X</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h6 class="text-center text-wrapper">Lista etiquetas</h6>
+                    <div class="list-group border"
+                        style="max-height: 100px; overflow:scroll; -webkit-overflow-scrolling: touch;">
+                        <div *ngFor="let etiqueta of listaEtiquetas">
+                            <button type="button" class="list-group-item list-group-item-action p-1"
+                                (click)="addEtiqueta(etiqueta)">{{ etiqueta.etiqueta
+                                }}</button>
+                            <!-- <button type="button" class="list-group-item list-group-item-action">Area 2</button> -->
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

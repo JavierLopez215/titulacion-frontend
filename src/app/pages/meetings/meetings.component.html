@@ -1,11 +1,10 @@
 <div class="card p-2 border-primary">
     <h3 class="text-center">Reuniones de Usuario</h3>
-    <p class="fw-normal text-center">Solicite a la comunidad tener una reunion para aclarar dudas y tener clases
-        personalizadas de lo
-        que necesites.</p>
+    <p class="font-weight-normal text-center">Solicite a la comunidad tener una reunion para aclarar dudas y tener clases
+        personalizadas de lo que necesites.</p>
     <div class="text-center">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-            data-bs-target="#modalAddSolicitud">Solicitar</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal"
+            data-target="#modalAddSolicitud">Solicitar</button>
     </div>
 </div>
 
@@ -17,12 +16,12 @@
     <div class="card-body">
         <ul class="nav nav-tabs nav-fill">
             <li class="nav-item">
-                <button type="button" class="nav-link text-white" style="background-color: steelblue;"
+                <button type="button" class="nav-link text-white btn btn-block" style="background-color: steelblue;"
                     (click)="btnMisReuniones()">Mis reuniones</button>
             </li>
             <li class="nav-item">
-                <button type="button" class="nav-link text-white" style="background-color: teal;"
-                    (click)="btnReunionesComunidad()">R. Aceptadas</button>
+                <button type="button" class="nav-link text-white btn btn-block" style="background-color: teal;"
+                    (click)="btnReunionesComunidad()">R. Comunidad</button>
             </li>
         </ul>
         <h3 class="text-center">{{ titulo_reuniones }}</h3>
@@ -32,7 +31,7 @@
                 <br>
                 <br>
                 <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Cargando...</span>
+                    <span class="sr-only">Cargando...</span>
                   </div>
             </div>
         </div>
@@ -58,10 +57,10 @@
                                     height="50" class="rounded-circle">
                             </div>
                             <div class="col">
-                                <h4 class="fw-normal fs-6">{{ reunion_a.nombreA}}</h4>
-                                <h4 class="fw-normal fs-6 text-truncate">Aceptó tu solicitud</h4>
+                                <h4 class="font-weight-normal fs-6">{{ reunion_a.nombreA}}</h4>
+                                <h4 class="font-weight-normal fs-6 text-truncate">Aceptó tu solicitud</h4>
                             </div>
-                            <h4 class="fw-light fs-6 d-inline-block text-truncate pt-2"><b>Título: </b> {{
+                            <h4 class="font-weight-light fs-6 d-inline-block text-truncate pt-2"><b>Título: </b> {{
                                 reunion_a.titulo }}</h4>
 
                         </div>
@@ -78,7 +77,7 @@
                 <br>
                 <br>
                 <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Cargando...</span>
+                    <span class="sr-only">Cargando...</span>
                   </div>
             </div>
         </div>
@@ -106,18 +105,19 @@
                 </thead>
                 <tbody class="border border-primary table-bordered">
 
-                    <tr class="p-0" *ngFor="let reunion_h of listaHistorialReuniones; let i=index" (click)="abrirDetalleReunion(reunion_h)">
-                        <th class="col-2 fw-light">
-                            <!-- <p class="fw-light"> -->
+                    <tr class="p-0" *ngFor="let reunion_h of listaHistorialReuniones; let i=index" (click)="abrirDetalleReunion(reunion_h)"
+                    style="cursor:pointer; cursor: hand">
+                        <th class="col-2 font-weight-light">
+                            <!-- <p class="font-weight-light"> -->
                                 <small>{{ reunion_h.fecha_sol | date :'dd/MM/yyyy'}}</small>
                             <!-- </p> -->
                         </th>
-                        <th class="col-8 fw-light">
-                            <!-- <p class="fw-light"> -->
+                        <th class="col-8 font-weight-light">
+                            <!-- <p class="font-weight-light"> -->
                                 {{reunion_h.titulo}}
                             <!-- </p>  -->
                         </th>
-                        <th class="col-2 fw-light" [ngClass]="reunion_h.estado == 'P' ? 'text-info' : (reunion_h.estado == 'A' ? 'text-success' : (reunion_h.estado == 'C' ? 'text-danger': 'text-secondary'))">{{ reunion_h.estado == 'P' ? 'Pendiente' : reunion_h.estado == 'C' ?
+                        <th class="col-2 font-weight-light" [ngClass]="reunion_h.estado == 'P' ? 'text-info' : (reunion_h.estado == 'A' ? 'text-success' : (reunion_h.estado == 'C' ? 'text-danger': 'text-secondary'))">{{ reunion_h.estado == 'P' ? 'Pendiente' : reunion_h.estado == 'C' ?
                             'Cancelado' : reunion_h.estado == 'A' ? 'Aceptado' : 'Desconocido' }}</th>
                     </tr>
                 </tbody>
@@ -133,7 +133,9 @@
         <div class="modal-content" style="width: 100%;">
             <div class="modal-header" style="width: 100%;">
                 <h5 class="modal-title">Solicitar reunión</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
 
             <div class="modal-body" style="width: 100%;">
@@ -196,7 +198,7 @@
                                             {{especialidad.nombre}}</option>
                                     </select>
                                 </div> -->
-                                <div class="col-md-12 text-center">
+                                <div class="col-md-12 text-center mt-2">
                                     <button type="submit" class="btn btn-primary"
                                         [disabled]="!addSolicitudReunion.valid">Solicitar</button>
                                 </div>
