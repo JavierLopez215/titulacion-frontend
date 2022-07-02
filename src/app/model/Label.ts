@@ -3,4 +3,5 @@ export interface Label {
     etiqueta: string;
     creado: Date;
     activo: string;
+    id_aporte:number;
 }

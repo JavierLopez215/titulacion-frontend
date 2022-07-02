@@ -174,9 +174,9 @@ export class PublicationComponent implements OnInit {
     //   alert('Wass up!');
     //    });
 
-       $( "#target" ).click(function() {
-        console.log('click');
-      });
+      //  $( "#target" ).click(function() {
+      //   console.log('click');
+      // });
 
       // $('#modalAddCalificacionPublicacion').on('hide.bs.modal', function () {
       //   console.log('modal abierto')
@@ -187,8 +187,12 @@ export class PublicationComponent implements OnInit {
         console.log('modal abierto')
       })
 
-      $('#modalAddCalificacionPublicacion').on('show.bs.modal', function (event:any) {
-        console.log('modal abierto')
+      $('#modalAddCalificacionPublicacion').on('hidden.bs.modal', function (event:any) {
+        console.log('modal cerrado')
+      })
+
+      $('#modalCalificacionComentario').on('hidden.bs.modal', function (event:any) {
+        // this.getComentariosPublicacion();
       })
   }
 
@@ -915,8 +919,6 @@ export class PublicationComponent implements OnInit {
     this._calificacion_publicacion = e;
   }
 
-  // model!: NgbDateStruct;
-  // date!: {year: number, month: number};
   opcionResuelto() {
     this.msj_confirm = '¿Está todo resuelto?'
     this.opcion_sel = 'C'
@@ -1059,35 +1061,11 @@ export class PublicationComponent implements OnInit {
 
   }
 
-  // validarOtraCalificacionPublicacion() {
-  //   this.otraCalificacionPub = false
-  //   let index = 0
-  //   var calificacion;
-  //   if (this.listaCalificaciones.length > 0) {
-  //     do {
-  //       calificacion = this.listaCalificaciones[index];
-  //       if (calificacion.id_usuario_cal == this.user.id) {
-  //         this.addCalificacion.patchValue({
-  //           calificacion: calificacion.calificacion,
-  //           motivo_cal: calificacion.motivo_cal
-  //         });
-  //         // this.aux_calificacion=calificacion
-  //         this.otraCalificacionPub = true;
-
-  //       }
-  //       index = index + 1;
-  //       // console.log(index)
-  //     } while (index <= (this.listaCalificaciones.length - 1) && this.otraCalificacionPub == false);
-
-  //   }
-  // }
-
   accionesPreviasModalCalificacionesComentario(idCom: number) {
     console.log(idCom);
     this.getCalificacionesComentarios(idCom)
     this.getUsuCalificacionesComentarios(idCom);
   }
-
 
   accionesPreviasModalCalificacionesPublicacion() {
     console.log('pub');
@@ -1096,32 +1074,5 @@ export class PublicationComponent implements OnInit {
   }
 
 
-  // validarOtraCalificacionComentario() {
-  //   // console.log('validar cometario')
-  //   this.otraCalificacionCom = false
-  //   let index = 0
-  //   var calificacion;
-  //   if (this.listaCalificacionesComentarios.length > 0) {
-  //     do {
-  //       calificacion = this.listaCalificaciones[index];
-  //       // console.log(calificacion);
-  //       if (calificacion.id_usuario_cal == this.user.id) {
-  //         this.addCalificacionComentario.patchValue({
-  //           calificacion: calificacion.calificacion,
-  //           motivo_cal: calificacion.motivo_cal
-  //         });
-  //         // this.aux_calificacion=calificacion
-  //         this.otraCalificacionCom = true;
-
-  //       }
-  //       index = index + 1;
-  //       // console.log(index)
-  //     } while (index <= (this.listaCalificacionesComentarios.length - 1) && this.otraCalificacionCom == false);
-
-  //   }
-  // }
-
-
-
-
+  
 }

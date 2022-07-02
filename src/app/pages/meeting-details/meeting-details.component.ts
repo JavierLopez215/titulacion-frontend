@@ -9,6 +9,7 @@ import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpEventType } from '@angular/common/http';
+declare let $:any;
 
 @Component({
   selector: 'app-meeting-details',
@@ -148,7 +149,7 @@ export class MeetingDetailsComponent implements OnInit {
         this.ec_calificacion_reunion = 'C';
         if (res.body.ok === 1) {
           this.listaCalificaciones = res.body.data as Array<CalificacionReunion>;
-          // console.log(this.listaCalificaciones)
+          console.log(this.listaCalificaciones)
         }
         else {
           this.toastr.error('Ha ocurrido un error', 'Error');
@@ -228,8 +229,9 @@ export class MeetingDetailsComponent implements OnInit {
           this.toastr.success('Datos ingresados correctamente', 'Safisfactorio');
           // this.authService.actualizarToken();
           // this.addCalificacion.reset();
-          // this.getCalificacionesReunionId();
-          window.location.reload()
+          this.getCalificacionesReunionId();
+          // window.location.reload()
+          $('#modalCalificacionComentario').modal('hide')
 
         }
         else {
@@ -261,7 +263,9 @@ export class MeetingDetailsComponent implements OnInit {
         this.ec_postCalificacion = 'C';
         if (res.body.ok === 1) {
           this.toastr.success('Datos actualizados correctamente.', 'Safisfactorio');
-          window.location.reload()
+          // window.location.reload()
+          this.getCalificacionesReunionId()
+          $('#modalCalificacionComentario').modal('hide')
         }
         else {
           // this.errores = res.mensaje;

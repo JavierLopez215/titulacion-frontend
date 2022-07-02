@@ -3,115 +3,129 @@
         <br>
         <br>
         <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Cargando...</span>
+            <span class="sr-only">Cargando...</span>
         </div>
     </div>
 </div>
 
 <div *ngIf="ec_reunion==='C'">
     <div class="card border-primary" *ngIf="reunion">
-        <!-- <div class="card-header bg-transparent border-primary text-center">
-            <div>{{reunion.nombreA + ' ha aceptado reunirse con ' + reunion.nombreS}}</div>
-
-        </div> -->
-        <div class="card-header border-bottom bg-transparent border-primary">
-            <div class="text-center fw-bold float-sm-start" *ngIf="reunion.estado!='A'">Reunion en estado {{
-                reunion.estado == 'P' ?
-                'pendiente' : reunion.estado == 'C' ?
-                'cancelado' : reunion.estado == 'A' ? 'aceptado' : 'desconocido' }}
+        <div class="card-header border-bottom border-primary p-2">
+            <div class="row">
+                <div class="col">
+                    <div class="text-center font-weight-bold float-sm-left m-0" *ngIf="reunion.estado!='A'">Reunion en
+                        estado {{
+                        reunion.estado == 'P' ?
+                        'pendiente' : reunion.estado == 'C' ?
+                        'cancelado' : reunion.estado == 'A' ? 'aceptado' : 'desconocido' }}
+                    </div>
+                    <div class="text-center font-weight-bold float-sm-left" *ngIf="reunion.estado=='A'">
+                        {{reunionA.nombreA + '
+                        ha
+                        aceptado reunirse con '
+                        + reunionA.nombreS}}</div>
+                </div>
+                <div class="col-auto">
+                    <div class="dropdown" *ngIf="reunion.id_usuario_sol==user.id && reunion.estado =='P'">
+                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-expanded="false">Opciones</button>
+                        <ul class="dropdown-menu">
+                            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_confirm"
+                                    (click)="opcionCancel()" *ngIf="reunion.estado =='P'">Cancelar</button></li>
+                            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_confirm"
+                                    (click)="opcionEliminar()" *ngIf="reunion.estado =='P'">Eliminar</button></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="text-center fw-bold float-sm-start" *ngIf="reunion.estado=='A'">{{reunionA.nombreA + ' ha
-                aceptado reunirse con '
-                + reunionA.nombreS}}</div>
 
-            <div class="btn-group float-sm-end" *ngIf="reunion.id_usuario_sol==user.id && reunion.estado =='P'">
-                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">Opciones</button>
-                <ul class="dropdown-menu">
-                    <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_confirm" (click)="opcionCancel()"
-                            *ngIf="reunion.estado =='P'">Cancelar</button></li>
-                    <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_confirm" (click)="opcionEliminar()"
-                            *ngIf="reunion.estado =='P'">Eliminar</button></li>
-                </ul>
-            </div>
+
+
         </div>
 
-        <div class="card-body p-2">
-            
-            <br>
+        <div class="card-body">
 
-            <div class="text-center mx-auto" style="width: 300px;">
-                <div class="d-inline-block p-3">
-                    <div style="width: 100px; height: 100px; overflow: hidden;" class="rounded-circle">
-                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ reunion.fotoS }}" alt="...">
+            <div class="row">
+
+                <div class="col-sm-6">
+
+                    <div class="mx-auto" style="width: fit-content;">
+                        <div class="row">
+                            <div class="col-md-auto p-0">
+                                <div class="mx-auto" style="width: fit-content;">
+                                    <div style="width: 100px; height: 100px; overflow: hidden;" class="rounded-circle">
+                                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ reunion.fotoS }}"
+                                            alt="...">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-auto p-0 ml-2">
+                                <div class="p-1 font-weight-normal h6 m-0 text-center">{{reunion.nombreS}}</div>
+                                <div class="p-1 font-weight-normal h6 m-0 text-center">{{ reunion.correoS }}
+                                </div>
+                                <div class="p-1 font-weight-normal h6 m-0 text-center">{{ reunion.telefonoS }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-1 fw-normal fs-6">{{reunion.nombreS}}</div>
                 </div>
-                <!-- </div> -->
-                <div class="d-inline-block p-3" *ngIf="reunion.estado == 'A'">
-                    <!-- <div class="col-auto text-center"> -->
-                    <div style="width: 100px; height: 100px; overflow: hidden;" class="rounded-circle">
-                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ reunionA.fotoA }}" alt="...">
+                <div class="col-sm-6" *ngIf="reunion.estado == 'A'">
+                    <div class="mx-auto" style="width: fit-content;">
+                        <div class="row">
+                            <div class="col-md-auto p-0">
+                                <div class="mx-auto" style="width: fit-content;">
+                                    <div style="width: 100px; height: 100px; overflow: hidden;" class="rounded-circle">
+                                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ reunionA.fotoA }}"
+                                            alt="...">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-auto p-0 ml-2">
+                                <div class="p-1 font-weight-normal h6 m-0 text-center">{{reunionA.nombreA}}</div>
+                                <div class="p-1 font-weight-normal h6 m-0 text-center">{{ reunionA.correoA }}</div>
+                                <div class="p-1 font-weight-normal h6 m-0 text-center">{{ reunionA.telefonoA }}</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-1 fw-normal fs-6">{{reunionA.nombreA}}</div>
                 </div>
             </div>
 
             <hr class="m-2 text-primary">
             <h5 class="text-center"> Detalles</h5>
-            <div class="fs-6 p-2"><b>Título:</b> {{ reunion.titulo }}</div>
-            <!-- <h4 class="fw-normal fs-6">{{ publicacion.area }}</h4> -->
-            <h4 class="fw-normal fs-6 p-2 text-justify"><b>Descripción:</b> {{ reunion.descripcion }}</h4>
+            <div class="h6"><b>Título:</b> {{ reunion.titulo }}</div>
+            <!-- <h4 class="font-weight-normal h6">{{ publicacion.area }}</h4> -->
+            <h4 class="font-weight-normal h6 text-justify"><b>Descripción:</b> {{ reunion.descripcion }}</h4>
             <div class="row g-5">
                 <div class="col-md-4">
-                    <h4 class="fw-light fs-6 p-2"><b>Fecha solicitud: </b> {{ reunion.fecha_sol | date :'dd/MM/yyyy' }}
+                    <h4 class="font-weight-light h6 p-2"><b>Fecha solicitud: </b> {{ reunion.fecha_sol | date
+                        :'dd/MM/yyyy' }}
                     </h4>
                 </div>
                 <div class="col-md-4" *ngIf="reunion.estado == 'A'">
-                    <h4 class="fw-light fs-6 p-2"><b>Fecha aceptación: </b> {{ reunionA.fecha_ace | date :'dd/MM/yyyy'
+                    <h4 class="font-weight-light h6 p-2"><b>Fecha aceptación: </b> {{ reunionA.fecha_ace | date
+                        :'dd/MM/yyyy'
                         }}
                     </h4>
                 </div>
                 <div class="col-md-4">
-                    <h4 class="fw-light fs-6 p-2"><b>Hora: </b> {{ reunion.hora }}</h4>
-                </div>
-            </div>
-            <hr class="m-2 text-primary">
-            <h5 class="m-2">Contactos</h5>
-            <div class="row g-5">
-                <div class="col-md-4">
-                    <h4 class="fw-light fs-6 p-2"><b>Correo-solicitó: </b> {{ reunion.correoS }}</h4>
-                </div>
-                <div class="col-md-4">
-                    <h4 class="fw-light fs-6 p-2"><b>Teléfono-solicitó: </b> {{ reunion.telefonoS }}</h4>
-                </div>
-            </div>
-            <div class="row g-5" *ngIf="reunion.estado == 'A'">
-                <div class="col-md-4">
-                    <h4 class="fw-light fs-6 p-2"><b>Correo-aceptó: </b> {{ reunionA.correoA }}</h4>
-                </div>
-                <div class="col-md-4">
-                    <h4 class="fw-light fs-6 p-2"><b>Teléfono-aceptó: </b> {{ reunionA.telefonoA }}</h4>
+                    <h4 class="font-weight-light h6 p-2"><b>Hora: </b> {{ reunion.hora }}</h4>
                 </div>
             </div>
         </div>
 
-        <hr class="m-2 text-primary">
+        <!-- <hr class="m-2 text-primary"> -->
+        <div class="card-footer text-center p-1" *ngIf="reunion.id_usuario_sol!=user.id && reunion.estado=='P'|| reunion.estado == 'A' ">
+            <div class="text-center" *ngIf="reunion.id_usuario_sol!=user.id && reunion.estado=='P'">
+                <button type="button" class="btn btn-outline-success mb-2"
+                    (click)="aceptarReunionCom()">Aceptar</button>
+            </div>
 
-        <div class="text-center" *ngIf="reunion.id_usuario_sol!=user.id && reunion.estado=='P'">
-            <button type="button" class="btn btn-outline-success mb-2" (click)="aceptarReunionCom()">Aceptar</button>
-        </div>
-
-        <div class="text-center bg-light p-2 mt-2 border-primary border rounded" *ngIf="reunion.estado == 'A'">
-            <!-- <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
-                    data-bs-target="#modalAddComentario">Comentar</button> -->
-
-            <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
-                data-bs-target="#modalCalificacionComentario"
-                *ngIf="user.id == reunion.id_usuario_sol || user.id == reunion.id_usuario_ace && reunion.estado == 'A'"
-                (click)="validarOtraCalificacion()">Calificar</button>
-            <!-- *ngIf="publicacion.id_usuario_pub != user.id" -->
-
+            <div class="m-0 p-0" *ngIf="reunion.estado == 'A'">
+                <button type="button" class="btn btn-outline-primary me-2" data-toggle="modal"
+                    data-target="#modalCalificacionComentario"
+                    *ngIf="user.id == reunion.id_usuario_sol || user.id == reunion.id_usuario_ace && reunion.estado == 'A'"
+                    (click)="validarOtraCalificacion()">Calificar</button>
+            </div>
         </div>
     </div>
 
@@ -121,7 +135,7 @@
             <br>
             <br>
             <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Cargando...</span>
+                <span class="sr-only">Cargando...</span>
             </div>
         </div>
     </div>
@@ -130,38 +144,41 @@
         <div *ngIf="ec_calificacion_reunion==='C' && listaCalificaciones.length > 0">
             <h6 class="pb-2">Calificaciones de la reunion</h6>
             <div *ngFor="let calificacion of listaCalificaciones; let i_cal = index">
-                <div class="row g-3 p-2">
+                <div class="row mb-2">
 
-                    <div class="col-auto text-center">
-                        <!-- <img src="{{rutaImg + '/profile/' + comentario.foto}}" alt="..." width="50" height="50"
-                        class="rounded-circle"> -->
+                    <div class="col-auto">
                         <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
                             <img class="card-img-top" src="{{rutaImg + '/profile/' + calificacion.fotoC}}" alt="...">
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col p-0">
                         <div>
-                            <div class="float-sm-start fw-normal fs-6">{{calificacion.nombreC}}</div>
-                            <div class="float-sm-end">
-                                {{ calificacion.calificacion }} <i class="bi bi-star-fill"></i></div><br>
-                            <p class="float-sm-start fw-light p-0 m-0">{{calificacion.creado | date :'dd/MM/yyyy'}}</p>
+                            <p class="m-0">{{calificacion.nombreC}}</p>
+                            <p class="text-muted m-0">
+                                <small>{{ calificacion.creado | date:'dd/MM/yyyy'}}</small>
+                            </p>
                         </div>
-
+                    </div>
+                    <div class="col-auto">
+                        <div class="float-sm-right">{{ calificacion.calificacion }}
+                            <i class="bi bi-star-fill"></i>
+                        </div>
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        <p class="fw-light fs-6 text-justify ps-2 pe-2 pt-0 pb-0 mb-0">{{calificacion.motivo_cal}}</p>
+                        <p class="font-weight-light h6 text-justify">
+                            {{calificacion.motivo_cal}}</p>
                     </div>
                 </div>
                 <hr class="m-3" *ngIf="i_cal < listaCalificaciones.length-1">
 
             </div>
         </div>
-        <h3 class="text-center" *ngIf="ec_calificacion_reunion==='C' && listaCalificaciones.length === 0">
+        <h5 class="text-center" *ngIf="ec_calificacion_reunion==='C' && listaCalificaciones.length === 0">
             No se han encontrado calificaciones.
-        </h3>
+        </h5>
     </div>
 
     <!-- modal para ingreso de calificaciones -->
@@ -172,7 +189,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalCalifReunion">Calificar reunión</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div *ngIf="reunion.estado == 'A'">
@@ -181,15 +200,20 @@
 
                             <form class="" [formGroup]="addCalificacion" (ngSubmit)="guardarCalificacion()">
 
-                                <div class="mb-1">
-                                    <label for="calificacionInput" class="form-label">Calificación 0 - 5</label>
-                                    <input type="range" min="0" max="5" step="1"
-                                        (ngModelChange)="cambioCalificacionReunion($event)" class="form-range"
-                                        id="calificacion" formControlName="calificacion">
-                                </div>
-
-                                <div class="mb-1 text-center">
-                                    {{_val_calificacion}} <i class="bi bi-star-fill"></i>
+                                <div class="row mb-1">
+                                    <div class="col-md-10">
+                                        <label for="calificacionInput" class="form-label">Calificación 0 - 5</label>
+                                        <input type="range" min="0" max="5" step="1" class="form-control-range"
+                                            id="calificacion" (ngModelChange)="cambioCalificacionReunion($event)"
+                                            formControlName="calificacion">
+                                    </div>
+                                    <div class="col-md-2 text-center fs-5">
+                                        <br>
+                                        <div class="">
+                                            {{_val_calificacion}} <i class="bi bi-star-fill"></i>
+                                        </div>
+        
+                                    </div>
                                 </div>
 
                                 <div class="mb-1">
@@ -218,18 +242,19 @@
     <!-- Modal de confirmacion para eliminar -->
     <div class="modal" id="modal_confirm">
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Confirmar</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>{{msj_confirm}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                        (click)="confirmarOpcion()">Confirmar</button>
+                </div>
             </div>
-            <div class="modal-body">
-              <p>{{msj_confirm}}</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="confirmarOpcion()">Confirmar</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>

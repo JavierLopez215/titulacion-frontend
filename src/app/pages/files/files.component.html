@@ -8,14 +8,38 @@
     <div class="card-header bg-primary border-rounded text-white">
         Agregar Archivos
     </div>
-    <form class="" [formGroup]=" addFile" (ngSubmit)="GuardarRecurso()">
+    <form class="" [formGroup]="addFile" (ngSubmit)="GuardarRecurso()">
 
         <div class="row mt-2">
             <div class="col-md-6">
                 <div class="form-group mb-3">
+                    <label for="pregunta" class="form-label">Título</label>
+                    <input type="text" class="form-control" id="pregunta" name="titulo" formControlName="titulo"
+                        [ngClass]="addFile.controls['titulo'].invalid && (addFile.controls['titulo'].dirty 
+                                        || addFile.controls['titulo'].touched) ? 'border border-danger' : ''">
+                    <!-- Errores ingreso de datos -->
+                    <div *ngIf="addFile.controls['titulo'].invalid && 
+                                    (addFile.controls['titulo'].dirty || 
+                                    addFile.controls['titulo'].touched)">
+                        <small *ngIf="addFile.controls['titulo'].errors?.required"
+                            class="fs-7 text-danger p-0 m-0">
+                            Dato requerido
+                        </small>
+                        <small *ngIf="addFile.controls['titulo'].errors?.minlength"
+                            class="fs-7 text-danger p-0 m-0">
+                            Mínimo 10 caracteres
+                        </small>
+                        <small *ngIf="addFile.controls['titulo'].errors?.maxlength"
+                            class="fs-7 text-danger p-0 m-0">
+                            Máximo 255 caracteres
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
                     <label for="desc_adjuntos" class="form-label mt-1">Descripción</label>
                     <!-- <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos"> -->
-                    <textarea class="form-control" name="desc_adjuntos" rows="2" formControlName="encabezado"></textarea>
+                    <textarea class="form-control" name="desc_adjuntos" rows="2"
+                        formControlName="descripcion"></textarea>
                 </div>
 
                 <div class="mb-3 text-center">
@@ -26,11 +50,11 @@
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" id="label-input" disabled
                             value="{{ archivo_seleccionado }}">
-                            <button class="btn btn-outline-danger" id="btnAddFile" (click)="CancelarCargaArchivo()"
+                        <button class="btn btn-outline-danger" id="btnAddFile" (click)="CancelarCargaArchivo()"
                             *ngIf="this.addFile.value.file">X</button>
                         <button class="btn btn-outline-primary" type="submit" id="btnAddFile"
                             [disabled]="!addFile.valid">Añadir</button>
-                            
+
                     </div>
                 </div>
             </div>
@@ -38,13 +62,20 @@
                 <!-- <h5 class="text-center">
                     Etiquetas
                 </h5> -->
-                <div class="card mb-2" style="max-height: 100px; min-height: 100px;" style="max-height: 100px; overflow:scroll; -webkit-overflow-scrolling: touch;">
-                    <h6 class="text-center text-wrapper">Etiquetas seleccionadas</h6>
-                    <div *ngFor="let etiqueta_sel of listaEtiquetasSeleccionadas;let indice=index">
-                        <div class="border rounded-pill p-2 d-inline-block" style="width: fit-content;">
+                <h6 class="text-center text-wrapper">Etiquetas seleccionadas</h6>
+                <div class="card mb-2 p-2" *ngIf="listaEtiquetasSeleccionadas.length == 0">
+                    <h6 class="text-center text-wrapper text-secondary font-weight-light">Ninguna seleccionada</h6>
+                </div>
+                <div class="card mb-2" *ngIf="listaEtiquetasSeleccionadas.length > 0"
+                    style="max-height: 100px; overflow:scroll; -webkit-overflow-scrolling: touch;">
+
+                    <div>
+                        <div class="d-inline border border-primary rounded-pill p-1 mb-2"
+                            *ngFor="let etiqueta_sel of listaEtiquetasSeleccionadas;let indice=index"
+                            style="width: fit-content;">
                             {{ etiqueta_sel.etiqueta }}
-                            <button class="border-0 rounded-circle"
-                                (click)="deleteEspecialidad(indice)">X</button>
+                            <button class="border-0 rounded-circle mt-2 mb-2"
+                                (click)="deleteEtiqueta(indice)">X</button>
                         </div>
                     </div>
                 </div>
@@ -67,4 +98,159 @@
         </div>
 
     </form>
+</div>
+
+<div class="card mt-2 border border-primary" *ngIf="listaAportesUsu.length > 0">
+
+    <h5 class="card-title text-center mt-2">Mis Aportes</h5>
+
+    <div class="card-body border-0">
+        <div class="row">
+            <div class="col-md-6 mb-2" *ngFor="let aporteA of listaAportesUsu;let indice=index">
+
+                <div class="card">
+                    <div class="card border-0">
+                        <div class="card-header m-0 p-1">
+
+                            <div class="row g-3 m-0">
+                                <div class="col-auto p-1 text-center">
+                                    <div style="width: 45px; height: 45px; overflow: hidden;" class="rounded-circle">
+                                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ aporteA.foto }}"
+                                            alt="...">
+                                    </div>
+                                </div>
+
+                                <div class="col m-0 pl-2">
+                                    <!-- <h4 class="fw-normal fs-6">{{ publicacion.nombre }}</h4> -->
+                                    <p class="m-0 p-0">{{ aporteA.nombre }}</p>
+                                    <p class="m-0 p-0"><small class="text-muted">{{ aporteA.creado | date :'dd/MM/yyyy'
+                                            }}</small></p>
+                                    <!-- <div class="float-sm-end"> -->
+                                </div>
+                                <div class="col-auto p-1">
+                                    <div class="btn-group m-0 p-0">
+                                        <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modal_confirm" (click)="seleccionarDatosEliminar(aporteA)">
+                                            <i class="bi bi-trash-fill"></i></button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3 p-1">
+                                    <a href="{{ rutaAportes +'/'+aporteA.archivo }}" target="_blank">
+                                        <div style="width: auto; height: auto; overflow: hidden;" class="">
+                                            <img src="{{(getTipoArchivo(aporteA.tipo)=='img' ? rutaAportes +'/'+ aporteA.archivo : rutaImg +'/'+getTipoArchivo(aporteA.tipo)) | safe : 'resourceUrl'}}"
+                                                class="card-img-top" alt="...">
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-sm-9 p-1">
+                                    <h6 class="card-title">{{aporteA.titulo}}</h6>
+                                    <p class="font-weight-light h6">{{aporteA.descripcion}}</p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer p-1">
+                            <small class="text-muted font-weight-bold">Etiquetas: </small>
+                            <div class="d-inline"
+                                *ngFor="let etiquetaApoUsu of aporteA.listaEtiquetas;let indice=index">
+                                <small class="text-muted">{{etiquetaApoUsu.etiqueta+'; '}}</small>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-2 border border-primary" *ngIf="listaAportesCom.length > 0">
+
+    <h5 class="card-title text-center mt-2">Aportes de la comunidad</h5>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6 mb-2" *ngFor="let aporteC of listaAportesCom;let indice=index">
+
+                <div class="card">
+                    <div class="card-header m-0 p-1">
+
+                        <div class="row g-3 m-0">
+                            <div class="col-auto p-1 text-center">
+                                <div style="width: 45px; height: 45px; overflow: hidden;" class="rounded-circle">
+                                    <img class="card-img-top" src="{{ rutaImg }}/profile/{{ aporteC.foto }}" alt="...">
+                                </div>
+                            </div>
+
+                            <div class="col m-0 pl-2">
+                                <!-- <h4 class="fw-normal fs-6">{{ publicacion.nombre }}</h4> -->
+                                <p class="m-0 p-0">{{ aporteC.nombre }}</p>
+                                <p class="m-0 p-0"><small class="text-muted">{{ aporteC.creado | date :'dd/MM/yyyy'
+                                        }}</small></p>
+                                <!-- <div class="float-sm-end"> -->
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-1">
+                            <div class="col-sm-3 p-1">
+                                <a href="{{  rutaAportes +'/'+aporteC.archivo }}" target="_blank">
+                                    <div style="width: auto; height: auto; overflow: hidden;" class="text-center">
+                                        <img src="{{(getTipoArchivo(aporteC.tipo)=='img' ? rutaAportes +'/'+ aporteC.archivo : rutaImg +'/'+getTipoArchivo(aporteC.tipo)) | safe : 'resourceUrl'}}"
+                                            class="card-img-top" alt="...">
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-sm-9 p-1">
+                                <h6 class="card-title">{{aporteC.titulo}}</h6>
+                                <p class="font-weight-light h6">{{aporteC.descripcion}}</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer p-1">
+                        <small class="text-muted font-weight-bold">Etiquetas: </small>
+                        <div class="d-inline" *ngFor="let etiquetaApoCom of aporteC.listaEtiquetas;let indice=index">
+                            <small class="text-muted">{{etiquetaApoCom.etiqueta+'; '}}</small>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal de confirmacion para eliminar -->
+<div class="modal" id="modal_confirm">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <div class="modal-body">
+                <p>¿Desea eliminar?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                    (click)="eliminarAporte()">Confirmar</button>
+            </div>
+        </div>
+    </div>
 </div>

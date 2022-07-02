@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DetallePublicacion } from 'src/app/model/PublicationDetail';
 import { HttpEventType } from '@angular/common/http';
+declare let $:any;
 
 @Component({
   selector: 'app-activities',
@@ -62,6 +63,7 @@ export class ActivitiesComponent implements OnInit {
     code: ['', [Validators.required,
     Validators.maxLength(1000)]]
   });
+  
   estado_consulta: string = 'P';
   oc_value: string = '';
   ec_postPublicacion: string='C';
@@ -107,6 +109,10 @@ export class ActivitiesComponent implements OnInit {
       console.log(err);
     })
 
+  }
+  reset(){
+    console.log('reset')
+    
   }
 
   postPublicacion() {
@@ -169,6 +175,10 @@ export class ActivitiesComponent implements OnInit {
           this.tipo_aporte = "";
           this.listaAdjuntos = [];
           this.getPublicaciones();
+          $('#questionModal').modal('hide')
+          $("#sel").val("").change();
+          this.newPublicationForm.patchValue({'area':''})
+          this.tipo_aporte=''
         }
         else {
           // this.errores = res.mensaje;
@@ -302,11 +312,13 @@ export class ActivitiesComponent implements OnInit {
     this.addFile.reset();
     this.addURL.reset();
     this.archivo_seleccionado = "";
+    $("#sel").val("").change();
     console.log('lista de adjuntos', this.listaAdjuntos);
+    this.tipo_aporte=""
   }
 
   EliminarAdjunto(index: number) {
-    this.listaAdjuntos.splice(index);
+    this.listaAdjuntos.splice(index,1);
   }
 
   onChangeCode(value: any) {

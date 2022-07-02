@@ -45,7 +45,10 @@
 <!-- Listado de publicaciones -->
 <div class="card border-primary border rounded mt-2" *ngIf="estado_consulta==='C'">
     <div class="card-header p-2"> Mi actividad
-        <div class="float-right"><button type="button" class="btn btn-sm font-weight-bold btn-primary m-0" data-bs-toggle="tooltip" data-bs-placement="left" title="Actualizar registros" (click)="actualizarRegistros()"><strong><span><i class="bi bi-arrow-clockwise"></i></span></strong></button></div>
+        <div class="float-right"><button type="button" class="btn btn-sm font-weight-bold btn-primary m-0"
+                data-bs-toggle="tooltip" data-bs-placement="left" title="Actualizar registros"
+                (click)="actualizarRegistros()"><strong><span><i
+                            class="bi bi-arrow-clockwise"></i></span></strong></button></div>
     </div>
     <div class="card-body">
         <div class="table-responsive-sm" *ngIf="listaPublicaciones.length > 0">
@@ -62,7 +65,8 @@
                         (click)="printData(publicacion)" style="cursor:pointer; cursor: hand">
 
                         <td class="col-2">
-                            <p class="font-weight-light m-0"><small>{{ publicacion.creado | date :'dd/MM/yyyy'}}</small></p>
+                            <p class="font-weight-light m-0"><small>{{ publicacion.creado | date :'dd/MM/yyyy'}}</small>
+                            </p>
                             <!-- Fecha Publicación -->
                         </td>
                         <td class="col-7">
@@ -89,8 +93,7 @@
         </div>
     </div>
 
-    <div class=""
-        style="height: 100px; justify-content: center; display: flex; align-items: center;"
+    <div class="" style="height: 100px; justify-content: center; display: flex; align-items: center;"
         *ngIf="listaPublicaciones.length == 0 ">
         <p class="text-center fs-4">No se ha encontrado publicaciones.</p>
     </div>
@@ -121,7 +124,7 @@
                                         formControlName="titulo"
                                         [ngClass]="newPublicationForm.controls['titulo'].invalid && (newPublicationForm.controls['titulo'].dirty 
                                         || newPublicationForm.controls['titulo'].touched) ? 'border border-danger' : ''">
-                                        <!-- Errores ingreso de datos -->
+                                    <!-- Errores ingreso de datos -->
                                     <div *ngIf="newPublicationForm.controls['titulo'].invalid && 
                                     (newPublicationForm.controls['titulo'].dirty || 
                                     newPublicationForm.controls['titulo'].touched)">
@@ -145,9 +148,10 @@
                                     <!-- <input type="text" class="form-control" id="descripcion"
                                         formControlName="descripcion"> -->
                                     <textarea class="form-control" rows="3" name="descripcion" name="descripcion"
-                                        formControlName="descripcion" [ngClass]="newPublicationForm.controls['descripcion'].invalid && (newPublicationForm.controls['descripcion'].dirty 
+                                        formControlName="descripcion"
+                                        [ngClass]="newPublicationForm.controls['descripcion'].invalid && (newPublicationForm.controls['descripcion'].dirty 
                                         || newPublicationForm.controls['descripcion'].touched) ? 'border border-danger' : ''"></textarea>
-                                        <!-- Errores ingreso de datos -->
+                                    <!-- Errores ingreso de datos -->
                                     <div *ngIf="newPublicationForm.controls['descripcion'].invalid && 
                                     (newPublicationForm.controls['descripcion'].dirty || 
                                     newPublicationForm.controls['descripcion'].touched)">
@@ -169,8 +173,7 @@
                                 <!-- dropdowlist -->
                                 <div class="col-md-12 mb-2">
                                     <label for="descripcion" class="form-label">Especialidad/Área</label>
-                                    <select class="custom-select" aria-label="Area" formControlName="area" 
-                                    [ngClass]="newPublicationForm.controls['area'].invalid && (newPublicationForm.controls['area'].dirty 
+                                    <select class="custom-select" aria-label="Area" formControlName="area" [ngClass]="newPublicationForm.controls['area'].invalid && (newPublicationForm.controls['area'].dirty 
                                         || newPublicationForm.controls['area'].touched) ? 'border border-danger' : ''">
                                         <option selected value="">Seleccionar la especialidad o área</option>
                                         <option [value]="especialidad.id"
@@ -190,7 +193,8 @@
                                 <div class="col-md-12 text-center">
                                     <button type="submit" class="btn btn-primary"
                                         [disabled]="!newPublicationForm.valid || ec_postPublicacion=='P'">
-                                        <span *ngIf="ec_postPublicacion!='C'" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        <span *ngIf="ec_postPublicacion!='C'" class="spinner-border spinner-border-sm"
+                                            role="status" aria-hidden="true"></span>
                                         Publicar</button>
                                 </div>
                             </div>
@@ -204,17 +208,19 @@
                             <div class="card-header bg-primary border-rounded text-white">
                                 Recursos Adjuntos
                             </div>
+
                             <form class=""
                                 [formGroup]="tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode "
                                 (ngSubmit)="AddResource()">
-                                <select class="custom-select border-primary" aria-label="Tipo"
-                                    (change)="tipoRecursoChange($event)">
-                                    <option selected value="">Seleccionar tipo de recurso</option>
-                                    <option [value]="'file'">Archivo</option>
-                                    <option [value]="'code'">Codigo</option>
-                                    <option [value]="'URL'">URL</option>
-                                </select>
-
+                                <div>
+                                    <select class="custom-select border-primary" aria-label="Tipo"
+                                        (change)="tipoRecursoChange($event)" id="sel">
+                                        <option selected value="">Seleccionar tipo de recurso</option>
+                                        <option [value]="'file'">Archivo</option>
+                                        <option [value]="'code'">Codigo</option>
+                                        <option [value]="'URL'">URL</option>
+                                    </select>
+                                </div>
 
                                 <div *ngIf="tipo_aporte != ''">
                                     <div class="form-group mb-3">
@@ -264,6 +270,8 @@
                                     </div>
                                 </div>
                             </form>
+
+                            <button (click)="reset()">reset</button>
                         </div>
 
                     </div>

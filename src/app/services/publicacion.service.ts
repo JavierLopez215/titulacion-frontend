@@ -35,6 +35,7 @@ export class PublicacionService {
   postPublicacion(publicacion:Publicacion) {
     return this.http.post(`${this.URL}/publicacion/post`,publicacion,{observe: 'events', reportProgress: true});
   }
+  
   postArchivosPublicacion(files:FormData) {
     return this.http.post(`${this.URL}/publicacion/saveFiles`,files);
   }

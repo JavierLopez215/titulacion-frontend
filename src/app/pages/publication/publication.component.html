@@ -104,7 +104,7 @@
                                         *ngIf="item.tipo == 'code'">
                                         <div class="text-justify">{{ item.descripcion }}</div>
                                         <pre class="m-0">
-                                    <code [highlight]="item.contenido" (highlighted)="onHighlight($event)"></code>
+                                    <code class="p-0" [highlight]="item.contenido" (highlighted)="onHighlight($event)"></code>
                                 </pre>
                                     </div>
                                     <div *ngIf="item.tipo == 'URL'">
@@ -178,67 +178,54 @@
     <h6 class="p-2">Comentarios</h6>
     <div *ngIf="listaComentarios.length > 0">
         <div *ngFor="let comentario of listaComentarios; let i_com = index" class="mb-2">
-            <div class="row g-3 p-2">
-                <div class="col-md-8">
-                    <div class="row g-3">
-                        <div class="col-auto text-center">
-                            <!-- <img src="{{rutaImg + '/profile/' + comentario.foto}}" alt="..." width="50" height="50"
-                        class="rounded-circle"> -->
-                            <div style="width: 40px; height: 40px; overflow: hidden;" class="rounded-circle">
-                                <img class="card-img-top" src="{{rutaImg + '/profile/' + comentario.foto}}" alt="...">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div>
-                                <!-- <div class="float-sm-start fw-normal fs-6">{{comentario.nombre + ' - '}}</div> -->
-
-                                <div class="fw-normal fs-6 d-inline-block">{{comentario.nombre + ' - '}}
-                                    <div class="d-inline-block"
-                                        [ngClass]="publicacion.id_usuario_pub == comentario.id_usu_comenta ? 'text-info' : (comentario.tipo === 'Especialista' ? 'text-success' : 'text-warning')">
-                                        {{ publicacion.id_usuario_pub === comentario.id_usu_comenta ? 'Propietario' :
-                                        comentario.tipo }}</div>
-                                </div>
-
-                                <!-- <div class="float-sm-start"
-                            [ngClass]="publicacion.id_usuario_pub == comentario.id_usu_comenta ? 'text-info' : (comentario.tipo === 'Especialista' ? 'text-success' : 'text-warning')">
-                            {{ publicacion.id_usuario_pub === comentario.id_usu_comenta ? 'Propietario' :
-                            comentario.tipo }}</div><br> -->
-                                <br>
-                                <small class="fw-light p-0 m-0 fs-7">{{comentario.creado | date :'dd/MM/yyyy'}}
-                                </small>
-                            </div>
-
-                        </div>
-                    </div>
+            <div class="row p-2">
+            <div class="col-auto text-center">
+                <div style="width: 40px; height: 40px; overflow: hidden;" class="rounded-circle">
+                    <img class="card-img-top" src="{{rutaImg + '/profile/' + comentario.foto}}" alt="...">
                 </div>
-
-                <!-- opciones de comentario y calificacion -->
-                <div class="col-md-4 text-right">
-                    <!-- menu de opciondes dentro del comentario -->
-                    <div class="btn-group d-inline-block" *ngIf="comentario.id_usu_comenta == user.id">
-                        <button class="btn btn-primary dropdown-toggle btn-sm m-2" type="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">Opciones</button>
-                        <ul class="dropdown-menu">
-                            <!-- <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_confirm"
-                                (click)="opcionCancel()" *ngIf="reunion.estado =='P'">Cancelar</button></li> -->
-                            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_confirm"
-                                    (click)="opcionEliminarComentario(comentario.id)"
-                                    *ngIf="comentario.id_usu_comenta == user.id">Eliminar</button></li>
-                        </ul>
-                    </div>
-                    <div class="fw-bold d-inline-block">
-                        <button type="button" class="btn btn-outline-dark btn-sm m-2" data-toggle="modal"
-                            data-target="#modalCalificacionComentario"
-                            (click)="accionesPreviasModalCalificacionesComentario(comentario.id)">
-                            {{comentario.calificacion | number:'1.1-2'}} <i class="bi bi-star-fill"></i>
-                        </button>
-                    </div>
-                </div>
-
             </div>
-            <div class="row">
+            <div class="col p-0">
+                <div class="fw-normal fs-6 d-inline-block">{{comentario.nombre + ' '}}
+                    <div class="d-inline-block"
+                        [ngClass]="publicacion.id_usuario_pub == comentario.id_usu_comenta ? 'text-info' : (comentario.tipo === 'Especialista' ? 'text-success' : 'text-warning')">
+                        {{ '(' + (publicacion.id_usuario_pub === comentario.id_usu_comenta ? 'Propietario' :
+                        comentario.tipo) +')' }}</div>
+                </div>
+                <p class="">
+                    <small class="text-muted">{{comentario.creado | date :'dd/MM/yyyy'}}</small>
+                </p>
+                
+            </div>
+            <!-- opciones de comentario y calificacion -->
+            <div class="col-auto">
+                <!-- menu de opciondes dentro del comentario -->
+                <div class="dropdown d-inline-block" *ngIf="comentario.id_usu_comenta == user.id">
+                    <button class="btn btn-primary dropdown-toggle btn-sm m-2" type="button" data-toggle="dropdown"
+                        aria-expanded="false">Opciones</button>
+                    <ul class="dropdown-menu">
+                        <!-- <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_confirm"
+                                (click)="opcionCancel()" *ngIf="reunion.estado =='P'">Cancelar</button></li> -->
+                        <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_confirm"
+                                (click)="opcionEliminarComentario(comentario.id)"
+                                *ngIf="comentario.id_usu_comenta == user.id">Eliminar</button></li>
+                    </ul>
+                </div>
+                <div class="fw-bold d-inline-block">
+                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Calificar comentario">
+                    <button type="button"  style="pointer-events: none;" class="btn btn-outline-primary btn-sm m-2" data-toggle="modal"
+                        data-target="#modalCalificacionComentario"
+                        (click)="accionesPreviasModalCalificacionesComentario(comentario.id)">
+                        <!-- {{comentario.calificacion | number:'1.1-2'}} <i class="bi bi-star-fill"></i> -->
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                </span>
+                </div>
+            </div>
+
+
+            <!-- <div class="row"> -->
                 <div class="col-12">
-                    <p class="font-weight-light text-justify pl-2 pr-2 pt-0 pb-0">{{comentario.comentario}}</p>
+                    <p class="font-weight-light text-justify pl-2 pr-2 pt-0 pb-0 m-0">{{comentario.comentario}}</p>
                     <div class="text-right p-2" *ngIf="comentario.adjuntos > 0">
                         <a class="btn btn-outline-primary btn-sm" data-toggle="collapse"
                             href="#collapseCalificacionesComentarios{{ i_com + 1}}" role="button" aria-expanded="false"
@@ -248,6 +235,7 @@
                     </div>
 
                 </div>
+
                 <div class="col-12">
                     <div class="collapse" id="collapseCalificacionesComentarios{{ i_com + 1}}">
                         <div class="card card-body border border-0 bg-light">
@@ -277,7 +265,7 @@
                                     *ngIf="detalle_item.tipo != 'code' && detalle_item.tipo!='URL'">
                                     <div class="row p-2">
                                         <div class="col-md-2 border border-0 rounded p-2">
-                                            <a href="{{ (getTipoArchivo(detalle_item.tipo)=='img' ? rutaArchivosCom +'/'+detalle_item.contenido : rutaImg +'/'+getTipoArchivo(detalle_item.tipo)) | safe : 'resourceUrl'}}"
+                                            <a href="{{ rutaArchivosCom +'/'+detalle_item.contenido }}"
                                                 target="_blank">
                                                 <div style="width: auto; height: auto; overflow: hidden;" class="">
                                                     <img src="{{(getTipoArchivo(detalle_item.tipo)=='img' ? rutaArchivosCom +'/'+detalle_item.contenido : rutaImg +'/'+getTipoArchivo(detalle_item.tipo)) | safe : 'resourceUrl'}}"
@@ -298,8 +286,8 @@
                         </div>
                     </div>
                 </div>
-
             </div>
+            <!-- </div> -->
             <hr class="m-3" *ngIf="i_com < listaComentarios.length-1">
 
 
@@ -403,86 +391,7 @@
     </h5>
 </div>
 
-<!-- modal  para agregar calificaciones a comentarios -->
-
-<!-- <div class="modal fade" id="modalCalificacionComentario" tabindex="-1"
-aria-labelledby="modalCalifComentario" aria-hidden="true">
-<div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="modalCalifComentario">Calificaciones comentario</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="card p-2 border border-primary" *ngIf="user.id != comentario.id_usu_comenta">
-
-                <form class="" [formGroup]="addCalificacionComentario"
-                    (ngSubmit)="guardarCalificacionComentario(comentario.id)">
-
-                    <div class="mb-1">
-                        <label for="calificacionInput" class="form-label">Calificación 0 - 5</label>
-                        <input type="range" min="0" max="5" step="1"
-                            (ngModelChange)="cambioCalificacionComentario($event)" class="form-range"
-                            id="calificacion" formControlName="calificacion">
-                    </div>
-
-                    <div class="mb-1 text-center">
-                        {{_calificacion_comentario}} <i class="bi bi-star-fill"></i>
-                    </div>
-
-                    <div class="mb-1">
-                        <label for="motivo_cal" class="form-label">Comentario:</label>
-                        <input type="text" class="form-control" id="motivo_cal"
-                            formControlName="motivo_cal">
-                    </div>
-
-                    <div class="col-12 text-center">
-                        <button class="btn btn-primary" type="submit"
-                            [disabled]="!addCalificacionComentario.valid">Guardar</button>
-                    </div>
-
-                </form>
-            </div>
-
-
-            <div *ngIf="listaCalificacionesComentarios.length > 0">
-                <div class="card p-2" *ngFor="let cal_com of listaCalificacionesComentarios">
-                    <div class="row g-3">
-                        <div class="col-auto text-center">
-                            <div style="width: 50px; height: 50px; overflow: hidden;"
-                                class="rounded-circle">
-                                <img class="card-img-top" src="{{ rutaImg }}/profile/{{ cal_com.foto }}"
-                                    alt="...">
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div>
-                                
-                                <div class="float-sm-start">{{ cal_com.nombre }}</div>
-                                <div class="float-sm-end"> Puntaje: {{ cal_com.calificacion }} <i
-                                        class="bi bi-star-fill"></i></div>
-                                <br>
-                                <p class="text-muted fs-6 text-justify">{{ cal_com.creacion | date
-                                    :'dd/MM/yyyy' }}"
-                                </p>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <p class="text-muted">
-                            {{cal_com.motivo_cal}}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div> -->
-
-<!-- Modal para mostrar calificaciones -->
+<!-- Modal para mostrar calificaciones publicaciones -->
 
 <div class="modal fade" id="modalAddCalificacionPublicacion" tabindex="-1"
     aria-labelledby="modalAddCalificacionPublicacion" aria-hidden="true">
@@ -507,11 +416,9 @@ aria-labelledby="modalCalifComentario" aria-hidden="true">
                                     formControlName="calificacion">
                             </div>
                             <div class="col-md-2 text-center fs-5">
-                                <!-- <div class="position-relative"> -->
                                 <br>
                                 <div class="">
                                     {{_calificacion_publicacion}} <i class="bi bi-star-fill"></i>
-                                    <!-- </div> -->
                                 </div>
 
                             </div>
@@ -548,7 +455,7 @@ aria-labelledby="modalCalifComentario" aria-hidden="true">
                                         <i class="bi bi-star-fill"></i>
                                     </div>
                                     <br>
-                                    <p class="text-muted fs-6 text-justify">{{ calif.creacion | date :'dd/MM/yyyy'}}"
+                                    <p class="text-muted fs-6 text-justify">{{ calif.creacion | date :'dd/MM/yyyy'}}
                                     </p>
                                 </div>
                             </div>
@@ -766,14 +673,16 @@ aria-labelledby="modalCalifComentario" aria-hidden="true">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Confirmar</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
             </div>
             <div class="modal-body">
                 <p>{{msj_confirm}}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"
                     (click)="confirmarOpcion()">Confirmar</button>
             </div>
         </div>
