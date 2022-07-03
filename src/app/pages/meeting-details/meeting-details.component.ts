@@ -35,6 +35,7 @@ export class MeetingDetailsComponent implements OnInit {
   listaCalificaciones: Array<CalificacionReunion> = [];
   public _val_calificacion: any = 0;
   calificacionReunion:CalificacionReunion = {} as CalificacionReunion;
+  
 
   public addCalificacion = this.formBuilder.group({
     calificacion: [0, [Validators.required,
@@ -43,6 +44,8 @@ export class MeetingDetailsComponent implements OnInit {
     motivo_cal: ['', [Validators.required,
     Validators.maxLength(255)]]
   });
+  ec_cancelReunion: string = 'C';
+  
   
 
   constructor(private authService: AuthService,
@@ -328,6 +331,9 @@ export class MeetingDetailsComponent implements OnInit {
       case 'E':
         this.eliminarReunion()
         break;
+      case 'C':
+        this.cancelarReunion()
+        break;
     }
   }
 
@@ -346,6 +352,7 @@ export class MeetingDetailsComponent implements OnInit {
       if (res.type === HttpEventType.Response) {
         this.ec_acepReunion = 'C';
         if (res.body.ok === 1) {
+          $('#modal_confirm').modal('hide')
           this.toastr.success('Ha eliminado la reunion', 'Satisfactorio');
           this.router.navigate(['/meetings']);
         }
@@ -359,6 +366,44 @@ export class MeetingDetailsComponent implements OnInit {
     },(error)=>{
       this.ec_acepReunion = 'C';
       this.toastr.error('Ha ocurrido un error', 'Error');
+    });
+  }
+
+  cancelarReunion(){
+    // const _reunion ={
+    //   id:this.reunion.id,
+    //   id_usuario_ace:this.user.id
+    // } as Reunion
+    this.meetingsService.cancelarReunion(this.reunion.id).subscribe((res: any) => {
+
+      if (res.type === HttpEventType.DownloadProgress) {
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        this.ec_cancelReunion = 'P'
+      }
+      if (res.type === HttpEventType.UploadProgress) {
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        this.ec_cancelReunion = 'P'
+      }
+
+      if (res.type === HttpEventType.Response) {
+        this.ec_cancelReunion = 'C';
+        if (res.body.ok === 1) {
+          $('#modal_confirm').modal('hide')
+          this.toastr.success('Reunion cancelada', 'Safisfactorio');
+          this.getReunionPenId();
+          this.getReunionAceId();
+          
+        }
+        else {
+          this.ec_acepReunion = 'C';
+          // this.errores = res.mensaje;
+          // console.log(res);
+          this.toastr.success('Ha ocurrido un error', 'Error');
+        }
+      }
+    },(error)=>{
+      this.ec_acepReunion = 'C';
+      this.toastr.success('Ha ocurrido un error', 'Error');
     });
   }
 

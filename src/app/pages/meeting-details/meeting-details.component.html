@@ -30,9 +30,9 @@
                         <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
                             aria-expanded="false">Opciones</button>
                         <ul class="dropdown-menu">
-                            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_confirm"
+                            <li><button class="dropdown-item" data-toggle="modal" data-target="#modal_confirm"
                                     (click)="opcionCancel()" *ngIf="reunion.estado =='P'">Cancelar</button></li>
-                            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_confirm"
+                            <li><button class="dropdown-item" data-toggle="modal" data-target="#modal_confirm"
                                     (click)="opcionEliminar()" *ngIf="reunion.estado =='P'">Eliminar</button></li>
                         </ul>
                     </div>
@@ -114,7 +114,8 @@
         </div>
 
         <!-- <hr class="m-2 text-primary"> -->
-        <div class="card-footer text-center p-1" *ngIf="reunion.id_usuario_sol!=user.id && reunion.estado=='P'|| reunion.estado == 'A' ">
+        <div class="card-footer text-center p-1"
+            *ngIf="reunion.id_usuario_sol!=user.id && reunion.estado=='P'|| reunion.estado == 'A' ">
             <div class="text-center" *ngIf="reunion.id_usuario_sol!=user.id && reunion.estado=='P'">
                 <button type="button" class="btn btn-outline-success mb-2"
                     (click)="aceptarReunionCom()">Aceptar</button>
@@ -160,7 +161,7 @@
                         </div>
                     </div>
                     <div class="col-auto">
-                        <div class="float-sm-right">{{ calificacion.calificacion }}
+                        <div>{{ calificacion.calificacion }}
                             <i class="bi bi-star-fill"></i>
                         </div>
                     </div>
@@ -205,21 +206,45 @@
                                         <label for="calificacionInput" class="form-label">Calificación 0 - 5</label>
                                         <input type="range" min="0" max="5" step="1" class="form-control-range"
                                             id="calificacion" (ngModelChange)="cambioCalificacionReunion($event)"
-                                            formControlName="calificacion">
+                                            formControlName="calificacion"
+                                            [ngClass]="addCalificacion.controls['calificacion'].invalid && (addCalificacion.controls['calificacion'].dirty 
+                                                || addCalificacion.controls['calificacion'].touched) ? 'border border-danger' : ''">
+                                    </div>
+                                    <div *ngIf="addCalificacion.controls['calificacion'].invalid && 
+                                                (addCalificacion.controls['calificacion'].dirty || 
+                                                addCalificacion.controls['calificacion'].touched)">
+                                        <small *ngIf="addCalificacion.controls['calificacion'].errors?.required"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Seleccione una calificación
+                                        </small>
                                     </div>
                                     <div class="col-md-2 text-center fs-5">
                                         <br>
                                         <div class="">
                                             {{_val_calificacion}} <i class="bi bi-star-fill"></i>
                                         </div>
-        
+
                                     </div>
                                 </div>
 
                                 <div class="mb-1">
                                     <label for="motivo_cal" class="form-label">Comentario:</label>
-                                    <input type="text" class="form-control" id="motivo_cal"
-                                        formControlName="motivo_cal">
+                                    <input type="text" class="form-control" id="motivo_cal" formControlName="motivo_cal"
+                                        [ngClass]="addCalificacion.controls['motivo_cal'].invalid && (addCalificacion.controls['motivo_cal'].dirty 
+                                            || addCalificacion.controls['motivo_cal'].touched) ? 'border border-danger' : ''">
+
+                                    <div *ngIf="addCalificacion.controls['motivo_cal'].invalid && 
+                                                (addCalificacion.controls['motivo_cal'].dirty || 
+                                                addCalificacion.controls['motivo_cal'].touched)">
+                                        <small *ngIf="addCalificacion.controls['motivo_cal'].errors?.required"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Dato requerido
+                                        </small>
+                                        <small *ngIf="addCalificacion.controls['motivo_cal'].errors?.maxlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Máximo 255 caracteres
+                                        </small>
+                                    </div>
                                 </div>
 
                                 <div class="col-12 text-center">
@@ -243,17 +268,19 @@
     <div class="modal" id="modal_confirm">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header pt-2 pb-2 text-center">
                     <h5 class="modal-title">Confirmar</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <p>{{msj_confirm}}</p>
+                    <p class="text-center m-0">{{msj_confirm}}</p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
-                        (click)="confirmarOpcion()">Confirmar</button>
+                <div class="modal-footer p-1">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                    <button type="button" data-bs-dismiss="modal" (click)="confirmarOpcion()"
+                        [ngClass]="opcion_sel == 'E' ? 'btn btn-danger' : (opcion_sel == 'C' ? 'btn btn-success' : '')">Confirmar</button>
                 </div>
             </div>
         </div>

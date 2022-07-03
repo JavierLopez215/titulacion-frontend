@@ -20,7 +20,7 @@
                         </p>
                         <div class="text-center">
                             <button type="button" class="btn btn-primary p-2 m-2" data-toggle="modal"
-                                data-target="#questionModal">
+                                data-target="#questionModal" (click)="resetFormularioPublicacion()">
                                 Preguntar
                             </button>
                         </div>
@@ -148,7 +148,7 @@
                                     <!-- <input type="text" class="form-control" id="descripcion"
                                         formControlName="descripcion"> -->
                                     <textarea class="form-control" rows="3" name="descripcion" name="descripcion"
-                                        formControlName="descripcion"
+                                        formControlName="descripcion" style="resize: none; overflow: auto;"
                                         [ngClass]="newPublicationForm.controls['descripcion'].invalid && (newPublicationForm.controls['descripcion'].dirty 
                                         || newPublicationForm.controls['descripcion'].touched) ? 'border border-danger' : ''"></textarea>
                                     <!-- Errores ingreso de datos -->
@@ -170,7 +170,7 @@
                                     </div>
                                 </div>
 
-                                <!-- dropdowlist -->
+                                <!-- dropdowlist Especialidades-->
                                 <div class="col-md-12 mb-2">
                                     <label for="descripcion" class="form-label">Especialidad/Área</label>
                                     <select class="custom-select" aria-label="Area" formControlName="area" [ngClass]="newPublicationForm.controls['area'].invalid && (newPublicationForm.controls['area'].dirty 
@@ -227,9 +227,29 @@
                                         <label for="desc_adjuntos" class="form-label">Encabezado</label>
                                         <!-- <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos"> -->
                                         <textarea class="form-control" name="desc_adjuntos" rows="2"
-                                            formControlName="encabezado"
-                                            style="resize: none; white-space: pre;"></textarea>
+                                            formControlName="encabezado" style="resize: none; white-space: pre;"
+                                            [ngClass]="(tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].invalid && 
+                                            ((tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].dirty 
+                                    || (tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].touched) ? 'border border-danger' : ''"></textarea>
+
+                                        <div
+                                            [ngClass]="(tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].invalid && 
+                                    ((tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].dirty 
+                            || (tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].touched) ? 'd-block' : 'd-none'">
+                                            <small
+                                                [ngClass]="(tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].errors?.required ? 'd-block' : 'd-none'"
+                                                class="fs-7 text-danger p-0 m-0">
+                                                Dato requerido
+                                            </small>
+                                            <small
+                                                [ngClass]="(tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].errors?.maxlength ? 'd-block' : 'd-none'"
+                                                class="fs-7 text-danger p-0 m-0">
+                                                Máximo 2000 caracteres
+                                            </small>
+                                        </div>
+
                                     </div>
+
 
                                     <div class="mb-3 text-center" *ngIf="tipo_aporte == 'file'">
                                         <label for="formFileMultiple"
@@ -239,30 +259,68 @@
                                         <br>
                                         <div class="input-group mb-3">
                                             <input type="text" class="form-control" id="label-input" disabled
-                                                value="{{ archivo_seleccionado }}">
+                                                value="{{ archivo_seleccionado }}" [ngClass]="addFile.controls['file'].invalid && (addFile.controls['file'].dirty 
+                                                || addFile.controls['file'].touched) ? 'border border-danger' : ''">
                                             <button class="btn btn-outline-primary" type="submit" id="btnAddFile"
                                                 [disabled]="!addFile.valid">Añadir</button>
+                                                
                                         </div>
+                                        <div *ngIf="addFile.controls['file'].invalid">
+                                            <small *ngIf="addFile.controls['file'].errors?.required"
+                                                class="fs-7 text-danger p-0 m-0">
+                                                Seleccione un archivo
+                                            </small>
+                                        </div>
+                                       
                                     </div>
-                                    <div class="input-group mb-3" *ngIf="tipo_aporte == 'URL'">
+                                    <div class="input-group" *ngIf="tipo_aporte == 'URL'">
                                         <input type="text" class="form-control" id="inputURL" placeholder="URL"
-                                            formControlName="link">
+                                            formControlName="link" [ngClass]="addURL.controls['link'].invalid && (addURL.controls['link'].dirty 
+                                            || addURL.controls['link'].touched) ? 'border border-danger' : ''">
                                         <button class="btn btn-outline-primary" type="submit" id="btnAddURL"
                                             [disabled]="!addURL.valid">Añadir</button>
                                     </div>
 
+                                    <div *ngIf="addURL.controls['link'].invalid && 
+                                                    (addURL.controls['link'].dirty || 
+                                                    addURL.controls['link'].touched)" class="mb-3">
+                                        <small *ngIf="addURL.controls['link'].errors?.required"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Dato requerido
+                                        </small>
+                                        <small *ngIf="addURL.controls['link'].errors?.maxlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Máximo 10000 caracteres
+                                        </small>
+                                    </div>
 
-                                    <div class="input-group mb-3" *ngIf="tipo_aporte == 'code'">
+
+                                    <div class="input-group" *ngIf="tipo_aporte == 'code'">
                                         <!-- <label for="desc_adjuntos" class="form-label">Código</label> -->
                                         <!-- <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos"> -->
                                         <textarea class="form-control" rows="5" placeholder="Código"
                                             style="overflow: auto;" formControlName="code"
-                                            (ngModelChange)="onChangeCode($event)">
+                                            (ngModelChange)="onChangeCode($event)" [ngClass]="addCode.controls['code'].invalid && (addCode.controls['code'].dirty 
+                                                || addCode.controls['code'].touched) ? 'border border-danger' : ''">
                                         </textarea>
                                         <button class="btn btn-outline-primary" [disabled]="!addCode.valid"
                                             type="submit" id="btnAddCode">Añadir</button>
+
+
                                     </div>
-                                    <div *ngIf="tipo_aporte == 'code'">
+                                    <div *ngIf="addCode.controls['code'].invalid && 
+                                                    (addCode.controls['code'].dirty || 
+                                                    addCode.controls['code'].touched)" class="mb-3">
+                                        <small *ngIf="addCode.controls['code'].errors?.required"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Dato requerido
+                                        </small>
+                                        <small *ngIf="addCode.controls['code'].errors?.maxlength"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Máximo 10000 caracteres
+                                        </small>
+                                    </div>
+                                    <div *ngIf="tipo_aporte == 'code' && oc_value !=''">
                                         <h6>Vista previa - Código</h6>
                                         <pre class="m-0 border">
                                             <code [highlight]="oc_value" (highlighted)="onHighlight($event)"></code>
@@ -270,8 +328,6 @@
                                     </div>
                                 </div>
                             </form>
-
-                            <button (click)="reset()">reset</button>
                         </div>
 
                     </div>

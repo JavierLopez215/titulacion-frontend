@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DetallePublicacion } from 'src/app/model/PublicationDetail';
 import { HttpEventType } from '@angular/common/http';
-declare let $:any;
+declare let $: any;
 
 @Component({
   selector: 'app-activities',
@@ -38,8 +38,8 @@ export class ActivitiesComponent implements OnInit {
   public publicacion: Publicacion = {} as Publicacion;
 
   public newPublicationForm = this.formBuilder.group({
-    titulo: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(255)]],
-    descripcion: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(500)]],
+    titulo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(255)]],
+    descripcion: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
     area: ['', Validators.required]
   });
 
@@ -47,26 +47,26 @@ export class ActivitiesComponent implements OnInit {
     encabezado: ['', [Validators.required,
     Validators.maxLength(2000)]],
     file: ['', [Validators.required,
-    Validators.maxLength(1000)]]
+    Validators.maxLength(10000)]]
   });
 
   public addURL = this.formBuilder.group({
     encabezado: ['', [Validators.required,
     Validators.maxLength(2000)]],
     link: ['', [Validators.required,
-    Validators.maxLength(1000)]]
+    Validators.maxLength(10000)]]
   });
 
   public addCode = this.formBuilder.group({
     encabezado: ['', [Validators.required,
     Validators.maxLength(2000)]],
     code: ['', [Validators.required,
-    Validators.maxLength(1000)]]
+    Validators.maxLength(10000)]]
   });
-  
+
   estado_consulta: string = 'P';
   oc_value: string = '';
-  ec_postPublicacion: string='C';
+  ec_postPublicacion: string = 'C';
 
   constructor(private authService: AuthService,
     private activitiesService: ActivitiesService, private router: Router,
@@ -77,7 +77,7 @@ export class ActivitiesComponent implements OnInit {
     this.getPublicaciones();
     this.getListaEspecialidades();
     this.getDataUser();
-    this.ec_postPublicacion='C'
+    this.ec_postPublicacion = 'C'
   }
 
   getDataUser() {
@@ -109,10 +109,6 @@ export class ActivitiesComponent implements OnInit {
       console.log(err);
     })
 
-  }
-  reset(){
-    console.log('reset')
-    
   }
 
   postPublicacion() {
@@ -177,8 +173,8 @@ export class ActivitiesComponent implements OnInit {
           this.getPublicaciones();
           $('#questionModal').modal('hide')
           $("#sel").val("").change();
-          this.newPublicationForm.patchValue({'area':''})
-          this.tipo_aporte=''
+          this.newPublicationForm.patchValue({ 'area': '' })
+          this.tipo_aporte = ''
         }
         else {
           // this.errores = res.mensaje;
@@ -187,7 +183,7 @@ export class ActivitiesComponent implements OnInit {
           console.log(res);
         }
       }
-    },(err)=>{
+    }, (err) => {
       this.ec_postPublicacion = 'C';
       this.toastr.error('Ha ocurrido un error', 'Error');
     });
@@ -237,14 +233,14 @@ export class ActivitiesComponent implements OnInit {
         }
         else {
           // this.errores = res.mensaje;
-          this.estado_consulta='C'
+          this.estado_consulta = 'C'
           console.log('error');
           this.toastr.error('Ha ocurrido un error', 'Error');
         }
       }
     }, (err: any) => {
       console.log(err);
-      this.estado_consulta='C'
+      this.estado_consulta = 'C'
       this.toastr.error('Ha ocurrido un error', 'Error');
     })
   }
@@ -314,19 +310,19 @@ export class ActivitiesComponent implements OnInit {
     this.archivo_seleccionado = "";
     $("#sel").val("").change();
     console.log('lista de adjuntos', this.listaAdjuntos);
-    this.tipo_aporte=""
+    this.tipo_aporte = ""
   }
 
   EliminarAdjunto(index: number) {
-    this.listaAdjuntos.splice(index,1);
+    this.listaAdjuntos.splice(index, 1);
   }
 
   onChangeCode(value: any) {
     this.oc_value = value;
-    if (this.oc_value == '') {
-      this.oc_value = 'Ninguno'
-    }
-    console.log(value)
+    // if (this.oc_value == '') {
+    //   this.oc_value = 'Ninguno'
+    // }
+    // console.log(value)
   }
 
   onHighlight(e: any) {
@@ -340,9 +336,21 @@ export class ActivitiesComponent implements OnInit {
     console.log(e)
   }
 
-  actualizarRegistros(){
+  actualizarRegistros() {
     this.getPublicaciones();
     this.getListaEspecialidades();
   }
 
+  resetFormularioPublicacion() {
+    this.newPublicationForm.reset();
+    this.addCode.reset();
+    this.addFile.reset();
+    this.addURL.reset();
+    this.archivo_seleccionado = "";
+    this.tipo_aporte = "";
+    this.listaAdjuntos = [];
+    $("#sel").val("").change();
+    this.newPublicationForm.patchValue({ 'area': '' })
+    this.tipo_aporte = ''
+  }
 }

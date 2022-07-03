@@ -70,28 +70,27 @@ export class PublicationComponent implements OnInit {
     encabezado: ['', [Validators.required,
     Validators.maxLength(2000)]],
     file: ['', [Validators.required,
-    Validators.maxLength(1000)]]
+    Validators.maxLength(10000)]]
   });
 
   public addURL = this.formBuilder.group({
     encabezado: ['', [Validators.required,
     Validators.maxLength(2000)]],
     link: ['', [Validators.required,
-    Validators.maxLength(1000)]]
+    Validators.maxLength(10000)]]
   });
 
   public addCode = this.formBuilder.group({
     encabezado: ['', [Validators.required,
     Validators.maxLength(2000)]],
     code: ['', [Validators.required,
-    Validators.maxLength(1000)]]
+    Validators.maxLength(10000)]]
   });
 
 
   public addCalificacion = this.formBuilder.group({
     calificacion: [0, [Validators.required,
-    Validators.max(5),
-    Validators.min(0)]],
+    Validators.max(5)]],
     motivo_cal: ['', [Validators.required,
     Validators.maxLength(255)]]
   });
@@ -170,30 +169,20 @@ export class PublicationComponent implements OnInit {
   }
 
   ngAfterViewChecked(){
-    // $('#btn-comentar').click(function(){
-    //   alert('Wass up!');
-    //    });
+    
 
-      //  $( "#target" ).click(function() {
-      //   console.log('click');
-      // });
-
-      // $('#modalAddCalificacionPublicacion').on('hide.bs.modal', function () {
+      // $('#modalAddCalificacionPublicacion').on('shown.bs.modal', function (event:any) {
+      //   // do something...
       //   console.log('modal abierto')
       // })
 
-      $('#modalAddCalificacionPublicacion').on('shown.bs.modal', function (event:any) {
-        // do something...
-        console.log('modal abierto')
-      })
+      // $('#modalAddCalificacionPublicacion').on('hidden.bs.modal', function (event:any) {
+      //   console.log('modal cerrado')
+      // })
 
-      $('#modalAddCalificacionPublicacion').on('hidden.bs.modal', function (event:any) {
-        console.log('modal cerrado')
-      })
-
-      $('#modalCalificacionComentario').on('hidden.bs.modal', function (event:any) {
-        // this.getComentariosPublicacion();
-      })
+      // $('#modalCalificacionComentario').on('hidden.bs.modal', function (event:any) {
+      //   // this.getComentariosPublicacion();
+      // })
   }
 
 
@@ -1015,10 +1004,10 @@ export class PublicationComponent implements OnInit {
 
   onChangeCode(value: any) {
     this.oc_value = value;
-    if (this.oc_value == '') {
-      this.oc_value = 'Ninguno'
-    }
-    console.log(value)
+    // if (this.oc_value == '') {
+    //   this.oc_value = 'Ninguno'
+    // }
+    // console.log(value)
   }
 
   opcionEliminarComentario(idCom: number) {
