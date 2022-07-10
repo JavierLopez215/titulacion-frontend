@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DetallePublicacion } from 'src/app/model/PublicationDetail';
 import { HttpEventType } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 declare let $: any;
 
 @Component({
@@ -19,7 +20,7 @@ declare let $: any;
 })
 export class ActivitiesComponent implements OnInit {
 
-
+  rutaImg: string = environment.images_URL;
   public listaPublicaciones: Array<any> = [];
   public listaEspecialidades: Array<any> = [];
   public listaAdjuntos: Array<DetallePublicacion> = [];
