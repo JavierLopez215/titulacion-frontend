@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe, TranslationWidth } from '@angular/common';
 import { HttpEventType } from '@angular/common/http';
+declare let $: any;
 
 const I18N_VALUES = {
   'es': {
@@ -278,6 +279,7 @@ export class MeetingsComponent implements OnInit {
         this.ec_postReuniones = 'C';
 
         if (res.body.ok === 1) {
+          $('#modalAddSolicitud').modal('hide');
           this.toastr.success('Datos ingresados correctamente', 'Safisfactorio');
           this.addSolicitudReunion.reset();
           this.getListaMisReunionesAceptadas();
@@ -303,6 +305,11 @@ export class MeetingsComponent implements OnInit {
   abrirDetalleReunion(reunion:Reunion){
     // console.log(reunion)
     this.router.navigate(['/meetings', reunion.id]);
+  }
+
+  resetFormularioSolicitud() {
+    this.addSolicitudReunion.reset();
+    
   }
 }
 

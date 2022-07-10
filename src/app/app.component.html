@@ -2,39 +2,31 @@
 
   <nav class="navbar navbar-expand-lg bg-primary navbar-dark border">
 
-    <div class="container-fluid">
-      <!-- <a class="navbar-brand" href="#">ARAS-ES</a>
-      <button class="navbar-toggler border" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
-        aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon text-primary" style="color:black">
-          <i class="bi bi-list"></i>
-        </span>
-      </button> -->
+    <a class="navbar-brand" routerLink="/home">
+      <img src="{{rutaImg +'/app/logo.png'}}" alt="" width="40"
+        class="d-inline-block align-text-top rounded-circle border bg-white border-white border-2">
+      <!-- <i class="bi bi-bootstrap-fill d-inline-block align-top"></i> -->
+      <span class="align-middle m-2">ARAS-ES</span>
+    </a>
 
-      <a class="navbar-brand" routerLink="/home">
-        <!-- <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top"> -->
-        <i class="bi bi-bootstrap-fill d-inline-block align-top"></i>
-        ARAS-ES
-      </a>
-
-      <button class="navbar-toggler border border-white" type="button" data-toggle="collapse" data-target="#navbarMenu"
-        aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <button class="navbar-toggler border border-white" type="button" data-toggle="collapse" data-target="#navbarMenu"
+      aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
 
-      <div class="collapse navbar-collapse" id="navbarMenu">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-6">
-          <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active" routerLink="/home">Inicio</a>
-          </li>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-6">
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/home">Inicio</a>
+        </li>
 
-          <!-- <ul class="navbar-nav ml-auto mb-lg-0"> -->
+        <!-- <ul class="navbar-nav ml-auto mb-lg-0"> -->
 
-          <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active" routerLink="/about">Acerca de</a>
-          </li>
-          <!-- <li class="nav-item dropdown">
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" routerLink="/about">Acerca de</a>
+        </li>
+        <!-- <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown
         </a>
@@ -46,17 +38,17 @@
         </div>
       </li> -->
 
-        </ul>
+      </ul>
 
-        <!-- <div class="navbar-collapse collapse"> -->
-        <ul class="navbar-nav ml-auto fs-6">
-          <li class="nav-item border border-white rounded border-1 text-center m-1">
-            <a class="nav-link" routerLinkActive="active" routerLink="/login">Entrar</a>
-          </li>
-          <li class="nav-item border border-white rounded border-1 text-center m-1">
-            <a class="nav-link" routerLinkActive="active" routerLink="/register">Registro</a>
-          </li>
-          <!-- <li class="nav-item dropdown">
+      <!-- <div class="navbar-collapse collapse"> -->
+      <ul class="navbar-nav ml-auto fs-6">
+        <li class="nav-item border border-white rounded border-1 text-center m-1">
+          <a class="nav-link" routerLinkActive="active" routerLink="/login">Entrar</a>
+        </li>
+        <li class="nav-item border border-white rounded border-1 text-center m-1">
+          <a class="nav-link" routerLinkActive="active" routerLink="/register">Registro</a>
+        </li>
+        <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false"> 
             <img src="../assets/images/images-pages/login.png" alt="perfil" width="30" height="30" class="rounded-circle">
@@ -69,19 +61,19 @@
             <a class="dropdown-item" (click)="logout()">Salir</a>
           </div>
         </li> -->
-        </ul>
-        <!-- </div> -->
-      </div>
-
+      </ul>
+      <!-- </div> -->
     </div>
+
+
   </nav>
+  <!-- <div>
   <router-outlet></router-outlet>
+</div> -->
+<div class="container-fluid">
+    <router-outlet></router-outlet>
+  </div>
 </div>
-
-
-
-
-
 
 
 
@@ -102,13 +94,16 @@
         <!-- <div class="text-center" style="width: 100%;"> -->
         <a href="/app" class="d-flex align-items-center pb-sm-3 
         mb-md-0 me-md-auto text-primary text-decoration-none text-center p-2" style="width:fit-content">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bootstrap-fill" viewBox="0 0 16 16"
+          <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bootstrap-fill" viewBox="0 0 16 16"
             style="width: 2rem;">
             <path
               d="M6.375 7.125V4.658h1.78c.973 0 1.542.457 1.542 1.237 0 .802-.604 1.23-1.764 1.23H6.375zm0 3.762h1.898c1.184 0 1.81-.48 1.81-1.377 0-.885-.65-1.348-1.886-1.348H6.375v2.725z" />
             <path
               d="M4.002 0a4 4 0 0 0-4 4v8a4 4 0 0 0 4 4h8a4 4 0 0 0 4-4V4a4 4 0 0 0-4-4h-8zm1.06 12V3.545h3.399c1.587 0 2.543.809 2.543 2.11 0 .884-.65 1.675-1.483 1.816v.1c1.143.117 1.904.931 1.904 2.033 0 1.488-1.084 2.396-2.888 2.396H5.062z" />
-          </svg>
+          </svg> -->
+          <img src="{{rutaImg +'/app/logo.png'}}" alt="" width="40" class="d-inline-block align-text-top 
+        rounded-circle border bg-white border-primary border-2">
+
           <span class="ml-1 d-none d-sm-inline text-center">ARAS-ES</span>
         </a>
         <!-- </div> -->
@@ -144,23 +139,23 @@
           </li>
 
         </ul>
-          <!-- <div class="nav-item dropdown"> -->
-            <div class="nav-item dropdown py-sm-4 mt-sm-auto ml-auto ml-sm-0 flex-shrink-1 text-center text-primary side">
-              <a class="nav-link dropdown-toggle d-flex align-items-center text-decoration-none nav-link text-primary"
-                data-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                <img src="{{ rutaImgProfile }}/profile/{{ user.foto }}" alt="..." width="30" height="30"
-                  class="rounded-circle">
-                <span class="d-none d-sm-inline mx-1">{{ user.nombre }}</span>
-              </a>
-              <div class="dropdown-menu text-primary">
-                <a class="dropdown-item text" routerLink="/profile" routerLinkActive="active">Perfil</a>
-                <div class="dropdown-divider"></div>
-                <!-- <a class="dropdown-item" href="#">Separated link</a> -->
-                <a class="dropdown-item" href="#" (click)="logout()">Cerrar Sesión</a>
-              </div>
-            </div>
-          <!-- </div> -->
-        
+        <!-- <div class="nav-item dropdown"> -->
+        <div class="nav-item dropdown py-sm-4 mt-sm-auto ml-auto ml-sm-0 flex-shrink-1 text-center text-primary side">
+          <a class="nav-link dropdown-toggle d-flex align-items-center text-decoration-none nav-link text-primary"
+            data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+            <img src="{{ rutaImgProfile }}/profile/{{ user.foto }}" alt="..." width="30" height="30"
+              class="rounded-circle">
+            <span class="d-none d-sm-inline mx-1">{{ user.nombre }}</span>
+          </a>
+          <div class="dropdown-menu text-primary">
+            <a class="dropdown-item text" routerLink="/profile" routerLinkActive="active">Perfil</a>
+            <div class="dropdown-divider"></div>
+            <!-- <a class="dropdown-item" href="#">Separated link</a> -->
+            <a class="dropdown-item" href="#" (click)="logout()">Cerrar Sesión</a>
+          </div>
+        </div>
+        <!-- </div> -->
+
         <!-- <div class="nav-item dropdown py-sm-4 mt-sm-auto ms-auto ms-sm-0 flex-shrink-1 text-primary">
           <a href="#" class="d-flex align-items-center text-decoration-none nav-link dropdown-toggle text-primary"
             id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -182,12 +177,6 @@
     <div class="col d-flex flex-column h-sm-100 col-sm-9 col-xl-10">
       <main class="row">
         <div class="col pt-2">
-
-
-
-
-
-
 
           <router-outlet></router-outlet>
         </div>

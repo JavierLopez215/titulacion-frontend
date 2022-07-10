@@ -13,6 +13,7 @@ declare var $: any;
 export class AppComponent{
   title = 'Shark App';
   public rutaImgProfile = environment.images_URL;
+  rutaImg: string = environment.images_URL;
   public user : Profile = {} as Profile;
   public logged:boolean=false;
   constructor(public authService:AuthService, 
@@ -29,6 +30,7 @@ export class AppComponent{
     this.logged=false;
     this.router.navigate(['home']);
   }
+  
   getDataUser(){
     this.user = this.authService.dataUser() as Profile;
     // console.log(this.user);

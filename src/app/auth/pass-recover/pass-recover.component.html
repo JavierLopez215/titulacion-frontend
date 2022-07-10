@@ -6,23 +6,28 @@
             <div class="card-body">
 
                 <div class="text-center">
-                    <img src="./../../../assets/images/images-pages/recover_pass.jpg" class="img-fluid" alt="recover"
+                    <img src="{{rutaImg+'/images-pages/recover_pass.jpg'}}" class="img-fluid" alt="recover"
                         width="200px">
                 </div>
                 <p class="fw-normal text-justify">Formulario para recuperar contraseña de usuario. Ingrese el correo del
-                    usuario del que desea recuperar la contraseña, recuerde que el correo debe estar registrado en la plataforma.</p>
+                    usuario del que desea recuperar la contraseña, recuerde que el correo debe estar registrado en la
+                    plataforma.</p>
+
+                <form [formGroup]="passRecoveryForm" (ngSubmit)="recuperarContrasena()">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Correo electrónico"
+                            aria-label="Recipient's username" formControlName="correo">
+                        <button class="btn btn-primary" type="submit" id="button-addon2">Recuperar contraseña</button>
+                    </div>
+                </form>
 
 
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Correo electrónico"
-                        aria-label="Recipient's username" aria-describedby="button-addon2">
-                    <button class="btn btn-primary" type="button" id="button-addon2">Enviar</button>
-                </div>
-
-
-                <p class="fw-light text-info">Si el correo ingresado es correcto recibirá un mensaje con el link de recuperación
+                <p class="fw-light text-info">Si el correo ingresado es correcto recibirá un mensaje con el link de
+                    recuperación
                 </p>
             </div>
         </div>
     </div>
 </div>
+
+

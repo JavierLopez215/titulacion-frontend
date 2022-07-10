@@ -16,8 +16,10 @@
         </div>  -->
 
         <div class="text-center">
-          <img class="card-img-top rounded-circle w-25 mt-2 pt-2"
-            src="../../../assets/images/images-pages/users-login.png" alt="login">
+          <!-- <img class="card-img-top rounded-circle w-25 mt-2 pt-2"
+            src="../../../assets/images/images-pages/users-login.png" alt="login"> -->
+            <img class="card-img-top rounded-circle w-25 mt-2 pt-2"
+            src="{{rutaImg+'/app/imgs/login.png' | safe : 'resourceUrl'}}" alt="login">
         </div>
 
         <div class="card-body">
@@ -52,10 +54,10 @@
                 Ingrese una contraseña
               </small>
               <small *ngIf="loginForm.controls['contrasena'].errors?.minlength" class="fs-7 text-danger p-0 m-0">
-                Mínimo 4 caracteres
+                Mínimo 8 caracteres
               </small>
               <small *ngIf="loginForm.controls['contrasena'].errors?.maxlength" class="fs-7 text-danger p-0 m-0">
-                Máximo 45 caracteres
+                Máximo 255 caracteres
               </small>
               <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
             </div>

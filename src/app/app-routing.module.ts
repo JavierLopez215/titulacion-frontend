@@ -29,10 +29,11 @@ const routes: Routes = [
   { path: 'meetings', component: MeetingsComponent, canActivate:[AuthGuard] },
   { path: 'meetings/:id', component: MeetingDetailsComponent, canActivate:[AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard] },
-  { path: 'files', component: FilesComponent},
+  { path: 'files', component: FilesComponent, canActivate:[AuthGuard] },
   { path: 'community', component: CommunityComponent, canActivate:[AuthGuard] },
   { path: 'community/:id', component: PublicationComponent, canActivate:[AuthGuard] },
-  { path: 'app', component: AppComponent2, canActivate:[AuthGuard] }
+  { path: 'app', component: AppComponent2, canActivate:[AuthGuard] },
+  { path: '**', redirectTo: '404' },
 
   //path para administrador
   // { path: 'admin', component: AppComponent, canActivate:[RoleGuard], data:{roleId:1} }

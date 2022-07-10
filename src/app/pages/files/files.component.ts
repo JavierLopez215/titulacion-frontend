@@ -21,7 +21,7 @@ import { FileAp } from 'src/app/model/FileAp';
 export class FilesComponent implements OnInit {
 
   public addFile = this.formBuilder.group({
-    titulo: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(255)]],
+    titulo: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(255)]],
     descripcion: ['', [Validators.required,
     Validators.maxLength(2000)]],
     file: ['', [Validators.required,
@@ -38,16 +38,16 @@ export class FilesComponent implements OnInit {
   public contenido: string = "";
   public listaEtiquetas: Array<Label> = [];
   public listaEtiquetasSeleccionadas: Array<Label> = [];
-  public aporte : FileAp = {} as FileAp;
-  ec_postAporte:string = 'C'
+  public aporte: FileAp = {} as FileAp;
+  ec_postAporte: string = 'C'
   public user: Profile = {} as Profile;
   public listaAportesUsu: Array<FileAp> = [];
   public listaEtiquetasUsu: Array<Label> = [];
   public listaAportesCom: Array<FileAp> = [];
   public listaEtiquetasCom: Array<Label> = [];
   public listaEtiquetasAux: Array<Label> = []
-  ec_getAporteUsu:string = 'C'
-  ec_getAporteCom:string = 'C'
+  ec_getAporteUsu: string = 'C'
+  ec_getAporteCom: string = 'C'
   rutaAportes: string = environment.files_aportes_URL;
   rutaImg: string = environment.images_URL;
   ec_eliminarApo: string = '';
@@ -59,18 +59,18 @@ export class FilesComponent implements OnInit {
     private formBuilder: FormBuilder, private toastr: ToastrService,
     private labelService: LabelService,
     private fileService: FileService) {
-   }
+  }
 
 
   public mensaje: string = '';
 
   ngOnInit(): void {
-  this.getListaEtiquetas();
-  this.getDataUser();
-  this.getAportesUsuario();
-  this.getAportesComunidad();
+    this.getListaEtiquetas();
+    this.getDataUser();
+    this.getAportesUsuario();
+    this.getAportesComunidad();
   }
-  
+
   getDataUser() {
     this.user = this.authService.dataUser() as Profile;
   }
@@ -137,14 +137,14 @@ export class FilesComponent implements OnInit {
         }
         else {
           // this.errores = res.mensaje;
-          this.ec_getAporteUsu='C'
+          this.ec_getAporteUsu = 'C'
           console.log('error');
           this.toastr.error('Ha ocurrido un error', 'Error');
         }
       }
     }, (err: any) => {
       console.log(err);
-      this.ec_getAporteUsu='C'
+      this.ec_getAporteUsu = 'C'
       this.toastr.error('Ha ocurrido un error', 'Error');
     })
   }
@@ -193,14 +193,14 @@ export class FilesComponent implements OnInit {
         }
         else {
           // this.errores = res.mensaje;
-          this.ec_getAporteCom='C'
+          this.ec_getAporteCom = 'C'
           console.log('error');
           this.toastr.error('Ha ocurrido un error', 'Error');
         }
       }
     }, (err: any) => {
       console.log(err);
-      this.ec_getAporteCom='C'
+      this.ec_getAporteCom = 'C'
       this.toastr.error('Ha ocurrido un error', 'Error');
     })
   }
@@ -223,11 +223,11 @@ export class FilesComponent implements OnInit {
     return 'app/multiple-file.png';
   }
 
-  seleccionarDatosEliminar(aporteSel:FileAp){
-    this.apoSel=aporteSel;
+  seleccionarDatosEliminar(aporteSel: FileAp) {
+    this.apoSel = aporteSel;
   }
 
-  eliminarAporte(){
+  eliminarAporte() {
     this.fileService.deleteAporte(this.apoSel.id).subscribe((res: any) => {
 
       if (res.type === HttpEventType.DownloadProgress) {
@@ -260,7 +260,7 @@ export class FilesComponent implements OnInit {
 
   }
 
-  GuardarRecurso(){
+  GuardarRecurso() {
 
     this.formData = new FormData();
     this.formData.append('files', this.archivo);
@@ -273,11 +273,12 @@ export class FilesComponent implements OnInit {
 
   }
 
-  postAporte(datosF:any){
+  postAporte(datosF: any) {
+
 
     this.aporte = {} as FileAp;
-    this.aporte.id=0;
-    this.aporte.id_usuario_apo=this.user.id;
+    this.aporte.id = 0;
+    this.aporte.id_usuario_apo = this.user.id;
     this.aporte.titulo = this.addFile.value.titulo;
     this.aporte.descripcion = this.addFile.value.descripcion;
     this.aporte.archivo = datosF[0].filename;
@@ -285,47 +286,52 @@ export class FilesComponent implements OnInit {
     this.aporte.activo = 'S'
     this.aporte.listaEtiquetas = this.listaEtiquetasSeleccionadas;
 
-    this.fileService.postAporte(this.aporte).subscribe((res: any) => {
+    if (this.aporte.listaEtiquetas.length > 0) {
+      this.fileService.postAporte(this.aporte).subscribe((res: any) => {
 
-      if (res.type === HttpEventType.DownloadProgress) {
-        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
-        this.ec_postAporte = 'P'
-      }
-      if (res.type === HttpEventType.UploadProgress) {
-        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
-
-        this.ec_postAporte = 'P'
-      }
-
-      if (res.type === HttpEventType.Response) {
-        this.ec_postAporte = 'C';
-        if (res.body.ok === 1) {
-
-          // this.user = res.data;
-          // localStorage.setItem('token', res.token);
-          this.toastr.success('Datos ingresados correctamente', 'Safisfactorio');
-          // this.authService.actualizarToken();
-          this.addFile.reset();
-          this.archivo_seleccionado = "";
-          this.tipo_aporte = "";
-          this.listaEtiquetasSeleccionadas = [];
-          this.getAportesUsuario();
+        if (res.type === HttpEventType.DownloadProgress) {
+          // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+          this.ec_postAporte = 'P'
         }
-        else {
-          // this.errores = res.mensaje;
+        if (res.type === HttpEventType.UploadProgress) {
+          // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+
+          this.ec_postAporte = 'P'
+        }
+
+        if (res.type === HttpEventType.Response) {
           this.ec_postAporte = 'C';
-          this.toastr.error('Ha ocurrido un error', 'Error');
-          console.log(res);
+          if (res.body.ok === 1) {
+
+            // this.user = res.data;
+            // localStorage.setItem('token', res.token);
+            this.toastr.success('Datos ingresados correctamente', 'Safisfactorio');
+            // this.authService.actualizarToken();
+            this.addFile.reset();
+            this.archivo_seleccionado = "";
+            this.tipo_aporte = "";
+            this.listaEtiquetasSeleccionadas = [];
+            this.getAportesUsuario();
+          }
+          else {
+            // this.errores = res.mensaje;
+            this.ec_postAporte = 'C';
+            this.toastr.error('Ha ocurrido un error', 'Error');
+            console.log(res);
+          }
         }
-      }
-    },(err)=>{
+      }, (err) => {
+        this.ec_postAporte = 'C';
+        this.toastr.error('Ha ocurrido un error', 'Error');
+      });
+    } else {
       this.ec_postAporte = 'C';
-      this.toastr.error('Ha ocurrido un error', 'Error');
-    });
+      this.toastr.info('Agregue al menos una etiqueta', 'Error');
+    }
 
   }
 
-  getListaEtiquetas(){
+  getListaEtiquetas() {
     this.labelService.getEtiquetas().subscribe((res: any) => {
 
       if (res.ok === 1) {
@@ -341,38 +347,38 @@ export class FilesComponent implements OnInit {
     })
   }
 
-  CancelarCargaArchivo(){
-    
+  CancelarCargaArchivo() {
+
     this.addFile.patchValue({
       file: ''
     });
-    this.archivo_seleccionado="";
+    this.archivo_seleccionado = "";
   }
 
-  addEtiqueta(etiqueta:Label){
-    if(!this.validarEtiquetaAgregada(etiqueta))
-    this.listaEtiquetasSeleccionadas.push(etiqueta);
-    else{
+  addEtiqueta(etiqueta: Label) {
+    if (!this.validarEtiquetaAgregada(etiqueta))
+      this.listaEtiquetasSeleccionadas.push(etiqueta);
+    else {
       this.toastr.info('Etiqueta ya fue agregada', 'Etiqueta Agregada')
     }
 
     // console.log(this.listaEtiquetasSeleccionadas)
   }
 
-  validarEtiquetaAgregada(etiqueta:Label):boolean{
+  validarEtiquetaAgregada(etiqueta: Label): boolean {
     // console.log('validando....')
     for (let index = 0; index < this.listaEtiquetasSeleccionadas.length; index++) {
       const etiqueta_ = this.listaEtiquetasSeleccionadas[index];
-      if(etiqueta.id == etiqueta_.id){
+      if (etiqueta.id == etiqueta_.id) {
         return true;
       }
     }
     return false;
   }
 
-  deleteEtiqueta(indice:number){
-      console.log(indice);
-      this.listaEtiquetasSeleccionadas.splice(indice,1);
+  deleteEtiqueta(indice: number) {
+    console.log(indice);
+    this.listaEtiquetasSeleccionadas.splice(indice, 1);
   }
 
 }

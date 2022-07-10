@@ -9,11 +9,11 @@
 
                         <div class="col">
                             <div class="text-center">
-                                <img src="./../../../assets/images/images-pages/register.jpg" class="img-fluid"
+                                <img src="{{rutaImg+'/app/imgs/register.png' | safe : 'resourceUrl'}}" class="card-img-top rounded-circle w-25 mt-2"
                                     alt="images" width="300px">
                             </div>
                             <form [formGroup]="registerForm" class="row g-3" (ngSubmit)="registro()">
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-2">
                                     <label for="nombre" class="form-label">Nombre</label>
                                     <input type="text" name="nombre" formControlName="nombre" class="form-control"
                                         autofocus id="nombre" [ngClass]="registerForm.controls['nombre'].invalid && (registerForm.controls['nombre'].dirty 
@@ -41,7 +41,7 @@
                                         <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 mt-2">
                                     <label for="apellido" class="form-label">Apellido</label>
                                     <input type="text" name="apellido" formControlName="apellido" class="form-control"
                                         id="apellido" [ngClass]="registerForm.controls['apellido'].invalid && (registerForm.controls['apellido'].dirty 
@@ -69,7 +69,7 @@
                                         <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
                                     </div>
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-9 mt-2">
                                     <label for="direccion" class="form-label">Dirección</label>
                                     <input type="text" name="direccion" formControlName="direccion" class="form-control"
                                         id="direccion" placeholder="Ciudad, calles.." [ngClass]="registerForm.controls['direccion'].invalid && (registerForm.controls['direccion'].dirty 
@@ -93,7 +93,7 @@
                                         <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 mt-2">
                                     <label for="telefono" class="form-label">Teléfono</label>
                                     <input type="text" name="telefono" formControlName="telefono" class="form-control"
                                         id="telefono" [ngClass]="registerForm.controls['telefono'].invalid && (registerForm.controls['telefono'].dirty 
@@ -118,13 +118,14 @@
                                             class="fs-7 text-danger p-0 m-0">
                                             Solo números
                                         </small>
-                                        
+
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 mt-2">
                                     <label for="perfil_prof" class="form-label">Perfil Profesional</label>
                                     <textarea class="form-control" name="perfil_prof" formControlName="perfil_prof"
-                                        id="perfil_prof" rows="3" placeholder="Describa el nivel y área de estudio en el que se especializa"
+                                        id="perfil_prof" rows="3"
+                                        placeholder="Describa el nivel y área de estudio en el que se especializa"
                                         [ngClass]="registerForm.controls['perfil_prof'].invalid && (registerForm.controls['perfil_prof'].dirty 
                                         || registerForm.controls['perfil_prof'].touched) ? 'border border-danger' : ''"></textarea>
                                     <!-- Errores ingreso de datos -->
@@ -146,7 +147,7 @@
                                         <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
                                     </div>
                                 </div>
-                                <div class="col-md-7">
+                                <div class="col-md-7 mt-2">
                                     <label for="correo_reg" class="form-label">Correo electrónico</label>
                                     <input type="email" name="correo_reg" formControlName="correo" class="form-control"
                                         id="correo_reg" [ngClass]="registerForm.controls['correo'].invalid && (registerForm.controls['correo'].dirty 
@@ -163,17 +164,17 @@
                                             class="fs-7 text-danger p-0 m-0">
                                             Correo no válido
                                         </small>
-                                        
+
                                     </div>
-                                    </div>
+                                </div>
 
 
-                                <div class="col-md-5">
+                                <div class="col-md-5  mt-2">
                                     <label for="contrasena_re" class="form-label">Contraseña</label>
-                                    <input type="password" name="contrasena_reg" formControlName="contrasena" class="form-control" id="contrasena_reg"
-                                    [ngClass]="registerForm.controls['contrasena'].invalid && (registerForm.controls['contrasena'].dirty 
+                                    <input type="password" name="contrasena_reg" formControlName="contrasena"
+                                        class="form-control" id="contrasena_reg" [ngClass]="registerForm.controls['contrasena'].invalid && (registerForm.controls['contrasena'].dirty 
                                         || registerForm.controls['contrasena'].touched) ? 'border border-danger' : ''">
-                                        <!-- Errores ingreso de datos -->
+                                    <!-- Errores ingreso de datos -->
                                     <div *ngIf="registerForm.controls['contrasena'].invalid && 
                                     (registerForm.controls['contrasena'].dirty || 
                                     registerForm.controls['contrasena'].touched)">
@@ -189,11 +190,11 @@
                                             class="fs-7 text-danger p-0 m-0">
                                             Máximo 255 caracteres
                                         </small>
-                                        
+
                                     </div>
                                 </div>
 
-                                <div class="col-12 text-center">
+                                <div class="col-12 text-center mt-2">
                                     <h3 *ngIf="errores">{{ errores }}</h3>
                                     <button type="submit" [disabled]="!registerForm.valid || ec_register == 'P'"
                                         class="btn btn-primary">

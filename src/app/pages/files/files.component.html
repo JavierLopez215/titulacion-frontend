@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="mb-3 text-center">
-                    <label for="formFileMultiple" class="form-label text-success">Seleccionar..</label>
+                    <label for="formFileMultiple" class="form-label btn btn-outline-success">Seleccionar..</label>
                     <input class="form-control d-none" type="file" id="formFileMultiple" name="file"
                         formControlName="file" (change)="cambioArchivoCargado($event)">
                     <br>
@@ -53,7 +53,7 @@
                         <button class="btn btn-outline-danger" id="btnAddFile" (click)="CancelarCargaArchivo()"
                             *ngIf="this.addFile.value.file">X</button>
                         <button class="btn btn-outline-primary" type="submit" id="btnAddFile"
-                            [disabled]="!addFile.valid">Añadir</button>
+                            [disabled]="!addFile.valid || listaEtiquetasSeleccionadas.length === 0">Agregar</button>
 
                     </div>
                 </div>

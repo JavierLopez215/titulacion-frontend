@@ -13,9 +13,7 @@ export class TokenInterceptorService implements HttpInterceptor{
         Authorization: `Bearer ${token}`  
       }
     });
-
     return next.handle(tokenHeader);
-
   }
   constructor() { }
 }

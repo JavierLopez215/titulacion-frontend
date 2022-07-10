@@ -67,6 +67,7 @@ export class ActivitiesComponent implements OnInit {
   estado_consulta: string = 'P';
   oc_value: string = '';
   ec_postPublicacion: string = 'C';
+  ec_getEspecialidades: string = 'C';
 
   constructor(private authService: AuthService,
     private activitiesService: ActivitiesService, private router: Router,
@@ -99,14 +100,33 @@ export class ActivitiesComponent implements OnInit {
 
     this.especiallityService.getEspecialidades().subscribe((res: any) => {
 
-      if (res.ok === 1) {
-        this.listaEspecialidades = res.data;
+      if (res.type === HttpEventType.DownloadProgress) {
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log(res.total); //total bytes to download
+        this.ec_getEspecialidades = 'P'
       }
-      else {
-        console.log('error');
+      if (res.type === HttpEventType.UploadProgress) {
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+
+        this.ec_getEspecialidades = 'P'
+        // console.log(res.loaded); //uploaded bytes
+        // console.log(res.total); //total bytes to upload
+      }
+      if (res.type === HttpEventType.Response) {
+        this.ec_getEspecialidades = 'C'
+        if (res.body.ok === 1) {
+          this.listaEspecialidades = res.body.data;
+        }
+        else {
+          this.ec_getEspecialidades = 'C';
+          this.toastr.error('Ha ocurrido un error', 'Error');
+          // console.log('error');
+        }
       }
     }, (err: any) => {
-      console.log(err);
+      this.ec_getEspecialidades = 'C';
+      this.toastr.error('Ha ocurrido un error', 'Error');
+      // console.log(err);
     })
 
   }
@@ -292,11 +312,17 @@ export class ActivitiesComponent implements OnInit {
         this.adjunto.tipo = "code"
         break;
       case 'URL':
+        if (!/^http[s]?:\/\//.test(this.addURL.value.link)) {
+          this.adjunto.contenido = 'https://' + this.addURL.value.link;
+        }
+        else {
+          this.adjunto.contenido = this.addURL.value.link;
+        }
         console.log('addURL')
         this.adjunto.id = 0;
         this.adjunto.id_publicacion = 0;
         this.adjunto.descripcion = this.addURL.value.encabezado;
-        this.adjunto.contenido = this.addURL.value.link;
+        // this.adjunto.contenido = this.addURL.value.link;
         this.adjunto.tipo = "URL"
         break;
       default:

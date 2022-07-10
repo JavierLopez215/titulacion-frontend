@@ -103,4 +103,12 @@ export class CommunityComponent implements OnInit {
     this.router.navigate(['/community', item.id]);
   }
 
+  actualizarRegistrosColaboracion(){
+    this.getPubColCommunity();
+  }
+
+  actualizarRegistrosComunidad(){
+    this.getPublicacionesCommunity();
+  }
+
 }

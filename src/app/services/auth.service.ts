@@ -60,12 +60,20 @@ export class AuthService {
   }
 
   actuaizarDatosUsuario(id: number, profile: Profile) {
-    return this.http.post(`${this.URL}/user/update`, profile);
+    return this.http.post(`${this.URL}/user/update`, profile, {observe: 'events', reportProgress: true});
   }
 
   actualizarFotoUsuario(file: any) {
     // console.log(foto);
-    return this.http.post(`${this.URL}/user/updatePicture`, file);
+    return this.http.post(`${this.URL}/user/updatePicture`, file,  {observe: 'events', reportProgress: true});
+  }
+
+  actuaizarContraseniaUsuario( contrasenias: any) {
+    return this.http.post(`${this.URL}/user/updateContrasenia`, contrasenias, {observe: 'events', reportProgress: true});
+  }
+
+  recuperarContraseniaUsuario( correo: string) {
+    return this.http.post(`${this.URL}/user/recover`, correo, {observe: 'events', reportProgress: true});
   }
 
   logout() {

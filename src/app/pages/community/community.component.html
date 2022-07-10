@@ -1,7 +1,13 @@
 <div class="pt-1" *ngIf="estado_consultaCol==='C'">
     <div class="col-ms-9">
         <div class="card border">
-            <div class="card-header bg-light">Actividad Reciente - Colaboraciones</div>
+            <div class="card-header bg-light p-2">Actividad Reciente - Colaboraciones
+
+                <div class="float-right"><button type="button" class="btn btn-sm font-weight-bold btn-primary m-0"
+                    data-bs-toggle="tooltip" data-bs-placement="left" title="Actualizar registros"
+                    (click)="actualizarRegistrosColaboracion()"><strong><span><i
+                                class="bi bi-arrow-clockwise"></i></span></strong></button></div>
+            </div>
 
             <div class="card-body">
                 <div class="table-responsive-sm" *ngIf="listaColPublicaciones.length > 0">
@@ -83,7 +89,12 @@
     <div class="pt-1" *ngIf="estado_consulta==='C'">
         <div class="col-ms-9">
             <div class="card border">
-                <div class="card-header bg-light">Actividad Reciente - Comunidad</div>
+                <div class="card-header bg-light p-2">Actividad Reciente - Comunidad
+                    <div class="float-right"><button type="button" class="btn btn-sm font-weight-bold btn-primary m-0"
+                        data-bs-toggle="tooltip" data-bs-placement="left" title="Actualizar registros"
+                        (click)="actualizarRegistrosComunidad()"><strong><span><i
+                                    class="bi bi-arrow-clockwise"></i></span></strong></button></div>
+                </div>
 
                 <div class="card-body">
                     <div class="table-responsive-sm" *ngIf="listaPublicaciones.length > 0">

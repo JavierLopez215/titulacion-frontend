@@ -3,107 +3,62 @@
     <h4 class="text-center">Perfil de usuario</h4>
 
     <!-- <div class="d-flex justify-content-center p-2 m-2"> -->
-        <div class="mx-auto" style="width:fit-content">
-            
-                <div style="width: 100px; height: 100px; overflow: hidden;" class="rounded-circle">
-                    <img src="{{ rutaImgProfile }}/profile/{{ user.foto }}" class="card-img-top" alt="...">
-                </div>
-                <!-- <img src="{{ rutaImgProfile }}/profile/{{ user.foto }}"
-                        class="card-img-top rounded-circle" alt="..."> -->
-          </div>
+    <div class="mx-auto" style="width:fit-content">
 
-        <div class="mx-auto" style="width:fit-content">
-            <form [formGroup]="updatePhotoUserForm" class="row g-3" (ngSubmit)="updatePhotoUsers()">
-                <div class="row pt-2">
-                    <div class="col-12 p-2">
-                        <div class="w-100 mx-auto text-center">
-                            <label for="formFile" class="form-label btn btn-outline-success m-1 p-1">Seleccionar Imagen..</label>
-                            <input class="form-control" class="d-none" accept="image/png, .jpge, .jpg"
-                                (change)="onChangeFile($event)" #file formControlName="file" type="file" id="formFile">
-                            <!-- <button type="submit" [disabled]="!updatePhotoUser.valid"
-                                class="btn btn-primary">Guardar</button> -->
-                        </div>
-                    </div>
-                    <div class="col-12 text-center">
-                        <!-- <div class="w-100 mx-auto"> -->
-                        
-                            <div class="rounded-circle d-inline" style="width: 50px; height: 50px; overflow: hidden;">
-                                <img *ngIf="archivo_seleccionado" src="{{archivo_seleccionado}}" alt="..."
-                                    style="width: 50px; height: auto;" class="card-img-top">
-                            </div>
-                       
-
-                        <div class="d-inline">
-                            <span class="text-success">{{ file_name }}</span>
-                        </div>
-
-                    </div>
-                    <div class="col-12 p-2">
-                        <div class="col-12 text-center">
-                            <button type="submit" [disabled]="!updatePhotoUserForm.valid"
-                                class="btn btn-primary">Guardar</button>
-                            <!-- <button type="submit" class="btn btn-primary" (click)="show()">Guardar2</button> -->
-                        </div>
-                    </div>
-                </div>
-            </form>
+        <div style="width: 100px; height: 100px; overflow: hidden;" class="rounded-circle">
+            <img src="{{ rutaImgProfile }}/profile/{{ user.foto }}" class="card-img-top" alt="...">
         </div>
+        <!-- <img src="{{ rutaImgProfile }}/profile/{{ user.foto }}"
+                        class="card-img-top rounded-circle" alt="..."> -->
+    </div>
+
+    <div class="mx-auto" style="width:fit-content">
+        <form [formGroup]="updatePhotoUserForm" class="row g-3" (ngSubmit)="updatePhotoUsers()">
+            <div class="row pt-2">
+                <div class="col-12 p-2">
+                    <div class="w-100 mx-auto text-center">
+                        <label for="formFile" class="form-label btn btn-outline-success m-1 p-1">Seleccionar
+                            Imagen..</label>
+                        <input class="form-control" class="d-none" accept="image/png, .jpge, .jpg"
+                            (change)="onChangeFile($event)" #file formControlName="file" type="file" id="formFile">
+                        <!-- <button type="submit" [disabled]="!updatePhotoUser.valid"
+                                class="btn btn-primary">Guardar</button> -->
+                    </div>
+                </div>
+                <div class="col-12 text-center" *ngIf="this.updatePhotoUserForm.value.file">
+                    <!-- <div class="w-100 mx-auto"> -->
+
+                    <div class="rounded-circle d-inline" style="width: 50px; height: 50px; overflow: hidden;">
+                        <img *ngIf="archivo_seleccionado" src="{{archivo_seleccionado}}" alt="..."
+                            style="width: 50px; height: auto;" class="card-img-top">
+                    </div>
 
 
-        <!-- <div class="w-100">
-            <div class="row">
+                    <div class="d-inline">
+                        <span class="text-success ml-1 mr-1">{{ file_name }}</span>
+                    </div>
+                    <div class="d-inline">
+                        <button class="btn btn-outline-danger pt-1 pb-1" id="btnAddFile"
+                            (click)="CancelarCargaArchivo()">X</button>
+                    </div>
 
-                <div class="col-auto"></div>
-                <div class="col-md-3 mx-auto">
-                    <div style="width: 100px; height: 100px; overflow: hidden;" class="rounded-circle">
-                        <img src="{{ rutaImgProfile }}/profile/{{ user.foto }}" class="card-img-top" alt="...">
+                </div>
+                <div class="col-12 p-2">
+                    <div class="col-12 text-center">
+                        <button type="submit" [disabled]="!updatePhotoUserForm.valid || ec_updatePhotoU=='P'"
+                            class="btn btn-primary">
+                            <span class="spinner-border spinner-border-sm" *ngIf="ec_updatePhotoU=='P'" role="status" aria-hidden="true"></span>
+                            Guardar</button>
                     </div>
                 </div>
             </div>
-
-            <form [formGroup]="updatePhotoUserForm" class="row g-3" (ngSubmit)="updatePhotoUsers()">
-                <div class="row pt-2">
-                    <div class="col-12 p-2">
-                        <div class="w-100 mx-auto text-center">
-                            <label for="formFile" class="form-label btn btn-outline-success m-1 p-1">Seleccionar Imagen..</label>
-                            <input class="form-control" class="d-none" accept="image/png, .jpge, .jpg"
-                                (change)="onChangeFile($event)" #file formControlName="file" type="file" id="formFile">
-                        </div>
-                    </div>
-                    <div class="col-12 text-center">
-                        
-                            <div class="rounded-circle d-inline" style="width: 50px; height: 50px; overflow: hidden;">
-                                <img *ngIf="archivo_seleccionado" src="{{archivo_seleccionado}}" alt="..."
-                                    style="width: 50px; height: auto;" class="card-img-top">
-                            </div>
-                       
-
-                        <div class="d-inline">
-                            <span class="text-success">{{ file_name }}</span>
-                        </div>
-
-                    </div>
-                    <div class="col-12 p-2">
-                        <div class="col-12 text-center">
-                            <button type="submit" [disabled]="!updatePhotoUserForm.valid"
-                                class="btn btn-primary">Guardar</button>
-                            
-                        </div>
-                    </div>
-                </div>
-            </form>
-
-
-
-        </div> -->
-    <!-- </div> -->
-
-
+        </form>
+    </div>
 
 
     <div class="card">
-        <div class="card-header bg-primary">
-            <h5 class="text-light">Datos Personales</h5>
+        <div class="card-header bg-primary text-white">
+            Datos Personales
         </div>
         <div class="card-body">
 
@@ -116,40 +71,166 @@
                         <div class="col-md-4">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" name="nombre" formControlName="nombre" class="form-control" autofocus
-                                id="nombre">
+                                id="nombre" [ngClass]="updateDataForm.controls['nombre'].invalid && (updateDataForm.controls['nombre'].dirty 
+                                || updateDataForm.controls['nombre'].touched) ? 'border border-danger' : ''">
+
+                            <div *ngIf="updateDataForm.controls['nombre'].invalid && 
+                                    (updateDataForm.controls['nombre'].dirty || 
+                                    updateDataForm.controls['nombre'].touched)">
+                                <small *ngIf="updateDataForm.controls['nombre'].errors?.required"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Dato requerido
+                                </small>
+                                <small *ngIf="updateDataForm.controls['nombre'].errors?.minlength"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Mínimo 3 caracteres
+                                </small>
+                                <small *ngIf="updateDataForm.controls['nombre'].errors?.maxlength"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Máximo 20 caracteres
+                                </small>
+                                <small *ngIf="updateDataForm.controls['nombre'].errors?.pattern"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Solo letras
+                                </small>
+                                <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <label for="apellido" class="form-label">Apellido</label>
                             <input type="text" name="apellido" formControlName="apellido" class="form-control"
-                                id="apellido">
+                                id="apellido" [ngClass]="updateDataForm.controls['apellido'].invalid && (updateDataForm.controls['apellido'].dirty 
+                                || updateDataForm.controls['apellido'].touched) ? 'border border-danger' : ''">
+
+                            <div *ngIf="updateDataForm.controls['apellido'].invalid && 
+                                    (updateDataForm.controls['apellido'].dirty || 
+                                    updateDataForm.controls['apellido'].touched)">
+                                <small *ngIf="updateDataForm.controls['apellido'].errors?.required"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Dato requerido
+                                </small>
+                                <small *ngIf="updateDataForm.controls['apellido'].errors?.minlength"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Mínimo 3 caracteres
+                                </small>
+                                <small *ngIf="updateDataForm.controls['apellido'].errors?.maxlength"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Máximo 20 caracteres
+                                </small>
+                                <small *ngIf="updateDataForm.controls['apellido'].errors?.pattern"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Solo letras
+                                </small>
+                                <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <label for="telefono" class="form-label">Teléfono</label>
                             <input type="text" name="telefono" formControlName="telefono" class="form-control"
-                                id="telefono">
+                                id="telefono" [ngClass]="updateDataForm.controls['telefono'].invalid && (updateDataForm.controls['telefono'].dirty 
+                                || updateDataForm.controls['telefono'].touched) ? 'border border-danger' : ''">
+
+                            <div *ngIf="updateDataForm.controls['telefono'].invalid && 
+                                    (updateDataForm.controls['telefono'].dirty || 
+                                    updateDataForm.controls['telefono'].touched)">
+                                <small *ngIf="updateDataForm.controls['telefono'].errors?.required"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Dato requerido
+                                </small>
+                                <small *ngIf="updateDataForm.controls['telefono'].errors?.minlength"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    10 caracteres
+                                </small>
+                                <small *ngIf="updateDataForm.controls['telefono'].errors?.maxlength"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    10 caracteres
+                                </small>
+                                <small *ngIf="updateDataForm.controls['telefono'].errors?.pattern"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Solo números
+                                </small>
+                            </div>
                         </div>
+
                         <div class="col-md-6">
                             <label for="direccion" class="form-label">Dirección</label>
                             <input type="text" name="direccion" formControlName="direccion" class="form-control"
-                                id="direccion" placeholder="Ciudad, calles..">
+                                id="direccion" placeholder="Ciudad, calles.." [ngClass]="updateDataForm.controls['direccion'].invalid && 
+                                (updateDataForm.controls['direccion'].dirty 
+                                || updateDataForm.controls['direccion'].touched) ? 'border border-danger' : ''">
+
+                            <div *ngIf="updateDataForm.controls['direccion'].invalid && 
+                                    (updateDataForm.controls['direccion'].dirty || 
+                                    updateDataForm.controls['direccion'].touched)">
+                                <small *ngIf="updateDataForm.controls['direccion'].errors?.required"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Dato requerido
+                                </small>
+                                <small *ngIf="updateDataForm.controls['direccion'].errors?.minlength"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Mínimo 5 caracteres
+                                </small>
+                                <small *ngIf="updateDataForm.controls['direccion'].errors?.maxlength"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Máximo 255 caracteres
+                                </small>
+                                <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label for="correo_reg" class="form-label">Correo electrónico</label>
                             <input type="email" name="correo_reg" formControlName="correo" class="form-control"
-                                id="correo_reg">
+                                id="correo_reg" [ngClass]="updateDataForm.controls['correo'].invalid && (updateDataForm.controls['correo'].dirty 
+                                || updateDataForm.controls['correo'].touched) ? 'border border-danger' : ''">
+
+                            <div *ngIf="updateDataForm.controls['correo'].invalid && 
+                                    (updateDataForm.controls['correo'].dirty || 
+                                    updateDataForm.controls['correo'].touched)">
+                                <small *ngIf="updateDataForm.controls['correo'].errors?.required"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Dato requerido
+                                </small>
+                                <small *ngIf="updateDataForm.controls['correo'].errors?.email"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Correo no válido
+                                </small>
+
+                            </div>
                         </div>
                         <div class="col-12">
                             <label for="perfil_prof" class="form-label">Perfil Profesional</label>
                             <textarea class="form-control" name="perfil_prof" formControlName="perfil_prof"
                                 id="perfil_prof" rows="3"
-                                placeholder="Describa el nivel y área de estudio en el que se especializa"></textarea>
+                                placeholder="Describa el nivel y área de estudio en el que se especializa"
+                                [ngClass]="updateDataForm.controls['perfil_prof'].invalid && (updateDataForm.controls['perfil_prof'].dirty 
+                                        || updateDataForm.controls['perfil_prof'].touched) ? 'border border-danger' : ''"></textarea>
+
+                            <div *ngIf="updateDataForm.controls['perfil_prof'].invalid && 
+                                    (updateDataForm.controls['perfil_prof'].dirty || 
+                                    updateDataForm.controls['perfil_prof'].touched)">
+                                <small *ngIf="updateDataForm.controls['perfil_prof'].errors?.required"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Dato requerido
+                                </small>
+                                <small *ngIf="updateDataForm.controls['perfil_prof'].errors?.minlength"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Mínimo 50 caracteres
+                                </small>
+                                <small *ngIf="updateDataForm.controls['perfil_prof'].errors?.maxlength"
+                                    class="fs-7 text-danger p-0 m-0">
+                                    Máximo 1000 caracteres
+                                </small>
+                                <!-- <p>myForm value: {{ loginForm.controls['contrasena'].errors | json }}</p> -->
+                            </div>
                         </div>
 
 
 
                         <div class="col-12 text-center">
-                            <button type="submit" [disabled]="!updateDataForm.valid"
-                                class="btn btn-primary">Guardar</button>
+                            <button type="submit" [disabled]="!updateDataForm.valid || ec_updateDataU=='P'"
+                                class="btn btn-primary mt-2">
+                                <span class="spinner-border spinner-border-sm" *ngIf="ec_updateDataU=='P'" role="status" aria-hidden="true"></span>
+                                Guardar</button>
                             <!-- <button type="submit" class="btn btn-primary" (click)="show()">Guardar2</button> -->
                         </div>
                     </form>
@@ -161,8 +242,8 @@
 
 
     <div class="card mt-2">
-        <div class="card-header bg-primary">
-            <h5 class="text-light">Áreas en las que se especializa</h5>
+        <div class="card-header bg-primary text-white">
+            Áreas en las que se especializa
         </div>
         <div class="card-body">
 
@@ -174,6 +255,11 @@
                             <button class="border-0 rounded-circle"
                                 (click)="deleteEspeciallityUser(m_especialidad.id)">X</button>
                         </div>
+
+                    </div>
+                    <div *ngIf="listaEspecialidadesUsuario.length==0">
+                        <br><br>
+                        <h6 class="text-center">No hay especialidades agregadas</h6>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -181,7 +267,7 @@
                     <div class="list-group border"
                         style="max-height: 300px; overflow:scroll; -webkit-overflow-scrolling: touch;">
                         <div *ngFor="let especialidad of listaEspecialidades">
-                            <button type="button" class="list-group-item list-group-item-action"
+                            <button type="button" class="list-group-item list-group-item-action p-1"
                                 (click)="postEspeciallityUser(especialidad.id)">{{ especialidad.nombre
                                 }}</button>
                             <!-- <button type="button" class="list-group-item list-group-item-action">Area 2</button> -->
@@ -191,6 +277,29 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+    </div>
+
+    <div class="card mt-2">
+        <div class="card-header bg-primary text-white">
+            Cambiar contraseña
+        </div>
+        <div class="card-body">
+            <form [formGroup]="updateContraseniaUserForm" (ngSubmit)="cambiarContraseniaUsuario()">
+                <div class="input-group mb-3">
+                    <input type="password" class="form-control" placeholder="Actual contraseña"
+                         formControlName="actual_cont">
+                    <input type="password" class="form-control" placeholder="Nueva Contraseña"
+                         formControlName="nueva_cont">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit" [disabled]="!updateContraseniaUserForm.valid || ec_updateCont=='P'">
+                            <span class="spinner-border spinner-border-sm" *ngIf="ec_updateCont=='P'" role="status" aria-hidden="true"></span>
+                            Cambiar contraseña</button>
+                    </div>
+                </div>
+
+            </form>
 
         </div>
     </div>

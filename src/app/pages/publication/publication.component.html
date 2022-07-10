@@ -136,7 +136,7 @@
         <div class="card-footer p-1">
             <div class="text-center">
                 <button type="button" id="btn-comentar" class="btn btn-outline-primary mr-2" data-toggle="modal"
-                    data-target="#modalAddComentario">Comentar</button>
+                    data-target="#modalAddComentario" (click)="resetFormularioComentario()">Comentar</button>
 
                 <button type="button" class="btn btn-outline-primary mr-2" data-toggle="modal"
                     data-target="#modalAddCalificacionPublicacion"
@@ -363,6 +363,10 @@
                                 </form>
                             </div>
 
+                            <div *ngIf="listaCalificacionesComentarios.length === 0">
+                                <h6 class="text-center">El comentario aún no ha sido calificado</h6>
+                            </div>
+
 
                             <div *ngIf="listaCalificacionesComentarios.length > 0">
                                 <div class="card p-2 mt-2" *ngFor="let cal_com of listaCalificacionesComentarios">
@@ -520,7 +524,7 @@
                 </div>
 
                 <div *ngIf="listaCalificaciones.length === 0">
-                    <h5 class="text-center">La publicación aun no ha sido calificada</h5>
+                    <h6 class="text-center">La publicación aun no ha sido calificada</h6>
                 </div>
 
                 <!-- /.modal-content -->
@@ -599,7 +603,7 @@
                                     [formGroup]="tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode "
                                     (ngSubmit)="AddResource()">
                                     <select class="custom-select border-primary mt-0" aria-label="Tipo"
-                                        (change)="tipoRecursoChange($event)">
+                                        (change)="tipoRecursoChange($event)" id="sel">
                                         <option selected value="">Seleccionar tipo de recurso</option>
                                         <option [value]="'file'">Archivo</option>
                                         <option [value]="'code'">Codigo</option>
@@ -636,7 +640,7 @@
 
                                         <div class="mb-3 text-center" *ngIf="tipo_aporte == 'file'">
                                             <label for="formFileMultiple"
-                                                class="form-label text-success">Seleccionar..</label>
+                                                class="form-label btn btn-outline-success">Seleccionar..</label>
                                             <input class="form-control d-none" type="file" id="formFileMultiple"
                                                 name="file" formControlName="file" (change)="onChangeFile($event)">
                                             <br>

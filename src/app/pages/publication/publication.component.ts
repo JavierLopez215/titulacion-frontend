@@ -549,6 +549,8 @@ export class PublicationComponent implements OnInit {
     // this.tipo_aporte=''
     this.archivo_seleccionado = "";
     // console.log('lista de adjuntos', this.listaAdjuntos);
+    $("#sel").val("").change();
+    this.tipo_aporte = ""
   }
 
   onChangeFile(event: any): void {
@@ -651,6 +653,8 @@ export class PublicationComponent implements OnInit {
           this.tipo_aporte = "";
           this.listaAdjuntos = [];
           this.getComentariosPublicacion();
+          this.resetFormularioComentario();
+          $('#modalAddComentario').modal('hide')
         }
         else {
           // this.errores = res.mensaje;
@@ -1062,6 +1066,17 @@ export class PublicationComponent implements OnInit {
     this.getUsuCalificacionesPublicaciones();
   }
 
-
+  resetFormularioComentario() {
+    this.addComentario.reset();
+    this.addCode.reset();
+    this.addFile.reset();
+    this.addURL.reset();
+    this.archivo_seleccionado = "";
+    this.tipo_aporte = "";
+    this.listaAdjuntos = [];
+    $("#sel").val("").change();
+    this.addComentario.patchValue({ 'area': '' })
+    this.tipo_aporte = ''
+  }
   
 }

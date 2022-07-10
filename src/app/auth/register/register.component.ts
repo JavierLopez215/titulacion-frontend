@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -14,10 +15,11 @@ export class RegisterComponent implements OnInit {
 
   errores: string = "";
   ec_register: string = "C"
+  rutaImg: string = environment.images_URL;
 
   public registerForm = this.formBuilder.group({
-    nombre: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(20),Validators.pattern('[a-zA-Z ]*')]],
-    apellido: ['',[Validators.required, Validators.minLength(3),Validators.maxLength(20),Validators.pattern('[a-zA-Z ]*')]],
+    nombre: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(20),Validators.pattern('[a-zA-Z áéíóú]*')]],
+    apellido: ['',[Validators.required, Validators.minLength(3),Validators.maxLength(20),Validators.pattern('[a-zA-Z áéíóú]*')]],
     direccion: ['', [Validators.required, Validators.minLength(5),Validators.maxLength(255)]],
     perfil_prof: ['', [Validators.required, Validators.minLength(50),Validators.maxLength(1000)]],
     telefono: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(10),Validators.pattern('[0-9]*')]],

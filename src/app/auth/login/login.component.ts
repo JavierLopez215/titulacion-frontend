@@ -1,3 +1,4 @@
+import { environment } from './../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { HttpEventType } from '@angular/common/http';
 import { Login } from './../../model/Login';
@@ -13,9 +14,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
+  rutaImg: string = environment.images_URL;
+
   public loginForm = this.formBuilder.group({
     correo: ['', [Validators.required,Validators.email]],
-    contrasena: ['', [Validators.required, Validators.minLength(4)]]
+    contrasena: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(255)]]
   });
 
   ec_login: string = 'C'
