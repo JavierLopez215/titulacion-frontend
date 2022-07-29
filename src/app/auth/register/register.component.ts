@@ -59,8 +59,9 @@ export class RegisterComponent implements OnInit {
         this.ec_register = 'C'
         if (res.body.ok === 1) {
           localStorage.setItem('token', res.body.token);
-          window.location.reload();
-          // this.router.navigate(['/']);
+          // window.location.reload();
+          this.authService.actualizarToken();
+          this.router.navigate(['app']);
           // this.errores = '';
         }
         else {

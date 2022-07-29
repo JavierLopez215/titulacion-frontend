@@ -348,16 +348,16 @@ export class PublicationComponent implements OnInit {
         return 'img';
         break;
       case 'doc': case 'docx': case 'pdf': case 'xls': case 'xlsx': case 'ppt': case 'pptx': case 'txt':
-        return 'app/files-documents2.png';
+        return 'file.png';
         break;
       case 'mp4': case 'mov': case 'wmv': case 'avi': case 'flv':
-        return 'app/files-video.png'
+        return 'movie.png'
         break;
       default:
-        return 'app/multiple-file.png'
+        return 'file.png'
         break;
     }
-    return 'app/multiple-file.png';
+    return 'file.png';
   }
 
   getDetallePublicacion() {
@@ -460,7 +460,7 @@ export class PublicationComponent implements OnInit {
           // this.authService.actualizarToken();
           this.addCalificacion.reset();
           this.getCalificacionesPublicacion();
-
+          this.getUsuCalificacionesPublicaciones();
         }
         else {
           // this.errores = res.mensaje;
@@ -490,6 +490,7 @@ export class PublicationComponent implements OnInit {
       if (res.type === HttpEventType.Response) {
         this.ec_postCalificacionPub = 'C';
         if (res.body.ok === 1) {
+          this.getUsuCalificacionesPublicaciones();
           this.toastr.success('Datos actualizados correctamente.', 'Safisfactorio');
           // this.getCalificacionesPublicacion();
           this.accionesPreviasModalCalificacionesPublicacion()

@@ -25,15 +25,9 @@ export class AuthService {
   }
 
   login(login: Login) {
-    // console.log(login);
     return this.http.post(`${this.URL}/user/login`, login,{observe: 'events', reportProgress: true});
   }
 
-  actualizarToken(){
-    if(this.isAuth())
-    var token = localStorage.getItem("token");
-    this.usuarioSubject.next(token!);
-  }
 
   register(profile: Profile) {
     return this.http.post(`${this.URL}/user/register`, profile,{observe: 'events', reportProgress: true});
@@ -46,6 +40,12 @@ export class AuthService {
       return false;
     }
     return true;
+  }
+
+  actualizarToken(){
+    if(this.isAuth())
+    var token = localStorage.getItem("token");
+    this.usuarioSubject.next(token!);
   }
 
   dataUser() {

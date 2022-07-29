@@ -33,7 +33,7 @@ const routes: Routes = [
   { path: 'community', component: CommunityComponent, canActivate:[AuthGuard] },
   { path: 'community/:id', component: PublicationComponent, canActivate:[AuthGuard] },
   { path: 'app', component: AppComponent2, canActivate:[AuthGuard] },
-  { path: '**', redirectTo: '404' },
+  // { path: '**', redirectTo: '404' },
 
   //path para administrador
   // { path: 'admin', component: AppComponent, canActivate:[RoleGuard], data:{roleId:1} }

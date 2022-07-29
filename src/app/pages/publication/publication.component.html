@@ -110,12 +110,12 @@
                                     <div class="card w-100 border-0 m-0 p-0"
                                         *ngIf="item.tipo != 'code' && item.tipo!='URL'">
                                         <div class="row p-2">
-                                            <div class="col-md-2 border border-primary border-2 rounded">
+                                            <div class="col-md-2">
                                                 <!-- <a href="{{ (getTipoArchivo(item.tipo)=='img' ? rutaArchivos +'/'+item.contenido : rutaImg +'/'+getTipoArchivo(item.tipo)) | safe : 'resourceUrl'}}"
                                                 target="_blank"> -->
                                                 <a href="{{ rutaArchivos +'/'+item.contenido }}" target="_blank">
-                                                    <img src="{{(getTipoArchivo(item.tipo)=='img' ? rutaArchivos +'/'+item.contenido : rutaImg +'/'+getTipoArchivo(item.tipo)) | safe : 'resourceUrl'}}"
-                                                        class="img-fluid rounded-start border-primary" alt="...">
+                                                    <img src="{{(getTipoArchivo(item.tipo)=='img' ? rutaArchivos +'/'+item.contenido : rutaImg +'/app/imgs/'+getTipoArchivo(item.tipo)) | safe : 'resourceUrl'}}"
+                                                        class="img-fluid" alt="...">
                                                 </a>
                                             </div>
                                             <div class="col-md-10">
@@ -259,7 +259,7 @@
                                         <div class="col-md-2 border border-0 rounded p-2">
                                             <a href="{{ rutaArchivosCom +'/'+detalle_item.contenido }}" target="_blank">
                                                 <div style="width: auto; height: auto; overflow: hidden;" class="">
-                                                    <img src="{{(getTipoArchivo(detalle_item.tipo)=='img' ? rutaArchivosCom +'/'+detalle_item.contenido : rutaImg +'/'+getTipoArchivo(detalle_item.tipo)) | safe : 'resourceUrl'}}"
+                                                    <img src="{{(getTipoArchivo(detalle_item.tipo)=='img' ? rutaArchivosCom +'/'+detalle_item.contenido : rutaImg +'/app/imgs/'+getTipoArchivo(detalle_item.tipo)) | safe : 'resourceUrl'}}"
                                                         class="card-img-top" alt="...">
                                                 </div>
                                             </a>

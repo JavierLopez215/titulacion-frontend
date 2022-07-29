@@ -244,6 +244,7 @@ export class MeetingsComponent implements OnInit {
   postSolicitudReunion() {
     this.getDataUser();
     this.reunion_ = this.addSolicitudReunion.value as Reunion;
+    // console.log('Reunion simple',this.addSolicitudReunion.value);
     // console.log(this.addSolicitudReunion.value.fecha_sol.day + '/' + this.addSolicitudReunion.value.fecha_sol.month + '/' + this.addSolicitudReunion.value.fecha_sol.year)
     var day = this.addSolicitudReunion.value.fecha_sol.day;
     var month = this.addSolicitudReunion.value.fecha_sol.month;
@@ -264,7 +265,8 @@ export class MeetingsComponent implements OnInit {
     // this.reunion_.fecha_sol = new Date(this.reunion_.fecha_sol.year)
     this.reunion_.estado = 'P';
 
-    // console.log('Reunion', this.reunion_)
+    console.log('Reunion', this.reunion_)
+    
 
     this.meetingsService.postReunion(this.reunion_).subscribe((res: any) => {
 
@@ -286,7 +288,8 @@ export class MeetingsComponent implements OnInit {
           this.getListaMisReunionesHistorial();
         }
         else {
-          console.log(res)
+          this.ec_postReuniones = 'C';
+          // console.log(res)
           this.toastr.error('Ha ocurrido un error', 'Error')
         }
       }
