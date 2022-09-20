@@ -18,8 +18,8 @@ import { AuthGuard } from './guards/auth.guard';
 import { MeetingDetailsComponent } from './pages/meeting-details/meeting-details.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full'},
-  { path: 'home', component: HomeComponent, canActivate:[GuestsGuard] },
+  //{ path: '/', redirectTo: '/home', pathMatch: 'full'},
+  { path: '', component: HomeComponent, canActivate:[GuestsGuard] },
   { path: 'about', component: AboutComponent, canActivate:[GuestsGuard] },
   { path: 'login', component: LoginComponent, canActivate:[GuestsGuard] },
   { path: 'register', component: RegisterComponent, canActivate:[GuestsGuard] },
@@ -33,7 +33,7 @@ const routes: Routes = [
   { path: 'community', component: CommunityComponent, canActivate:[AuthGuard] },
   { path: 'community/:id', component: PublicationComponent, canActivate:[AuthGuard] },
   { path: 'app', component: AppComponent2, canActivate:[AuthGuard] },
-  // { path: '**', redirectTo: '404' },
+  { path: '**', redirectTo: '' },
 
   //path para administrador
   // { path: 'admin', component: AppComponent, canActivate:[RoleGuard], data:{roleId:1} }

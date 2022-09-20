@@ -56,6 +56,7 @@ export class PublicationComponent implements OnInit {
   public aux_adjunto: DetalleComentario = {} as DetalleComentario;
   public selComentario: number = 0;
 
+  public idComCal = 0;
   public _calificacion_comentario = 0;
   public _calificacion_publicacion = 0
 
@@ -142,10 +143,7 @@ export class PublicationComponent implements OnInit {
     private toastr: ToastrService,
     private calendar: NgbCalendar, private _location: Location,
   ) {
-    // this.modalCalificacionesComentarios.addEventListener('show.bs.modal', () => {
-    //   console.log('modal abierto')
-    //   // this.getComentariosPublicacion();
-    // })
+    
   }
 
 
@@ -162,27 +160,7 @@ export class PublicationComponent implements OnInit {
 
     this.getCalificacionesPublicacion();
 
-    // $( "#target" ).click(function() {
-    //   alert( "Handler for .click() called." );
-    // });
 
-  }
-
-  ngAfterViewChecked(){
-    
-
-      // $('#modalAddCalificacionPublicacion').on('shown.bs.modal', function (event:any) {
-      //   // do something...
-      //   console.log('modal abierto')
-      // })
-
-      // $('#modalAddCalificacionPublicacion').on('hidden.bs.modal', function (event:any) {
-      //   console.log('modal cerrado')
-      // })
-
-      // $('#modalCalificacionComentario').on('hidden.bs.modal', function (event:any) {
-      //   // this.getComentariosPublicacion();
-      // })
   }
 
 
@@ -228,7 +206,7 @@ export class PublicationComponent implements OnInit {
         }
         else {
           // this.errores = res.mensaje;
-          console.log('error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (err: any) => {
@@ -275,8 +253,7 @@ export class PublicationComponent implements OnInit {
           this.listaCalificaciones = res.body.data as Array<CalificacionPublicacion>;
         }
         else {
-          // this.errores = res.mensaje;
-          console.log('error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     })
@@ -304,6 +281,7 @@ export class PublicationComponent implements OnInit {
       if (res.type === HttpEventType.Response) {
         this.ec_comentarioPub = 'C';
         if (res.body.ok === 1) {
+          // console.log(res.body.data);
           this.listaComentarios = res.body.data.comentarios as Array<Comentario>;
           this.listaDetallesComentario = res.body.data.detalles as Array<DetalleComentario>;
 
@@ -330,7 +308,7 @@ export class PublicationComponent implements OnInit {
           // this.resComentarioMaestro.ok = 0;
           // this.resComentarioMaestro.mensaje='error'
           // console.log('error');
-          this.toastr.error('Ha ocurrido un error', 'Error')
+          this.toastr.error(res.body.mensaje, 'Error');
         }
 
         //  console.log(this.listaComentarios);
@@ -344,7 +322,7 @@ export class PublicationComponent implements OnInit {
 
   getTipoArchivo(tipo: string): string {
     switch (tipo) {
-      case 'jpge': case 'png': case 'jpg': case 'gif': case 'svg':
+      case 'jpeg': case 'png': case 'jpg': case 'gif': case 'svg':
         return 'img';
         break;
       case 'doc': case 'docx': case 'pdf': case 'xls': case 'xlsx': case 'ppt': case 'pptx': case 'txt':
@@ -390,8 +368,7 @@ export class PublicationComponent implements OnInit {
 
         }
         else {
-          // this.errores = res.mensaje;
-          console.log('error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     })
@@ -416,13 +393,13 @@ export class PublicationComponent implements OnInit {
   }
 
   // Guardar  calificacion de comentario 
-  guardarCalificacionComentario(idCom: number) {
-    console.log('Comentario id', idCom)
+  guardarCalificacionComentario() {
+    console.log('Comentario id', )
     if (this.otraCalificacionCom) {
-      this.updateCalificacionComentario(idCom);
+      this.updateCalificacionComentario(this.idComCal);
     }
     else {
-      this.postCalificacionComentario(idCom);
+      this.postCalificacionComentario();
     }
   }
 
@@ -463,8 +440,7 @@ export class PublicationComponent implements OnInit {
           this.getUsuCalificacionesPublicaciones();
         }
         else {
-          // this.errores = res.mensaje;
-          console.log(res);
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     });
@@ -499,7 +475,7 @@ export class PublicationComponent implements OnInit {
         else {
           // this.errores = res.mensaje;
           // console.log(res);
-          this.toastr.error('Ha ocurrido un error', 'Error')
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (error: any) => {
@@ -595,7 +571,7 @@ export class PublicationComponent implements OnInit {
         this.postComentarioPublicacion(res.data);
       }
       else {
-        console.log('error')
+        this.toastr.error(res.body.mensaje, 'Error');
       }
 
     });
@@ -621,16 +597,16 @@ export class PublicationComponent implements OnInit {
     this.comentario.listaDetalles = this.listaAdjuntos;
     this.comentario.activo = "S";
     // this.publicacion.formData = this.convertFilesToFormData();
-    console.log(this.comentario);
+    // console.log(this.comentario);
 
     this.commentaryService.postComentariosPublicacion(this.comentario).subscribe((res: any) => {
 
       if (res.type === HttpEventType.DownloadProgress) {
-        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
         this.ec_postCalificacionPub = 'P'
       }
       if (res.type === HttpEventType.UploadProgress) {
-        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
 
         this.ec_postCalificacionPub = 'P'
         // console.log(res.loaded); //uploaded bytes
@@ -659,7 +635,7 @@ export class PublicationComponent implements OnInit {
         }
         else {
           // this.errores = res.mensaje;
-          console.log(res);
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     });
@@ -709,12 +685,9 @@ export class PublicationComponent implements OnInit {
           // this.router.navigate(['/']);
           // this.errores = '';
           this.listaCalificacionesComentarios = res.body.data
-          console.log(this.listaCalificacionesComentarios);
-
         }
         else {
-          // this.errores = res.mensaje;
-          console.log('error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     })
@@ -722,6 +695,7 @@ export class PublicationComponent implements OnInit {
 
   getUsuCalificacionesComentarios(id: number) {
 
+    console.log(id,'id_com')
     const dataUser: any = this.authService.dataUser();
     this.gradeService.getCalificacionComentarioUserId(id).subscribe((res: any) => {
 
@@ -742,6 +716,7 @@ export class PublicationComponent implements OnInit {
         // this.ec_calificacionesCom = 'C';
         if (res.body.ok === 1) {
 
+          this.otraCalificacionCom = false;
           if (res.body.data.length > 0) {
             var calificacion = res.body.data[0];
             this.addCalificacionComentario.patchValue({
@@ -750,6 +725,7 @@ export class PublicationComponent implements OnInit {
             });
             this.otraCalificacionCom = true;
             this.idOtraCalificacionCom = calificacion.id;
+            console.log(this.idOtraCalificacionCom)
           }
           else {
             this.addCalificacionComentario.patchValue({
@@ -761,7 +737,7 @@ export class PublicationComponent implements OnInit {
         }
         else {
           // this.errores = res.mensaje;
-          console.log('error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     })
@@ -791,7 +767,7 @@ export class PublicationComponent implements OnInit {
         // this.ec_calificacionesCom = 'C';
         if (res.body.ok === 1) {
 
-          console.log('calificaion pub: ', res.body.data[0])
+          // console.log('calificaion pub: ', res.body.data[0])
           if (res.body.data.length > 0) {
             var calificacion = res.body.data[0];
             this.addCalificacion.patchValue({
@@ -818,7 +794,7 @@ export class PublicationComponent implements OnInit {
   }
 
 
-  postCalificacionComentario(idCom: number) {
+  postCalificacionComentario() {
     // const idPub = this.acRouter.snapshot.paramMap.get('id') || "";
     const dataUser: any = this.authService.dataUser();
 
@@ -826,7 +802,7 @@ export class PublicationComponent implements OnInit {
       motivo_cal: this.addCalificacionComentario.value.motivo_cal,
       calificacion: this.addCalificacionComentario.value.calificacion,
       id_usuario_cal: dataUser.id,
-      id_comentario_cal: idCom
+      id_comentario_cal: this.idComCal
     } as CalificacionComentario
 
     // console.log('Calificación comentario', calificacion_)
@@ -852,14 +828,14 @@ export class PublicationComponent implements OnInit {
           this.toastr.success('Datos ingresados correctamente', 'Safisfactorio');
           // this.authService.actualizarToken();
           // this.addCalificacionComentario.reset();
-          this.getCalificacionesComentarios(idCom);
+          this.getCalificacionesComentarios(this.idComCal);
           // this.getComentariosPublicacion();
           // this.getUsuCalificacionesComentarios(idCom);
 
         }
         else {
           // this.errores = res.mensaje;
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (err) => {
@@ -895,7 +871,7 @@ export class PublicationComponent implements OnInit {
         else {
           // this.errores = res.mensaje;
           // console.log(res);
-          this.toastr.error('Ha ocurrido un error', 'Error')
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (error: any) => {
@@ -965,7 +941,7 @@ export class PublicationComponent implements OnInit {
           this.ec_elimPublicacion = 'C';
           // this.errores = res.mensaje;
           // console.log(res);
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (error) => {
@@ -995,9 +971,7 @@ export class PublicationComponent implements OnInit {
         }
         else {
           this.ec_elimPublicacion = 'C';
-          // this.errores = res.mensaje;
-          console.log(res);
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (error) => {
@@ -1043,9 +1017,7 @@ export class PublicationComponent implements OnInit {
         }
         else {
           this.ec_eliminarCom = 'C';
-          // this.errores = res.mensaje;
-          console.log(res);
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (error) => {
@@ -1057,12 +1029,13 @@ export class PublicationComponent implements OnInit {
 
   accionesPreviasModalCalificacionesComentario(idCom: number) {
     console.log(idCom);
+    this.idComCal=idCom
     this.getCalificacionesComentarios(idCom)
     this.getUsuCalificacionesComentarios(idCom);
   }
 
   accionesPreviasModalCalificacionesPublicacion() {
-    console.log('pub');
+    // console.log('pub');
     this.getCalificacionesPublicacion();
     this.getUsuCalificacionesPublicaciones();
   }

@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { NgbDatepickerI18n, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { DatePipe, TranslationWidth } from '@angular/common';
 import { HttpEventType } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 declare let $: any;
 
 const I18N_VALUES = {
@@ -64,6 +65,7 @@ export class MeetingsComponent implements OnInit {
   public listaReunionesAceptadas: Array<any> = [];
   public listaHistorialReuniones: Array<any> = [];
   public user = {} as Profile;
+  public rutaImgProfile = environment.images_URL;
 
   reunion_: Reunion = {} as Reunion
 
@@ -123,7 +125,7 @@ export class MeetingsComponent implements OnInit {
           this.listaReunionesAceptadas = res.body.data;
         }
         else {
-          this.toastr.error('Ha ocurrido un error', 'Error')
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (error) => {
@@ -160,7 +162,7 @@ export class MeetingsComponent implements OnInit {
         }
         else {
           // this.errores = res.mensaje;
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
           // console.log('error');
         }
       }
@@ -197,7 +199,7 @@ export class MeetingsComponent implements OnInit {
           this.listaReunionesAceptadas = res.body.data;
         }
         else {
-          this.toastr.error('Ha ocurrido un error', 'Error')
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (error) => {
@@ -225,11 +227,11 @@ export class MeetingsComponent implements OnInit {
         this.ec_ReunionesHis = 'C';
         if (res.body.ok === 1) {
           this.listaHistorialReuniones = res.body.data;
-          console.log(this.listaHistorialReuniones);
+          // console.log(this.listaHistorialReuniones);
         }
         else {
           // this.errores = res.mensaje;
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
           // console.log('error');
         }
       }
@@ -290,7 +292,7 @@ export class MeetingsComponent implements OnInit {
         else {
           this.ec_postReuniones = 'C';
           // console.log(res)
-          this.toastr.error('Ha ocurrido un error', 'Error')
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (error) => {

@@ -55,7 +55,7 @@
                 </div>
 
                 <div *ngIf="listaColPublicaciones.length === 0">
-                    <h4 class="text-center">No se ha encontrado colaboraciones.</h4>
+                    <h5 class="text-center">No se ha encontrado colaboraciones.</h5>
                     <!-- <div class="text-center">
                         <!-- <button type="button" class="btn btn-primary p-2 m-2" data-bs-toggle="modal"
                             data-bs-target="#questionModal">
@@ -102,13 +102,23 @@
                         <table class="table table-sm table-hover align-middle mb-0">
                             <thead class="border-white text-white bg-primary">
                                 <tr class="align-middle">
-                                    <th class="border">Fecha</th>
-                                    <th class="border">Tema</th>
-                                    <th class="border">Estado</th>
+                                    <th class="border align-middle">Fecha</th>
+                                    <th class="border">
+                                        <div class="form-group align-middle">
+                                            <div class="row pt-2 m-0">
+                                                <div class="col">Tema</div>
+                                                <div class="col-auto">
+                                                    <input type="text" class="form-control form-control-sm" id="busquedaCom"
+                                                        placeholder="Buscar.." [(ngModel)]="filter" name="filter">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th class="border align-middle">Estado</th>
                                 </tr>
                             </thead>
                             <tbody class="border border-primary table-bordered">
-                                <tr *ngFor="let publicacion of listaPublicaciones; let i =index"
+                                <tr *ngFor="let publicacion of listaPublicaciones | search: filter; let i =index"
                                     (click)="printData(publicacion)" style="cursor:pointer; cursor: hand">
                                     <th class="font-weight-light m-2 col-2">
                                         <p class="font-weight-light m-0"><small>{{ publicacion.creado | date
@@ -138,14 +148,9 @@
                     </div>
 
                     <div *ngIf="listaPublicaciones.length === 0">
-                        <p class="text-center fs-4">No se ha encontrado publicaciones.</p>
-                        <div class="text-center">
-                            <!-- <button type="button" class="btn btn-primary p-2 m-2" data-bs-toggle="modal"
-                          data-bs-target="#questionModal">
-                          Preguntar
-                      </button> -->
-                            <a class="link-primary" routerLink="/activities">Ir a tu actividad</a>
-                        </div>
+
+                        <h5 class="text-center">No se ha encontrado publicaciones de la comunidad.</h5>
+                        <!-- <p class="text-center fs-5">No se ha encontrado publicaciones.</p> -->
 
                     </div>
 

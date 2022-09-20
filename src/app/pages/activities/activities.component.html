@@ -14,7 +14,7 @@
                             comunidad.</h2>
                         <p class="mb-2 text-center">
                             <span>
-                                No te qudes con la duda, haz tu pregunta dando click en el boton de abajo y recibiras
+                                No te quedes con la duda, haz tu pregunta dando click en el boton de abajo y recibiras
                                 ayuda de una comunidad de expertos u otros estudiantes conocedores en el tema.
                             </span>
                         </p>
@@ -55,13 +55,23 @@
             <table class="table table-sm table-hover align-middle">
                 <thead class="bg-primary text-white">
                     <tr class="align-middle">
-                        <th class="border">Fecha</th>
-                        <th class="border">Tema</th>
-                        <th class="border">Estado</th>
+                        <th class="border align-middle">Fecha</th>
+                        <th class="border">
+                            <div class="form-group align-middle">
+                                <div class="row pt-2 m-0">
+                                    <div class="col">Tema</div>
+                                    <div class="col-auto">
+                                        <input type="text" class="form-control form-control-sm" id="busquedaAct"
+                                            placeholder="Buscar.." [(ngModel)]="filter" name="filter">
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                        <th class="border align-middle">Estado</th>
                     </tr>
                 </thead>
                 <tbody class="border border-primary table-bordered">
-                    <tr class="p-0" *ngFor="let publicacion of listaPublicaciones; let i=index"
+                    <tr class="p-0" *ngFor="let publicacion of listaPublicaciones | search: filter; let i=index"
                         (click)="printData(publicacion)" style="cursor:pointer; cursor: hand">
 
                         <td class="col-2">
@@ -263,7 +273,7 @@
                                                 || addFile.controls['file'].touched) ? 'border border-danger' : ''">
                                             <button class="btn btn-outline-primary" type="submit" id="btnAddFile"
                                                 [disabled]="!addFile.valid">Añadir</button>
-                                                
+
                                         </div>
                                         <div *ngIf="addFile.controls['file'].invalid">
                                             <small *ngIf="addFile.controls['file'].errors?.required"
@@ -271,7 +281,7 @@
                                                 Seleccione un archivo
                                             </small>
                                         </div>
-                                       
+
                                     </div>
                                     <div class="input-group" *ngIf="tipo_aporte == 'URL'">
                                         <input type="text" class="form-control" id="inputURL" placeholder="URL"

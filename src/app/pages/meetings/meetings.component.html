@@ -4,8 +4,8 @@
         clases
         personalizadas de lo que necesites.</p>
     <div class="text-center">
-        <button type="button" class="btn btn-primary" data-toggle="modal"
-            data-target="#modalAddSolicitud" (click)="resetFormularioSolicitud()">Solicitar</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddSolicitud"
+            (click)="resetFormularioSolicitud()">Solicitar</button>
     </div>
 </div>
 
@@ -45,27 +45,28 @@
         </div>
 
 
-        <div *ngIf="listaReunionesAceptadas.length > 0 && ec_ReunionesAce==='C'" style="cursor:pointer; cursor: hand">
-
+        <div *ngIf="listaReunionesAceptadas.length > 0 && ec_ReunionesAce==='C'">
 
             <div class="row g-3 m-2">
 
                 <div class="col-md-4 border border-primary" *ngFor="let reunion_a of listaReunionesAceptadas"
-                    (click)="detallePublicacion(reunion_a)">
+                    (click)="detallePublicacion(reunion_a)" style="cursor:pointer; cursor: hand">
                     <div class="row p-2">
 
                         <div class="col-auto">
-                            <img src="./../../../assets/images/images-pages/login.png" alt="hugenerd" width="50"
-                                height="50" class="rounded-circle">
+                            <!-- <img src="{{rutaImgProfile+'/profile/'+reunion_a.foto}}" alt="hugenerd" width="50"
+                                height="50" class="rounded-circle"> -->
+                            <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
+                                <img class="card-img-top" src="{{rutaImgProfile+'/profile/'+reunion_a.foto}}" alt="...">
+                            </div>
                         </div>
                         <div class="col">
                             <h4 class="font-weight-normal h6">{{ reunion_a.nombreA}}</h4>
                             <h4 class="font-weight-normal h6 text-truncate">Aceptó su solicitud</h4>
                         </div>
-                        <h4 class="font-weight-light h6 d-inline-block text-truncate pt-2"><b>Título: </b> {{
-                            reunion_a.titulo }}</h4>
-
                     </div>
+                    <h4 class="font-weight-light h6 d-inline-block text-truncate pt-2"><b>Título: </b> {{
+                        reunion_a.titulo }}</h4>
                 </div>
 
             </div>
@@ -251,8 +252,8 @@
                                     </select>
                                 </div> -->
                                 <div class="col-md-12 text-center mt-2">
-                                    <button type="submit" class="btn btn-primary" [disabled]="!addSolicitudReunion.valid"
-                                    >Solicitar</button>
+                                    <button type="submit" class="btn btn-primary"
+                                        [disabled]="!addSolicitudReunion.valid">Solicitar</button>
                                 </div>
                             </div>
                         </form>

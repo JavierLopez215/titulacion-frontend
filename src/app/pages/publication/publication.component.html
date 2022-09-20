@@ -1,125 +1,420 @@
-<!-- spinner publicacion -->
-
-<div class="container" *ngIf="ec_publicacion==='P'">
-    <div class="text-center">
-        <br>
-        <br>
-        <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Cargando...</span>
-        </div>
-    </div>
+<!-- Ningun dato seleccionado -->
+<div *ngIf="!publicacion">
+    <br>
+    <br>
+    <h5 class="text-center">No se encontró ningún dato</h5>
 </div>
 
-<div *ngIf="ec_publicacion==='C'">
-    <div class="card border-primary" *ngIf="publicacion let pub">
-        <div class="card-header bg-transparent border-primary p-2">
-            <div class="row g-3 m-0">
-                <div class="col-auto text-center">
-                    <div style="width: 45px; height: 45px; overflow: hidden;" class="rounded-circle">
-                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ publicacion.foto }}" alt="...">
-                    </div>
-                </div>
+<div *ngIf="publicacion">
 
-                <div class="col m-0 p-0">
-                    <div class="font-weight-normal">{{ publicacion.nombre }}</div>
-                    <p class="font-weight-light text-justify m-0">Ha realizado una nueva publicación de "{{
-                        publicacion.especialidad }}"</p>
+    <!-- spinner publicacion -->
 
-                </div>
-                <div class="col-auto p-2" *ngIf="publicacion.id_usuario_pub==user.id && publicacion.estado =='P'">
-                    <div class="dropdown">
-                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
-                            aria-expanded="false">Opciones</button>
-                        <ul class="dropdown-menu">
-                            <li><button class="dropdown-item" data-toggle="modal" data-target="#modal_confirm"
-                                    (click)="opcionResuelto()" *ngIf="publicacion.estado =='P'">Resuelto</button>
-                            </li>
-                            <li><button class="dropdown-item" data-toggle="modal" data-target="#modal_confirm"
-                                    (click)="opcionEliminar()" *ngIf="publicacion.estado =='P'">Eliminar</button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-
+    <div class="container" *ngIf="ec_publicacion==='P'">
+        <div class="text-center">
+            <br>
+            <br>
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Cargando...</span>
             </div>
-
         </div>
+    </div>
 
-        <div class="card-body p-2">
-
-            <h6 class="font-weight-normal display-6 p-0 m-0"><b>Título: </b>{{ publicacion.titulo }}</h6>
-            <!-- <h4 class="fw-normal fs-6">{{ publicacion.area }}</h4> -->
-            <h6 class="font-weight-light display-6 p-0 m-0"><b>Descripción: </b>{{ publicacion.descripcion }}</h6>
-            <h6 class="font-weight-light display-6 p-0 m-0"
-                [ngClass]="publicacion.estado === 'P' ? 'text-info' : (publicacion.estado === 'C' ? 'text-success' : 'text-danger')">
-                <b class="text-dark">Estado: </b>{{ publicacion.estado === 'P' ? 'Pendiente' : (publicacion.estado ===
-                'C' ?
-                'Completado' : 'Desconocido') }}
-            </h6>
-            <hr *ngIf="ec_detallePub==='C' && listaDetallePublicacion.length > 0">
-
-            <!-- spinner detalle publicacion -->
-            <div class="container" *ngIf="ec_detallePub==='P'">
-                <div class="text-center">
-                    <br>
-                    <br>
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Cargando...</span>
+    <div *ngIf="ec_publicacion==='C'">
+        <div class="card border-primary" *ngIf="publicacion let pub">
+            <div class="card-header bg-transparent border-primary p-2">
+                <div class="row g-3 m-0">
+                    <div class="col-auto text-center">
+                        <div style="width: 45px; height: 45px; overflow: hidden;" class="rounded-circle">
+                            <img class="card-img-top" src="{{ rutaImg }}/profile/{{ publicacion.foto }}" alt="...">
+                        </div>
                     </div>
+
+                    <div class="col m-0 p-0">
+                        <div class="font-weight-normal">{{ publicacion.nombre }}</div>
+                        <p class="font-weight-light text-justify m-0">Ha realizado una nueva publicación de "{{
+                            publicacion.especialidad }}"</p>
+
+                    </div>
+                    <div class="col-auto p-2" *ngIf="publicacion.id_usuario_pub==user.id && publicacion.estado =='P'">
+                        <div class="dropdown">
+                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                                aria-expanded="false">Opciones</button>
+                            <ul class="dropdown-menu">
+                                <li><button class="dropdown-item" data-toggle="modal" data-target="#modal_confirm"
+                                        (click)="opcionResuelto()" *ngIf="publicacion.estado =='P'">Resuelto</button>
+                                </li>
+                                <li><button class="dropdown-item" data-toggle="modal" data-target="#modal_confirm"
+                                        (click)="opcionEliminar()" *ngIf="publicacion.estado =='P'">Eliminar</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
                 </div>
+
             </div>
 
-            <div *ngIf="ec_detallePub==='C' && listaDetallePublicacion.length > 0">
-                <h6 class="pb-1">Recursos Adjuntos</h6>
+            <div class="card-body p-2">
+
+                <h6 class="font-weight-normal display-6 p-0 m-0"><b>Título: </b>{{ publicacion.titulo }}</h6>
+                <!-- <h4 class="fw-normal fs-6">{{ publicacion.area }}</h4> -->
+                <h6 class="font-weight-light display-6 p-0 m-0"><b>Descripción: </b>{{ publicacion.descripcion }}</h6>
+                <h6 class="font-weight-light display-6 p-0 m-0"
+                    [ngClass]="publicacion.estado === 'P' ? 'text-info' : (publicacion.estado === 'C' ? 'text-success' : 'text-danger')">
+                    <b class="text-dark">Estado: </b>{{ publicacion.estado === 'P' ? 'Pendiente' : (publicacion.estado
+                    ===
+                    'C' ?
+                    'Completado' : 'Desconocido') }}
+                </h6>
+                <hr *ngIf="ec_detallePub==='C' && listaDetallePublicacion.length > 0">
+
+                <!-- spinner detalle publicacion -->
+                <div class="container" *ngIf="ec_detallePub==='P'">
+                    <div class="text-center">
+                        <br>
+                        <br>
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Cargando...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="ec_detallePub==='C' && listaDetallePublicacion.length > 0">
+                    <h6 class="pb-1">Recursos Adjuntos</h6>
 
 
-                <!-- Recursos adjuntos de publicacion -->
-                <div class="accordion" id="acordeonPanel">
-                    <div class="m-0" *ngFor="let item of listaDetallePublicacion;let indice=index">
-                        <div class="card border-0">
-                            <div class="card-header m-1 p-0 bg-white" id="panelDetalleHeader{{ indice + 1}}">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-outline-primary btn-block text-left" type="button"
-                                        data-toggle="collapse" attr.data-target="#panelDetalle{{ indice + 1}}"
-                                        attr.aria-expanded="{{ indice == 0 ? 'true' : 'false' }}"
-                                        attr.aria-controls="panelDetalle{{ indice + 1}}">
-                                        Anexo {{indice+1}} - {{ item.tipo }}
-                                    </button>
-                                </h2>
-                            </div>
-                            <div id="panelDetalle{{ indice + 1}}" class="collapse"
-                                attr.aria-labelledby="panelDetalleHeader{{ indice + 1}}" data-parent="#acordeonPanel">
-                                <div class="card-body">
+                    <!-- Recursos adjuntos de publicacion -->
+                    <div class="accordion" id="acordeonPanel">
+                        <div class="m-0" *ngFor="let item of listaDetallePublicacion;let indice=index">
+                            <div class="card border-0">
+                                <div class="card-header m-1 p-0 bg-white" id="panelDetalleHeader{{ indice + 1}}">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-outline-primary btn-block text-left" type="button"
+                                            data-toggle="collapse" attr.data-target="#panelDetalle{{ indice + 1}}"
+                                            attr.aria-expanded="{{ indice == 0 ? 'true' : 'false' }}"
+                                            attr.aria-controls="panelDetalle{{ indice + 1}}">
+                                            Anexo {{indice+1}} - {{ item.tipo }}
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div id="panelDetalle{{ indice + 1}}" class="collapse"
+                                    attr.aria-labelledby="panelDetalleHeader{{ indice + 1}}"
+                                    data-parent="#acordeonPanel">
+                                    <div class="card-body">
 
-                                    <div class="card border-0" style="max-height: 300px; overflow: auto;"
-                                        *ngIf="item.tipo == 'code'">
-                                        <div class="text-justify">{{ item.descripcion }}</div>
-                                        <pre class="m-0">
+                                        <div class="card border-0" style="max-height: 300px; overflow: auto;"
+                                            *ngIf="item.tipo == 'code'">
+                                            <div class="text-justify">{{ item.descripcion }}</div>
+                                            <pre class="m-0">
                                     <code class="p-0" [highlight]="item.contenido" (highlighted)="onHighlight($event)"></code>
                                 </pre>
+                                        </div>
+                                        <div *ngIf="item.tipo == 'URL'">
+                                            <p class="text-justify">{{ item.descripcion }}</p>
+                                            <div class="text-center">
+                                                <a href="{{ item.contenido  | safe : 'url' }}" target="_blank">{{
+                                                    item.contenido}}</a>
+                                            </div>
+
+                                        </div>
+                                        <div class="card w-100 border-0 m-0 p-0"
+                                            *ngIf="item.tipo != 'code' && item.tipo!='URL'">
+                                            <div class="row p-2">
+                                                <div class="col-md-2">
+                                                    <!-- <a href="{{ (getTipoArchivo(item.tipo)=='img' ? rutaArchivos +'/'+item.contenido : rutaImg +'/'+getTipoArchivo(item.tipo)) | safe : 'resourceUrl'}}"
+                                                target="_blank"> -->
+                                                    <a href="{{ rutaArchivos +'/'+item.contenido }}" target="_blank">
+                                                        <img src="{{(getTipoArchivo(item.tipo)=='img' ? rutaArchivos +'/'+item.contenido : rutaImg +'/app/imgs/'+getTipoArchivo(item.tipo)) | safe : 'resourceUrl'}}"
+                                                            class="img-fluid" alt="...">
+                                                    </a>
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <p class="card-text" style="overflow: auto;">{{item.descripcion}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div *ngIf="item.tipo == 'URL'">
-                                        <p class="text-justify">{{ item.descripcion }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="card-footer p-1">
+                <div class="text-center">
+                    <button type="button" id="btn-comentar" class="btn btn-outline-primary mr-2" data-toggle="modal"
+                        data-target="#modalAddComentario" (click)="resetFormularioComentario()">Comentar</button>
+
+                    <button type="button" class="btn btn-outline-primary mr-2" data-toggle="modal"
+                        data-target="#modalAddCalificacionPublicacion"
+                        (click)="accionesPreviasModalCalificacionesPublicacion()">Calificación</button>
+                    <!-- *ngIf="publicacion.id_usuario_pub != user.id" -->
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <br>
+
+    <!-- spinner -->
+    <div class="container" *ngIf="ec_comentarioPub==='P'">
+        <div class="text-center">
+            <br>
+            <br>
+            <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Cargando...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- comentarios -->
+    <div class="card" *ngIf="ec_comentarioPub==='C'">
+
+        <h5 class="p-2" *ngIf="publicacion">Comentarios</h5>
+        <div *ngIf="listaComentarios.length > 0">
+            <div *ngFor="let comentario of listaComentarios; let i_com = index" class="mb-2">
+                <div class="row p-2">
+                    <div class="col-auto text-center">
+                        <div style="width: 40px; height: 40px; overflow: hidden;" class="rounded-circle">
+                            <img class="card-img-top" src="{{rutaImg + '/profile/' + comentario.foto}}" alt="...">
+                        </div>
+                    </div>
+                    <div class="col p-0">
+                        <div class="fw-normal fs-6 d-inline-block">{{comentario.nombre + ' '}}
+                            <div class="d-inline-block"
+                                [ngClass]="publicacion.id_usuario_pub == comentario.id_usu_comenta ? 'text-info' : (comentario.tipo === 'Especialista' ? 'text-success' : 'text-warning')">
+                                {{ '(' + (publicacion.id_usuario_pub === comentario.id_usu_comenta ? 'Propietario' :
+                                comentario.tipo) +')' }}</div>
+                        </div>
+                        <p class="">
+                            <small class="text-muted">{{comentario.creado | date :'dd/MM/yyyy'}}</small>
+                        </p>
+
+                    </div>
+                    <!-- opciones de comentario y calificacion -->
+                    <div class="col-auto">
+                        <!-- menu de opciondes dentro del comentario -->
+                        <div class="dropdown d-inline-block" *ngIf="comentario.id_usu_comenta == user.id">
+                            <button class="btn btn-primary dropdown-toggle btn-sm m-2" type="button"
+                                data-toggle="dropdown" aria-expanded="false">Opciones</button>
+                            <ul class="dropdown-menu">
+                                <!-- <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_confirm"
+                                (click)="opcionCancel()" *ngIf="reunion.estado =='P'">Cancelar</button></li> -->
+                                <li><button class="dropdown-item" data-toggle="modal" data-target="#modal_confirm"
+                                        (click)="opcionEliminarComentario(comentario.id)"
+                                        *ngIf="comentario.id_usu_comenta == user.id">Eliminar</button></li>
+                            </ul>
+                        </div>
+                        <div class="fw-bold d-inline-block">
+                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+                                title="Calificar comentario">
+                                <button type="button" class="btn btn-outline-primary btn-sm m-2" data-toggle="modal"
+                                    data-target="#modalCalificacionComentario"
+                                    (click)="accionesPreviasModalCalificacionesComentario(comentario.id)">
+                                    <!-- {{comentario.calificacion | number:'1.1-2'}} <i class="bi bi-star-fill"></i> -->
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="row"> -->
+                    <div class="col-12">
+                        <p class="font-weight-light text-justify pl-2 pr-2 pt-0 pb-0 m-0" style="white-space: pre-line">{{comentario.comentario}}</p>
+                    
+                        <div class="text-right p-2" *ngIf="comentario.adjuntos > 0">
+                            <a class="btn btn-outline-primary btn-sm" data-toggle="collapse"
+                                href="#collapseCalificacionesComentarios{{ i_com + 1}}" role="button"
+                                aria-expanded="false"
+                                attr.aria-controls="collapseCalificacionesComentarios{{ i_com + 1}}">
+                                Ver recursos adjuntos
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <div class="col-12">
+                        <div class="collapse" id="collapseCalificacionesComentarios{{ i_com + 1}}">
+                            <div class="card card-body border border-0 bg-light">
+                                <h5 class="text-center">Lista de archivos adjuntos</h5>
+                                <div class="card border border-primary border-1 px-2"
+                                    *ngFor="let detalle_item of comentario.listaDetalles; let i_det = index">
+                                    <!-- <p>{{detalle_item.descripcion}}</p> -->
+
+                                    <div class="card border-0 p-2" style="max-height: 300px; overflow: auto;"
+                                        *ngIf="detalle_item.tipo == 'code'">
+                                        <div class="text-justify">{{ detalle_item.descripcion }}</div>
+
+                                        <pre class="m-0">
+                                    <code class="bg-light" [highlight]="detalle_item.contenido" (highlighted)="onHighlight($event)"></code>
+                                </pre>
+
+                                    </div>
+                                    <div *ngIf="detalle_item.tipo == 'URL'">
+                                        <p class="text-justify">{{ detalle_item.descripcion }}</p>
                                         <div class="text-center">
-                                            <a href="{{ item.contenido  | safe : 'url' }}" target="_blank">{{
-                                                item.contenido}}</a>
+                                            <a href="{{ detalle_item.contenido  | safe : 'url' }}" target="_blank">{{
+                                                detalle_item.contenido}}</a>
                                         </div>
 
                                     </div>
-                                    <div class="card w-100 border-0 m-0 p-0"
-                                        *ngIf="item.tipo != 'code' && item.tipo!='URL'">
+                                    <div class=" w-100 m-0 p-0"
+                                        *ngIf="detalle_item.tipo != 'code' && detalle_item.tipo!='URL'">
                                         <div class="row p-2">
-                                            <div class="col-md-2">
-                                                <!-- <a href="{{ (getTipoArchivo(item.tipo)=='img' ? rutaArchivos +'/'+item.contenido : rutaImg +'/'+getTipoArchivo(item.tipo)) | safe : 'resourceUrl'}}"
-                                                target="_blank"> -->
-                                                <a href="{{ rutaArchivos +'/'+item.contenido }}" target="_blank">
-                                                    <img src="{{(getTipoArchivo(item.tipo)=='img' ? rutaArchivos +'/'+item.contenido : rutaImg +'/app/imgs/'+getTipoArchivo(item.tipo)) | safe : 'resourceUrl'}}"
-                                                        class="img-fluid" alt="...">
+                                            <div class="col-md-2 border border-0 rounded p-2">
+                                                <a href="{{ rutaArchivosCom +'/'+detalle_item.contenido }}"
+                                                    target="_blank">
+                                                    <div style="width: auto; height: auto; overflow: hidden;" class="">
+                                                        <img src="{{(getTipoArchivo(detalle_item.tipo)=='img' ? rutaArchivosCom +'/'+detalle_item.contenido : rutaImg +'/app/imgs/'+getTipoArchivo(detalle_item.tipo)) | safe : 'resourceUrl'}}"
+                                                            class="card-img-top" alt="...">
+                                                    </div>
                                                 </a>
                                             </div>
                                             <div class="col-md-10">
-                                                <p class="card-text" style="overflow: auto;">{{item.descripcion}}
+                                                <p class="card-text" style="overflow: auto;">
+                                                    {{detalle_item.descripcion}}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <hr *ngIf="i_det < comentario.listaDetalles.length-1"> -->
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- </div> -->
+                <hr class="m-3" *ngIf="i_com < listaComentarios.length-1">
+
+
+
+                <!-- modal  para agregar calificaciones a comentarios -->
+
+                <div class="modal fade" id="modalCalificacionComentario" tabindex="-1"
+                    aria-labelledby="modalCalifComentario" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Calificar comentario</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="card p-2 border border-primary"
+                                    *ngIf="user.id != comentario.id_usu_comenta">
+
+                                    <form class="" [formGroup]="addCalificacionComentario"
+                                        (ngSubmit)="guardarCalificacionComentario()">
+
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <label for="calificacionInput" class="form-label">Calificación 0 -
+                                                    5</label>
+                                                <input type="range" min="0" max="5" step="1"
+                                                    (ngModelChange)="cambioCalificacionComentario($event)"
+                                                    class="form-control-range" id="calificacion"
+                                                    formControlName="calificacion"
+                                                    [ngClass]="addCalificacionComentario.controls['calificacion'].invalid && (addCalificacionComentario.controls['calificacion'].dirty 
+                                                || addCalificacionComentario.controls['calificacion'].touched) ? 'border border-danger' : ''">
+                                            </div>
+
+                                            <div *ngIf="addCalificacionComentario.controls['calificacion'].invalid && 
+                                                (addCalificacionComentario.controls['calificacion'].dirty || 
+                                                addCalificacionComentario.controls['calificacion'].touched)">
+                                                <small
+                                                    *ngIf="addCalificacionComentario.controls['calificacion'].errors?.required"
+                                                    class="fs-7 text-danger p-0 m-0">
+                                                    Seleccione una calificación
+                                                </small>
+                                            </div>
+
+                                            <div class="col-md-2 text-center fs-5">
+                                                <!-- <div class="position-relative"> -->
+                                                <br>
+                                                <div class="mb-1 text-center">
+                                                    {{_calificacion_comentario}} <i class="bi bi-star-fill"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-1">
+                                            <label for="motivo_cal" class="form-label">Comentario:</label>
+                                            <input type="text" class="form-control" id="motivo_cal"
+                                                formControlName="motivo_cal"
+                                                [ngClass]="addCalificacionComentario.controls['motivo_cal'].invalid && (addCalificacionComentario.controls['motivo_cal'].dirty 
+                                            || addCalificacionComentario.controls['motivo_cal'].touched) ? 'border border-danger' : ''">
+
+                                            <div *ngIf="addCalificacionComentario.controls['motivo_cal'].invalid && 
+                                                (addCalificacionComentario.controls['motivo_cal'].dirty || 
+                                                addCalificacionComentario.controls['motivo_cal'].touched)">
+                                                <small
+                                                    *ngIf="addCalificacionComentario.controls['motivo_cal'].errors?.required"
+                                                    class="fs-7 text-danger p-0 m-0">
+                                                    Dato requerido
+                                                </small>
+                                                <small
+                                                    *ngIf="addCalificacionComentario.controls['motivo_cal'].errors?.maxlength"
+                                                    class="fs-7 text-danger p-0 m-0">
+                                                    Máximo 255 caracteres
+                                                </small>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 text-center">
+                                            <button class="btn btn-primary" type="submit"
+                                                [disabled]="!addCalificacionComentario.valid">Guardar</button>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                                <div *ngIf="listaCalificacionesComentarios.length === 0">
+                                    <h6 class="text-center">El comentario aún no ha sido calificado</h6>
+                                </div>
+
+
+                                <div *ngIf="listaCalificacionesComentarios.length > 0">
+                                    <div class="card p-2 mt-2" *ngFor="let cal_com of listaCalificacionesComentarios">
+                                        <div class="row">
+                                            <div class="col-auto text-center">
+                                                <div style="width: 50px; height: 50px; overflow: hidden;"
+                                                    class="rounded-circle">
+                                                    <img class="card-img-top"
+                                                        src="{{ rutaImg }}/profile/{{ cal_com.foto }}" alt="...">
+                                                </div>
+                                            </div>
+                                            <div class="col p-0">
+                                                <!-- <h4 class="fw-normal fs-6">{{ publicacion.nombre }}</h4> -->
+                                                <div class="">{{ cal_com.nombre }}</div>
+                                                <p class="text-justify">
+                                                    <small class="text-muted">
+                                                        {{ cal_com.creacion | date:'dd/MM/yyyy' }}
+                                                    </small>
+                                                </p>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class=""> Puntaje: {{ cal_com.calificacion }} <i
+                                                        class="bi bi-star-fill"></i></div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <p class="font-weight-light">
+                                                    {{cal_com.motivo_cal}}
                                                 </p>
                                             </div>
                                         </div>
@@ -129,626 +424,350 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-        </div>
-        <div class="card-footer p-1">
-            <div class="text-center">
-                <button type="button" id="btn-comentar" class="btn btn-outline-primary mr-2" data-toggle="modal"
-                    data-target="#modalAddComentario" (click)="resetFormularioComentario()">Comentar</button>
-
-                <button type="button" class="btn btn-outline-primary mr-2" data-toggle="modal"
-                    data-target="#modalAddCalificacionPublicacion"
-                    (click)="accionesPreviasModalCalificacionesPublicacion()">Calificación</button>
-                <!-- *ngIf="publicacion.id_usuario_pub != user.id" -->
 
             </div>
         </div>
-
-
+        <h6 class="text-center" *ngIf="listaComentarios.length === 0">
+            No se han encontrado comentarios todavía.
+        </h6>
+        <h6 class="text-center font-weight-light" *ngIf="listaComentarios.length === 0">
+            Sé el primero en comentar
+        </h6>
     </div>
-</div>
 
+    <!-- Modal para mostrar calificaciones publicaciones -->
 
-<br>
-
-<!-- spinner -->
-<div class="container" *ngIf="ec_comentarioPub==='P'">
-    <div class="text-center">
-        <br>
-        <br>
-        <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Cargando...</span>
-        </div>
-    </div>
-</div>
-
-<!-- comentarios -->
-<div class="card" *ngIf="ec_comentarioPub==='C'">
-
-    <h5 class="p-2">Comentarios</h5>
-    <div *ngIf="listaComentarios.length > 0">
-        <div *ngFor="let comentario of listaComentarios; let i_com = index" class="mb-2">
-            <div class="row p-2">
-                <div class="col-auto text-center">
-                    <div style="width: 40px; height: 40px; overflow: hidden;" class="rounded-circle">
-                        <img class="card-img-top" src="{{rutaImg + '/profile/' + comentario.foto}}" alt="...">
-                    </div>
+    <div class="modal fade" id="modalAddCalificacionPublicacion" tabindex="-1"
+        aria-labelledby="modalAddCalificacionPublicacion" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 100%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Calificar publicación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="col p-0">
-                    <div class="fw-normal fs-6 d-inline-block">{{comentario.nombre + ' '}}
-                        <div class="d-inline-block"
-                            [ngClass]="publicacion.id_usuario_pub == comentario.id_usu_comenta ? 'text-info' : (comentario.tipo === 'Especialista' ? 'text-success' : 'text-warning')">
-                            {{ '(' + (publicacion.id_usuario_pub === comentario.id_usu_comenta ? 'Propietario' :
-                            comentario.tipo) +')' }}</div>
-                    </div>
-                    <p class="">
-                        <small class="text-muted">{{comentario.creado | date :'dd/MM/yyyy'}}</small>
-                    </p>
-
-                </div>
-                <!-- opciones de comentario y calificacion -->
-                <div class="col-auto">
-                    <!-- menu de opciondes dentro del comentario -->
-                    <div class="dropdown d-inline-block" *ngIf="comentario.id_usu_comenta == user.id">
-                        <button class="btn btn-primary dropdown-toggle btn-sm m-2" type="button" data-toggle="dropdown"
-                            aria-expanded="false">Opciones</button>
-                        <ul class="dropdown-menu">
-                            <!-- <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_confirm"
-                                (click)="opcionCancel()" *ngIf="reunion.estado =='P'">Cancelar</button></li> -->
-                            <li><button class="dropdown-item" data-toggle="modal" data-target="#modal_confirm"
-                                    (click)="opcionEliminarComentario(comentario.id)"
-                                    *ngIf="comentario.id_usu_comenta == user.id">Eliminar</button></li>
-                        </ul>
-                    </div>
-                    <div class="fw-bold d-inline-block">
-                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Calificar comentario">
-                            <button type="button" class="btn btn-outline-primary btn-sm m-2" data-toggle="modal"
-                                data-target="#modalCalificacionComentario"
-                                (click)="accionesPreviasModalCalificacionesComentario(comentario.id)">
-                                <!-- {{comentario.calificacion | number:'1.1-2'}} <i class="bi bi-star-fill"></i> -->
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                        </span>
-                    </div>
-                </div>
+                <div class="modal-body">
 
 
-                <!-- <div class="row"> -->
-                <div class="col-12">
-                    <p class="font-weight-light text-justify pl-2 pr-2 pt-0 pb-0 m-0">{{comentario.comentario}}</p>
-                    <div class="text-right p-2" *ngIf="comentario.adjuntos > 0">
-                        <a class="btn btn-outline-primary btn-sm" data-toggle="collapse"
-                            href="#collapseCalificacionesComentarios{{ i_com + 1}}" role="button" aria-expanded="false"
-                            attr.aria-controls="collapseCalificacionesComentarios{{ i_com + 1}}">
-                            Ver recursos adjuntos
-                        </a>
-                    </div>
-
-                </div>
-
-                <div class="col-12">
-                    <div class="collapse" id="collapseCalificacionesComentarios{{ i_com + 1}}">
-                        <div class="card card-body border border-0 bg-light">
-                            <h5 class="text-center">Lista de archivos adjuntos</h5>
-                            <div class="card border border-primary border-1 px-2"
-                                *ngFor="let detalle_item of comentario.listaDetalles; let i_det = index">
-                                <!-- <p>{{detalle_item.descripcion}}</p> -->
-
-                                <div class="card border-0 p-2" style="max-height: 300px; overflow: auto;"
-                                    *ngIf="detalle_item.tipo == 'code'">
-                                    <div class="text-justify">{{ detalle_item.descripcion }}</div>
-
-                                    <pre class="m-0">
-                                    <code class="bg-light" [highlight]="detalle_item.contenido" (highlighted)="onHighlight($event)"></code>
-                                </pre>
-
-                                </div>
-                                <div *ngIf="detalle_item.tipo == 'URL'">
-                                    <p class="text-justify">{{ detalle_item.descripcion }}</p>
-                                    <div class="text-center">
-                                        <a href="{{ detalle_item.contenido  | safe : 'url' }}" target="_blank">{{
-                                            detalle_item.contenido}}</a>
-                                    </div>
-
-                                </div>
-                                <div class=" w-100 m-0 p-0"
-                                    *ngIf="detalle_item.tipo != 'code' && detalle_item.tipo!='URL'">
-                                    <div class="row p-2">
-                                        <div class="col-md-2 border border-0 rounded p-2">
-                                            <a href="{{ rutaArchivosCom +'/'+detalle_item.contenido }}" target="_blank">
-                                                <div style="width: auto; height: auto; overflow: hidden;" class="">
-                                                    <img src="{{(getTipoArchivo(detalle_item.tipo)=='img' ? rutaArchivosCom +'/'+detalle_item.contenido : rutaImg +'/app/imgs/'+getTipoArchivo(detalle_item.tipo)) | safe : 'resourceUrl'}}"
-                                                        class="card-img-top" alt="...">
-                                                </div>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-10">
-                                            <p class="card-text" style="overflow: auto;">{{detalle_item.descripcion}}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- <hr *ngIf="i_det < comentario.listaDetalles.length-1"> -->
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- </div> -->
-            <hr class="m-3" *ngIf="i_com < listaComentarios.length-1">
-
-
-
-            <!-- modal  para agregar calificaciones a comentarios -->
-
-            <div class="modal fade" id="modalCalificacionComentario" tabindex="-1"
-                aria-labelledby="modalCalifComentario" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Calificar comentario</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="card p-2 border border-primary" *ngIf="user.id != comentario.id_usu_comenta">
-
-                                <form class="" [formGroup]="addCalificacionComentario"
-                                    (ngSubmit)="guardarCalificacionComentario(comentario.id)">
-
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <label for="calificacionInput" class="form-label">Calificación 0 -
-                                                5</label>
-                                            <input type="range" min="0" max="5" step="1"
-                                                (ngModelChange)="cambioCalificacionComentario($event)"
-                                                class="form-control-range" id="calificacion"
-                                                formControlName="calificacion"
-                                                [ngClass]="addCalificacionComentario.controls['calificacion'].invalid && (addCalificacionComentario.controls['calificacion'].dirty 
-                                                || addCalificacionComentario.controls['calificacion'].touched) ? 'border border-danger' : ''">
-                                        </div>
-
-                                        <div *ngIf="addCalificacionComentario.controls['calificacion'].invalid && 
-                                                (addCalificacionComentario.controls['calificacion'].dirty || 
-                                                addCalificacionComentario.controls['calificacion'].touched)">
-                                            <small
-                                                *ngIf="addCalificacionComentario.controls['calificacion'].errors?.required"
-                                                class="fs-7 text-danger p-0 m-0">
-                                                Seleccione una calificación
-                                            </small>
-                                        </div>
-
-                                        <div class="col-md-2 text-center fs-5">
-                                            <!-- <div class="position-relative"> -->
-                                            <br>
-                                            <div class="mb-1 text-center">
-                                                {{_calificacion_comentario}} <i class="bi bi-star-fill"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-1">
-                                        <label for="motivo_cal" class="form-label">Comentario:</label>
-                                        <input type="text" class="form-control" id="motivo_cal"
-                                            formControlName="motivo_cal"
-                                            [ngClass]="addCalificacionComentario.controls['motivo_cal'].invalid && (addCalificacionComentario.controls['motivo_cal'].dirty 
-                                            || addCalificacionComentario.controls['motivo_cal'].touched) ? 'border border-danger' : ''">
-
-                                        <div *ngIf="addCalificacionComentario.controls['motivo_cal'].invalid && 
-                                                (addCalificacionComentario.controls['motivo_cal'].dirty || 
-                                                addCalificacionComentario.controls['motivo_cal'].touched)">
-                                            <small
-                                                *ngIf="addCalificacionComentario.controls['motivo_cal'].errors?.required"
-                                                class="fs-7 text-danger p-0 m-0">
-                                                Dato requerido
-                                            </small>
-                                            <small
-                                                *ngIf="addCalificacionComentario.controls['motivo_cal'].errors?.maxlength"
-                                                class="fs-7 text-danger p-0 m-0">
-                                                Máximo 255 caracteres
-                                            </small>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 text-center">
-                                        <button class="btn btn-primary" type="submit"
-                                            [disabled]="!addCalificacionComentario.valid">Guardar</button>
-                                    </div>
-
-                                </form>
-                            </div>
-
-                            <div *ngIf="listaCalificacionesComentarios.length === 0">
-                                <h6 class="text-center">El comentario aún no ha sido calificado</h6>
-                            </div>
-
-
-                            <div *ngIf="listaCalificacionesComentarios.length > 0">
-                                <div class="card p-2 mt-2" *ngFor="let cal_com of listaCalificacionesComentarios">
-                                    <div class="row">
-                                        <div class="col-auto text-center">
-                                            <div style="width: 50px; height: 50px; overflow: hidden;"
-                                                class="rounded-circle">
-                                                <img class="card-img-top" src="{{ rutaImg }}/profile/{{ cal_com.foto }}"
-                                                    alt="...">
-                                            </div>
-                                        </div>
-                                        <div class="col p-0">
-                                            <!-- <h4 class="fw-normal fs-6">{{ publicacion.nombre }}</h4> -->
-                                            <div class="">{{ cal_com.nombre }}</div>
-                                            <p class="text-justify">
-                                                <small class="text-muted">
-                                                    {{ cal_com.creacion | date:'dd/MM/yyyy' }}
-                                                </small>
-                                            </p>
-                                        </div>
-                                        <div class="col-auto">
-                                            <div class=""> Puntaje: {{ cal_com.calificacion }} <i
-                                                    class="bi bi-star-fill"></i></div>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <p class="font-weight-light">
-                                                {{cal_com.motivo_cal}}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-    <h6 class="text-center" *ngIf="listaComentarios.length === 0">
-        No se han encontrado comentarios todavía.
-    </h6>
-    <h6 class="text-center font-weight-light" *ngIf="listaComentarios.length === 0">
-        Sé el primero en comentar
-    </h6>
-</div>
-
-<!-- Modal para mostrar calificaciones publicaciones -->
-
-<div class="modal fade" id="modalAddCalificacionPublicacion" tabindex="-1"
-    aria-labelledby="modalAddCalificacionPublicacion" aria-hidden="true">
-    <div class="modal-dialog modal-lg" style="width: 100%;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Calificar publicación</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-
-                <div class="card p-2 border border-primary" *ngIf="user.id != publicacion.id_usuario_pub">
-                    <form [formGroup]="addCalificacion" (ngSubmit)="guardarCalificacionPublicacion()">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <label for="calificacionInput" class="form-label">Calificación 0 - 5</label>
-                                <input type="range" min="0" max="5" step="1" class="form-control-range"
-                                    id="calificacion" (ngModelChange)="cambioCalificacionPublicacion($event)"
-                                    formControlName="calificacion"
-                                    [ngClass]="addCalificacion.controls['calificacion'].invalid && (addCalificacion.controls['calificacion'].dirty 
+                    <div class="card p-2 border border-primary" *ngIf="user.id != publicacion.id_usuario_pub">
+                        <form [formGroup]="addCalificacion" (ngSubmit)="guardarCalificacionPublicacion()">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <label for="calificacionInput" class="form-label">Calificación 0 - 5</label>
+                                    <input type="range" min="0" max="5" step="1" class="form-control-range"
+                                        id="calificacion" (ngModelChange)="cambioCalificacionPublicacion($event)"
+                                        formControlName="calificacion"
+                                        [ngClass]="addCalificacion.controls['calificacion'].invalid && (addCalificacion.controls['calificacion'].dirty 
                                     || addCalificacion.controls['calificacion'].touched) ? 'border border-danger' : ''">
 
-                                <div *ngIf="addCalificacion.controls['calificacion'].invalid && 
+                                    <div *ngIf="addCalificacion.controls['calificacion'].invalid && 
                                     (addCalificacion.controls['calificacion'].dirty || 
                                     addCalificacion.controls['calificacion'].touched)">
-                                    <small *ngIf="addCalificacion.controls['calificacion'].errors?.required"
+                                        <small *ngIf="addCalificacion.controls['calificacion'].errors?.required"
+                                            class="fs-7 text-danger p-0 m-0">
+                                            Seleccione una calificación
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-center fs-5">
+                                    <br>
+                                    <div class="">
+                                        {{_calificacion_publicacion}} <i class="bi bi-star-fill"></i>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="mb-1">
+                                <label for="motivo_cal" class="form-label">Comentario:</label>
+                                <input type="text" class="form-control" id="motivo_cal" formControlName="motivo_cal"
+                                    [ngClass]="addCalificacion.controls['motivo_cal'].invalid && (addCalificacion.controls['motivo_cal'].dirty 
+                                    || addCalificacion.controls['motivo_cal'].touched) ? 'border border-danger' : ''">
+
+                                <div *ngIf="addCalificacion.controls['motivo_cal'].invalid && 
+                                    (addCalificacion.controls['motivo_cal'].dirty || 
+                                    addCalificacion.controls['motivo_cal'].touched)">
+                                    <small *ngIf="addCalificacion.controls['motivo_cal'].errors?.required"
                                         class="fs-7 text-danger p-0 m-0">
-                                        Seleccione una calificación
+                                        Dato requerido
+                                    </small>
+                                    <small *ngIf="addCalificacion.controls['motivo_cal'].errors?.maxlength"
+                                        class="fs-7 text-danger p-0 m-0">
+                                        Máximo 255 caracteres
                                     </small>
                                 </div>
                             </div>
-                            <div class="col-md-2 text-center fs-5">
-                                <br>
-                                <div class="">
-                                    {{_calificacion_publicacion}} <i class="bi bi-star-fill"></i>
-                                </div>
 
-                            </div>
-                        </div>
-                        <div class="mb-1">
-                            <label for="motivo_cal" class="form-label">Comentario:</label>
-                            <input type="text" class="form-control" id="motivo_cal" formControlName="motivo_cal"
-                                [ngClass]="addCalificacion.controls['motivo_cal'].invalid && (addCalificacion.controls['motivo_cal'].dirty 
-                                    || addCalificacion.controls['motivo_cal'].touched) ? 'border border-danger' : ''">
-
-                            <div *ngIf="addCalificacion.controls['motivo_cal'].invalid && 
-                                    (addCalificacion.controls['motivo_cal'].dirty || 
-                                    addCalificacion.controls['motivo_cal'].touched)">
-                                <small *ngIf="addCalificacion.controls['motivo_cal'].errors?.required"
-                                    class="fs-7 text-danger p-0 m-0">
-                                    Dato requerido
-                                </small>
-                                <small *ngIf="addCalificacion.controls['motivo_cal'].errors?.maxlength"
-                                    class="fs-7 text-danger p-0 m-0">
-                                    Máximo 255 caracteres
-                                </small>
-                            </div>
-                        </div>
-
-                        <div class="col-12 text-center">
-                            <button class="btn btn-primary" type="submit"
-                                [disabled]="!addCalificacion.valid">Guardar</button>
-                        </div>
-
-                    </form>
-                </div>
-
-                <!-- calendar
-                        <input type="text" ngbDatepicker #d="ngbDatepicker"/> -->
-                <h5 class="mt-2">Calificaciones</h5>
-                <div *ngIf="listaCalificaciones.length > 0">
-                    <div class="card p-2" *ngFor="let calif of listaCalificaciones">
-                        <div class="row g-3">
-                            <div class="col-auto text-center">
-                                <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
-                                    <img class="card-img-top" src="{{ rutaImg }}/profile/{{ calif.foto }}" alt="...">
-                                </div>
-                            </div>
-                            <div class="col p-0">
-                                <!-- <h4 class="fw-normal fs-6">{{ publicacion.nombre }}</h4> -->
-                                <div class="font-weight-light">{{ calif.nombre }}</div>
-                                <p class="text-justify"><small class="text-muted">{{ calif.creacion | date
-                                        :'dd/MM/yyyy'}}</small>
-                                </p>
-                            </div>
-                            <div class="col-auto">
-                                <div class="float-right"> Puntaje: {{ calif.calificacion }}
-                                    <i class="bi bi-star-fill"></i>
-                                </div>
+                            <div class="col-12 text-center">
+                                <button class="btn btn-primary" type="submit"
+                                    [disabled]="!addCalificacion.valid">Guardar</button>
                             </div>
 
-                        </div>
-
-                        <!-- <div class="row"> -->
-                        <p class="text-muted">
-                            {{calif.motivo_cal}}
-                        </p>
-                        <!-- </div> -->
-                    </div>
-                </div>
-
-                <div *ngIf="listaCalificaciones.length === 0">
-                    <h6 class="text-center">La publicación aun no ha sido calificada</h6>
-                </div>
-
-                <!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal !-->
-
-    </div>
-</div>
-
-<!-- Modal para agregar comentario -->
-
-<div class="modal fade" id="modalAddComentario" tabindex="-1" aria-labelledby="modalAddComentario" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content" style="width: 100%;">
-            <div class="modal-header p-2" style="width: 100%;">
-                <h5 class="modal-title">Agregar Comentario</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body" style="width: 100%;">
-
-                <div class="row g-3 mb-2">
-
-                    <div class="col-md-5">
-                        <form class="" [formGroup]="addComentario" (ngSubmit)="postAdjuntosComentarios()">
-                            <div class="row g-3">
-
-                                <div class="col-md-12 mb-2">
-                                    <label for="comentario" class="form-label">Comentario</label>
-                                    <textarea class="form-control" rows="4" name="comentario"
-                                        formControlName="comentario"
-                                        [ngClass]="addComentario.controls['comentario'].invalid && (addComentario.controls['comentario'].dirty 
-                                        || addComentario.controls['comentario'].touched) ? 'border border-danger' : ''"></textarea>
-
-                                    <!-- Errores ingreso de datos -->
-                                    <div *ngIf="addComentario.controls['comentario'].invalid && 
-                                    (addComentario.controls['comentario'].dirty || 
-                                    addComentario.controls['comentario'].touched)">
-                                        <small *ngIf="addComentario.controls['comentario'].errors?.required"
-                                            class="fs-7 text-danger p-0 m-0">
-                                            Dato requerido
-                                        </small>
-                                        <small *ngIf="addComentario.controls['comentario'].errors?.minlength"
-                                            class="fs-7 text-danger p-0 m-0">
-                                            Mínimo 10 caracteres
-                                        </small>
-                                        <small *ngIf="addComentario.controls['comentario'].errors?.maxlength"
-                                            class="fs-7 text-danger p-0 m-0">
-                                            Máximo 5000 caracteres
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12 text-center">
-                                    <button type="submit" class="btn btn-primary mb-2"
-                                        [disabled]="!addComentario.valid">Comentar</button>
-                                </div>
-                            </div>
                         </form>
                     </div>
 
-
-                    <!-- Listado de adjuntos de comentario -->
-                    <div class="col-md-7 p-2">
-
-                        <div class="border">
-                            <div class="card p-2 border-0">
-
-                                <div class="card-header bg-primary border text-white">
-                                    Recursos Adjuntos
-                                </div>
-                                <!-- <div class="card-body"> -->
-                                <form
-                                    [formGroup]="tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode "
-                                    (ngSubmit)="AddResource()">
-                                    <select class="custom-select border-primary mt-0" aria-label="Tipo"
-                                        (change)="tipoRecursoChange($event)" id="sel">
-                                        <option selected value="">Seleccionar tipo de recurso</option>
-                                        <option [value]="'file'">Archivo</option>
-                                        <option [value]="'code'">Codigo</option>
-                                        <option [value]="'URL'">URL</option>
-                                    </select>
-
-
-                                    <div *ngIf="tipo_aporte != ''">
-                                        <div class="form-group mb-3">
-                                            <label for="desc_adjuntos" class="form-label">Encabezado</label>
-                                            <!-- <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos"> -->
-                                            <textarea class="form-control" name="desc_adjuntos" rows="1"
-                                                formControlName="encabezado" style="resize: none; overflow: auto;"
-                                                [ngClass]="(tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].invalid && 
-                                                ((tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].dirty 
-                                                || (tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].touched) ? 'border border-danger' : ''"></textarea>
-
-                                            <div
-                                                [ngClass]="(tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].invalid && 
-                                    ((tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].dirty 
-                            || (tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].touched) ? 'd-block' : 'd-none'">
-                                                <small
-                                                    [ngClass]="(tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].errors?.required ? 'd-block' : 'd-none'"
-                                                    class="fs-7 text-danger p-0 m-0">
-                                                    Dato requerido
-                                                </small>
-                                                <small
-                                                    [ngClass]="(tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].errors?.maxlength ? 'd-block' : 'd-none'"
-                                                    class="fs-7 text-danger p-0 m-0">
-                                                    Máximo 2000 caracteres
-                                                </small>
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-3 text-center" *ngIf="tipo_aporte == 'file'">
-                                            <label for="formFileMultiple"
-                                                class="form-label btn btn-outline-success">Seleccionar..</label>
-                                            <input class="form-control d-none" type="file" id="formFileMultiple"
-                                                name="file" formControlName="file" (change)="onChangeFile($event)">
-                                            <br>
-                                            <div class="input-group mb-3">
-                                                <input type="text" class="form-control" id="label-input" disabled
-                                                    value="{{ archivo_seleccionado }}"
-                                                    [ngClass]="addFile.controls['file'].invalid && (addFile.controls['file'].dirty 
-                                                    || addFile.controls['file'].touched) ? 'border border-danger' : ''">
-                                                <button class="btn btn-outline-primary" type="submit" id="btnAddFile"
-                                                    [disabled]="!addFile.valid">Añadir</button>
-                                            </div>
-
-                                            <div *ngIf="addFile.controls['file'].invalid">
-                                                <small *ngIf="addFile.controls['file'].errors?.required"
-                                                    class="fs-7 text-danger p-0 m-0">
-                                                    Seleccione un archivo
-                                                </small>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="input-group" *ngIf="tipo_aporte == 'URL'">
-                                            <input type="text" class="form-control" id="inputURL" placeholder="URL"
-                                                formControlName="link" [ngClass]="addURL.controls['link'].invalid && (addURL.controls['link'].dirty 
-                                                || addURL.controls['link'].touched) ? 'border border-danger' : ''">
-                                            <button class="btn btn-outline-primary" type="submit" id="btnAddURL"
-                                                [disabled]="!addURL.valid">Añadir</button>
-                                        </div>
-
-                                        <div *ngIf="addURL.controls['link'].invalid && 
-                                                    (addURL.controls['link'].dirty || 
-                                                    addURL.controls['link'].touched)" class="mb-3">
-                                            <small *ngIf="addURL.controls['link'].errors?.required"
-                                                class="fs-7 text-danger p-0 m-0">
-                                                Dato requerido
-                                            </small>
-                                            <small *ngIf="addURL.controls['link'].errors?.maxlength"
-                                                class="fs-7 text-danger p-0 m-0">
-                                                Máximo 10000 caracteres
-                                            </small>
-                                        </div>
-
-
-                                        <div class="input-group" *ngIf="tipo_aporte == 'code'">
-                                            <textarea class="form-control" rows="4" placeholder="Código"
-                                                style="overflow: auto;" formControlName="code"
-                                                (ngModelChange)="onChangeCode($event)" [ngClass]="addCode.controls['code'].invalid && (addCode.controls['code'].dirty 
-                                                || addCode.controls['code'].touched) ? 'border border-danger' : ''">
-                                        </textarea>
-                                            <button class="btn btn-outline-primary" [disabled]="!addCode.valid"
-                                                type="submit" id="btnAddCode">Añadir</button>
-                                        </div>
-
-                                        <div *ngIf="addCode.controls['code'].invalid && 
-                                                    (addCode.controls['code'].dirty || 
-                                                    addCode.controls['code'].touched)" class="mb-3">
-                                            <small *ngIf="addCode.controls['code'].errors?.required"
-                                                class="fs-7 text-danger p-0 m-0">
-                                                Dato requerido
-                                            </small>
-                                            <small *ngIf="addCode.controls['code'].errors?.maxlength"
-                                                class="fs-7 text-danger p-0 m-0">
-                                                Máximo 10000 caracteres
-                                            </small>
-                                        </div>
-
-                                        <div *ngIf="tipo_aporte == 'code' && oc_value !=''">
-                                            <h6>Vista previa - Código</h6>
-                                            <pre class="m-0 border">
-                                                <code [highlight]="oc_value" (highlighted)="onHighlight($event)"></code>
-                                            </pre>
-                                        </div>
+                    <!-- calendar
+                        <input type="text" ngbDatepicker #d="ngbDatepicker"/> -->
+                    <h5 class="mt-2">Calificaciones</h5>
+                    <div *ngIf="listaCalificaciones.length > 0">
+                        <div class="card p-2" *ngFor="let calif of listaCalificaciones">
+                            <div class="row g-3">
+                                <div class="col-auto text-center">
+                                    <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
+                                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ calif.foto }}"
+                                            alt="...">
                                     </div>
-                                </form>
-                                <!-- </div> -->
+                                </div>
+                                <div class="col p-0">
+                                    <!-- <h4 class="fw-normal fs-6">{{ publicacion.nombre }}</h4> -->
+                                    <div class="font-weight-light">{{ calif.nombre }}</div>
+                                    <p class="text-justify"><small class="text-muted">{{ calif.creacion | date
+                                            :'dd/MM/yyyy'}}</small>
+                                    </p>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="float-right"> Puntaje: {{ calif.calificacion }}
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                </div>
+
                             </div>
+
+                            <!-- <div class="row"> -->
+                            <p class="text-muted">
+                                {{calif.motivo_cal}}
+                            </p>
+                            <!-- </div> -->
                         </div>
                     </div>
 
+                    <div *ngIf="listaCalificaciones.length === 0">
+                        <h6 class="text-center">La publicación aun no ha sido calificada</h6>
+                    </div>
+
+                    <!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal !-->
+
+        </div>
+    </div>
+
+    <!-- Modal para agregar comentario -->
+
+    <div class="modal fade" id="modalAddComentario" tabindex="-1" aria-labelledby="modalAddComentario"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="width: 100%;">
+                <div class="modal-header p-2" style="width: 100%;">
+                    <h5 class="modal-title">Agregar Comentario</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table">
-                        <caption>Lista de recursos adjuntos</caption>
-                        <thead>
-                            <tr>
-                                <th scope="col">N°</th>
-                                <th scope="col">Tipo</th>
-                                <th scope="col">Contenido</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of listaAdjuntos; let i = index">
-                                <th scope="row">1</th>
-                                <td>{{ item.tipo }}</td>
-                                <td>{{ item.contenido }}</td>
-                                <td><button class="btn-danger" type="button"
-                                        (click)="EliminarAdjunto(i)">Eliminar</button>
-                                </td>
-                            </tr>
+                <div class="modal-body" style="width: 100%;">
 
-                        </tbody>
-                    </table>
-                </div>
+                    <div class="row g-3 mb-2">
+
+                        <div class="col-md-5">
+                            <form class="" [formGroup]="addComentario" (ngSubmit)="postAdjuntosComentarios()">
+                                <div class="row g-3">
+
+                                    <div class="col-md-12 mb-2">
+                                        <label for="comentario" class="form-label">Comentario</label>
+                                        <textarea class="form-control" rows="4" name="comentario"
+                                            formControlName="comentario"
+                                            [ngClass]="addComentario.controls['comentario'].invalid && (addComentario.controls['comentario'].dirty 
+                                        || addComentario.controls['comentario'].touched) ? 'border border-danger' : ''"></textarea>
+
+                                        <!-- Errores ingreso de datos -->
+                                        <div *ngIf="addComentario.controls['comentario'].invalid && 
+                                    (addComentario.controls['comentario'].dirty || 
+                                    addComentario.controls['comentario'].touched)">
+                                            <small *ngIf="addComentario.controls['comentario'].errors?.required"
+                                                class="fs-7 text-danger p-0 m-0">
+                                                Dato requerido
+                                            </small>
+                                            <small *ngIf="addComentario.controls['comentario'].errors?.minlength"
+                                                class="fs-7 text-danger p-0 m-0">
+                                                Mínimo 10 caracteres
+                                            </small>
+                                            <small *ngIf="addComentario.controls['comentario'].errors?.maxlength"
+                                                class="fs-7 text-danger p-0 m-0">
+                                                Máximo 5000 caracteres
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 text-center">
+                                        <button type="submit" class="btn btn-primary mb-2"
+                                            [disabled]="!addComentario.valid">Comentar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
 
 
-                <!-- <form class="row g-3" [formGroup]="postDataForm" (ngSubmit)="postPublicacion()">
+                        <!-- Listado de adjuntos de comentario -->
+                        <div class="col-md-7 p-2">
+
+                            <div class="border">
+                                <div class="card p-2 border-0">
+
+                                    <div class="card-header bg-primary border text-white">
+                                        Recursos Adjuntos
+                                    </div>
+                                    <!-- <div class="card-body"> -->
+                                    <form
+                                        [formGroup]="tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode "
+                                        (ngSubmit)="AddResource()">
+                                        <select class="custom-select border-primary mt-0" aria-label="Tipo"
+                                            (change)="tipoRecursoChange($event)" id="sel">
+                                            <option selected value="">Seleccionar tipo de recurso</option>
+                                            <option [value]="'file'">Archivo</option>
+                                            <option [value]="'code'">Codigo</option>
+                                            <option [value]="'URL'">URL</option>
+                                        </select>
+
+
+                                        <div *ngIf="tipo_aporte != ''">
+                                            <div class="form-group mb-3">
+                                                <label for="desc_adjuntos" class="form-label">Encabezado</label>
+                                                <!-- <input type="text" name="desc_adjuntos" class="form-control" id="desc_adjuntos"> -->
+                                                <textarea class="form-control" name="desc_adjuntos" rows="1"
+                                                    formControlName="encabezado" style="resize: none; overflow: auto;"
+                                                    [ngClass]="(tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].invalid && 
+                                                ((tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].dirty 
+                                                || (tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].touched) ? 'border border-danger' : ''"></textarea>
+
+                                                <div
+                                                    [ngClass]="(tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].invalid && 
+                                    ((tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].dirty 
+                            || (tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].touched) ? 'd-block' : 'd-none'">
+                                                    <small
+                                                        [ngClass]="(tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].errors?.required ? 'd-block' : 'd-none'"
+                                                        class="fs-7 text-danger p-0 m-0">
+                                                        Dato requerido
+                                                    </small>
+                                                    <small
+                                                        [ngClass]="(tipo_aporte == 'file' ? addFile : tipo_aporte == 'code' ? addCode : tipo_aporte == 'URL' ? addURL : addCode ).controls['encabezado'].errors?.maxlength ? 'd-block' : 'd-none'"
+                                                        class="fs-7 text-danger p-0 m-0">
+                                                        Máximo 2000 caracteres
+                                                    </small>
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-3 text-center" *ngIf="tipo_aporte == 'file'">
+                                                <label for="formFileMultiple"
+                                                    class="form-label btn btn-outline-success">Seleccionar..</label>
+                                                <input class="form-control d-none" type="file" id="formFileMultiple"
+                                                    name="file" formControlName="file" (change)="onChangeFile($event)">
+                                                <br>
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" id="label-input" disabled
+                                                        value="{{ archivo_seleccionado }}"
+                                                        [ngClass]="addFile.controls['file'].invalid && (addFile.controls['file'].dirty 
+                                                    || addFile.controls['file'].touched) ? 'border border-danger' : ''">
+                                                    <button class="btn btn-outline-primary" type="submit"
+                                                        id="btnAddFile" [disabled]="!addFile.valid">Añadir</button>
+                                                </div>
+
+                                                <div *ngIf="addFile.controls['file'].invalid">
+                                                    <small *ngIf="addFile.controls['file'].errors?.required"
+                                                        class="fs-7 text-danger p-0 m-0">
+                                                        Seleccione un archivo
+                                                    </small>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="input-group" *ngIf="tipo_aporte == 'URL'">
+                                                <input type="text" class="form-control" id="inputURL" placeholder="URL"
+                                                    formControlName="link" [ngClass]="addURL.controls['link'].invalid && (addURL.controls['link'].dirty 
+                                                || addURL.controls['link'].touched) ? 'border border-danger' : ''">
+                                                <button class="btn btn-outline-primary" type="submit" id="btnAddURL"
+                                                    [disabled]="!addURL.valid">Añadir</button>
+                                            </div>
+
+                                            <div *ngIf="addURL.controls['link'].invalid && 
+                                                    (addURL.controls['link'].dirty || 
+                                                    addURL.controls['link'].touched)" class="mb-3">
+                                                <small *ngIf="addURL.controls['link'].errors?.required"
+                                                    class="fs-7 text-danger p-0 m-0">
+                                                    Dato requerido
+                                                </small>
+                                                <small *ngIf="addURL.controls['link'].errors?.maxlength"
+                                                    class="fs-7 text-danger p-0 m-0">
+                                                    Máximo 10000 caracteres
+                                                </small>
+                                            </div>
+
+
+                                            <div class="input-group" *ngIf="tipo_aporte == 'code'">
+                                                <textarea class="form-control" rows="4" placeholder="Código"
+                                                    style="overflow: auto;" formControlName="code"
+                                                    (ngModelChange)="onChangeCode($event)" [ngClass]="addCode.controls['code'].invalid && (addCode.controls['code'].dirty 
+                                                || addCode.controls['code'].touched) ? 'border border-danger' : ''">
+                                        </textarea>
+                                                <button class="btn btn-outline-primary" [disabled]="!addCode.valid"
+                                                    type="submit" id="btnAddCode">Añadir</button>
+                                            </div>
+
+                                            <div *ngIf="addCode.controls['code'].invalid && 
+                                                    (addCode.controls['code'].dirty || 
+                                                    addCode.controls['code'].touched)" class="mb-3">
+                                                <small *ngIf="addCode.controls['code'].errors?.required"
+                                                    class="fs-7 text-danger p-0 m-0">
+                                                    Dato requerido
+                                                </small>
+                                                <small *ngIf="addCode.controls['code'].errors?.maxlength"
+                                                    class="fs-7 text-danger p-0 m-0">
+                                                    Máximo 10000 caracteres
+                                                </small>
+                                            </div>
+
+                                            <div *ngIf="tipo_aporte == 'code' && oc_value !=''">
+                                                <h6>Vista previa - Código</h6>
+                                                <pre class="m-0 border">
+                                                <code [highlight]="oc_value" (highlighted)="onHighlight($event)"></code>
+                                            </pre>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- </div> -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <caption>Lista de recursos adjuntos</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">N°</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Contenido</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of listaAdjuntos; let i = index">
+                                    <th scope="row">1</th>
+                                    <td>{{ item.tipo }}</td>
+                                    <td>{{ item.contenido }}</td>
+                                    <td><button class="btn-danger" type="button"
+                                            (click)="EliminarAdjunto(i)">Eliminar</button>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <!-- <form class="row g-3" [formGroup]="postDataForm" (ngSubmit)="postPublicacion()">
                     <div class="col-md-12">
                         <label for="pregunta" class="form-label">Título</label>
                         <input type="text" class="form-control" id="pregunta" formControlName="titulo">
@@ -785,35 +804,37 @@
 
 
                 </form> -->
-            </div>
-            <!-- <div class="modal-footer"> -->
-            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button> -->
-            <!-- <button type="submit" class="btn btn-primary" [disabled]="!postDataForm.valid">Publicar</button> -->
-            <!-- </div> -->
+                </div>
+                <!-- <div class="modal-footer"> -->
+                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button> -->
+                <!-- <button type="submit" class="btn btn-primary" [disabled]="!postDataForm.valid">Publicar</button> -->
+                <!-- </div> -->
 
-        </div>
-    </div>
-</div>
-
-<!-- Modal de confirmacion para eliminar -->
-<div class="modal" id="modal_confirm">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header pt-2 pb-2">
-                <h5 class="modal-title">Confirmar</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="text-center m-0">{{msj_confirm}}</p>
-            </div>
-            <div class="modal-footer p-2">
-                <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
-                <button type="button" data-dismiss="modal"
-                [ngClass]="opcion_sel == 'E' ? 'btn btn-danger' : (opcion_sel == 'EC' ? 'btn btn-danger' : 'btn btn-success')"
-                    (click)="confirmarOpcion()">Confirmar</button>
             </div>
         </div>
     </div>
+
+    <!-- Modal de confirmacion para eliminar -->
+    <div class="modal" id="modal_confirm">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header pt-2 pb-2">
+                    <h5 class="modal-title">Confirmar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center m-0">{{msj_confirm}}</p>
+                </div>
+                <div class="modal-footer p-2">
+                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                    <button type="button" data-dismiss="modal"
+                        [ngClass]="opcion_sel == 'E' ? 'btn btn-danger' : (opcion_sel == 'EC' ? 'btn btn-danger' : 'btn btn-success')"
+                        (click)="confirmarOpcion()">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

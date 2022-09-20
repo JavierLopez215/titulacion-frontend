@@ -29,6 +29,7 @@ export class FilesComponent implements OnInit {
   });
 
 
+  public filter='';
   public tipo_aporte = "";
   public archivo !: File;
   oc_value: string = '';
@@ -138,8 +139,7 @@ export class FilesComponent implements OnInit {
         else {
           // this.errores = res.mensaje;
           this.ec_getAporteUsu = 'C'
-          console.log('error');
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (err: any) => {
@@ -194,8 +194,7 @@ export class FilesComponent implements OnInit {
         else {
           // this.errores = res.mensaje;
           this.ec_getAporteCom = 'C'
-          console.log('error');
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (err: any) => {
@@ -248,9 +247,7 @@ export class FilesComponent implements OnInit {
         }
         else {
           this.ec_eliminarApo = 'C';
-          // this.errores = res.mensaje;
-          console.log(res);
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (error) => {
@@ -269,6 +266,7 @@ export class FilesComponent implements OnInit {
         this.postAporte(res.data);
         // console.log(res.data[0].filename)
       }
+
     });
 
   }
@@ -316,7 +314,7 @@ export class FilesComponent implements OnInit {
           else {
             // this.errores = res.mensaje;
             this.ec_postAporte = 'C';
-            this.toastr.error('Ha ocurrido un error', 'Error');
+            this.toastr.error(res.body.mensaje, 'Error');
             console.log(res);
           }
         }
@@ -342,7 +340,7 @@ export class FilesComponent implements OnInit {
       }
       else {
         // this.errores = res.mensaje;
-        console.log('error');
+        this.toastr.error(res.body.mensaje, 'Error');
       }
     })
   }

@@ -111,7 +111,7 @@ export class ProfileComponent implements OnInit {
         } else {
           // this.errores = res.mensaje;
           this.ec_postEspecialidadesU = 'C'
-          this.toastr.error('Ha ocurrido un error', 'Error!');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (err) => {
@@ -152,7 +152,7 @@ export class ProfileComponent implements OnInit {
         else {
           this.ec_deleteEspecialidadU = 'C'
           // this.errores = res.mensaje;
-          this.toastr.error('Ha ocurrido un error', 'Error!');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (err) => {
@@ -192,7 +192,7 @@ export class ProfileComponent implements OnInit {
         else {
           // this.errores = res.mensaje;
           this.ec_updateDataU = 'C'
-          this.toastr.error('Ha ocurrido un error', 'Error!');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (err) => {
@@ -259,7 +259,7 @@ export class ProfileComponent implements OnInit {
         else {
           // this.errores = res.mensaje;
           this.ec_updatePhotoU = 'C'
-          this.toastr.error('Ha ocurrido un error', 'Error!');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (err) => {
@@ -314,7 +314,7 @@ export class ProfileComponent implements OnInit {
         else {
           // this.errores = res.mensaje;
           this.ec_getEspecialidadesUsu = 'C'
-          this.toastr.error('Ha ocurrido un error', 'Error!');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (err) => {
@@ -354,7 +354,7 @@ export class ProfileComponent implements OnInit {
         else {
           // this.errores = res.mensaje;
           this.ec_getEspecialidades = 'C'
-          this.toastr.error('Ha ocurrido un error', 'Error!');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (err) => {

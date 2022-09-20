@@ -36,6 +36,9 @@ import { PipeFiles } from './pipes/pipe-transform';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MeetingDetailsComponent } from './pages/meeting-details/meeting-details.component';
 import { AboutComponent } from './pages/about/about.component';
+import { LocalizedString } from '@angular/compiler';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { SearchPipe } from './pipes/search.pipe';
 
 
 @NgModule({
@@ -54,7 +57,8 @@ import { AboutComponent } from './pages/about/about.component';
     FilesComponent,
     PipeFiles,
     MeetingDetailsComponent,
-    AboutComponent
+    AboutComponent,
+    SearchPipe
     
   ],
   imports: [
@@ -109,7 +113,8 @@ import { AboutComponent } from './pages/about/about.component';
         },
         //  themePath: 'node_modules/highlight.js/styles/github.css'
       }
-    }
+    },
+    // { provide: LocationStrategy, useClass: HashLocationStrategy}
 
   ],
   bootstrap: [AppComponent]

@@ -8,280 +8,302 @@
     </div>
 </div>
 
-<div *ngIf="ec_reunion==='C'">
-    <div class="card border-primary" *ngIf="reunion">
-        <div class="card-header border-bottom border-primary p-2">
-            <div class="row">
-                <div class="col">
-                    <div class="text-center font-weight-bold float-sm-left m-0" *ngIf="reunion.estado!='A'">Reunion en
-                        estado {{
-                        reunion.estado == 'P' ?
-                        'pendiente' : reunion.estado == 'C' ?
-                        'cancelado' : reunion.estado == 'A' ? 'aceptado' : 'desconocido' }}
-                    </div>
-                    <div class="text-center font-weight-bold float-sm-left" *ngIf="reunion.estado=='A'">
-                        {{reunionA.nombreA + '
-                        ha
-                        aceptado reunirse con '
-                        + reunionA.nombreS}}</div>
-                </div>
-                <div class="col-auto">
-                    <div class="dropdown" *ngIf="reunion.id_usuario_sol==user.id && reunion.estado =='P'">
-                        <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
-                            aria-expanded="false">Opciones</button>
-                        <ul class="dropdown-menu">
-                            <li><button class="dropdown-item" data-toggle="modal" data-target="#modal_confirm"
-                                    (click)="opcionCancel()" *ngIf="reunion.estado =='P'">Cancelar</button></li>
-                            <li><button class="dropdown-item" data-toggle="modal" data-target="#modal_confirm"
-                                    (click)="opcionEliminar()" *ngIf="reunion.estado =='P'">Eliminar</button></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
 
+<div *ngIf="!reunion">
+    <br>
+    <br>
+    <h5 class="text-center">No se encontró ningún dato</h5>
+</div>
 
+<div *ngIf="reunion">
 
-        </div>
-
-        <div class="card-body">
-
-            <div class="row">
-
-                <div class="col-sm-6">
-
-                    <div class="mx-auto" style="width: fit-content;">
-                        <div class="row">
-                            <div class="col-md-auto p-0">
-                                <div class="mx-auto" style="width: fit-content;">
-                                    <div style="width: 100px; height: 100px; overflow: hidden;" class="rounded-circle">
-                                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ reunion.fotoS }}"
-                                            alt="...">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-auto p-0 ml-2">
-                                <div class="p-1 font-weight-normal h6 m-0 text-center">{{reunion.nombreS}}</div>
-                                <div class="p-1 font-weight-normal h6 m-0 text-center">{{ reunion.correoS }}
-                                </div>
-                                <div class="p-1 font-weight-normal h6 m-0 text-center">{{ reunion.telefonoS }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6" *ngIf="reunion.estado == 'A'">
-                    <div class="mx-auto" style="width: fit-content;">
-                        <div class="row">
-                            <div class="col-md-auto p-0">
-                                <div class="mx-auto" style="width: fit-content;">
-                                    <div style="width: 100px; height: 100px; overflow: hidden;" class="rounded-circle">
-                                        <img class="card-img-top" src="{{ rutaImg }}/profile/{{ reunionA.fotoA }}"
-                                            alt="...">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-auto p-0 ml-2">
-                                <div class="p-1 font-weight-normal h6 m-0 text-center">{{reunionA.nombreA}}</div>
-                                <div class="p-1 font-weight-normal h6 m-0 text-center">{{ reunionA.correoA }}</div>
-                                <div class="p-1 font-weight-normal h6 m-0 text-center">{{ reunionA.telefonoA }}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <hr class="m-2 text-primary">
-            <h5 class="text-center"> Detalles</h5>
-            <div class="h6"><b>Título:</b> {{ reunion.titulo }}</div>
-            <!-- <h4 class="font-weight-normal h6">{{ publicacion.area }}</h4> -->
-            <h4 class="font-weight-normal h6 text-justify"><b>Descripción:</b> {{ reunion.descripcion }}</h4>
-            <div class="row g-5">
-                <div class="col-md-4">
-                    <h4 class="font-weight-light h6 p-2"><b>Fecha solicitud: </b> {{ reunion.fecha_sol | date
-                        :'dd/MM/yyyy' }}
-                    </h4>
-                </div>
-                <div class="col-md-4" *ngIf="reunion.estado == 'A'">
-                    <h4 class="font-weight-light h6 p-2"><b>Fecha aceptación: </b> {{ reunionA.fecha_ace | date
-                        :'dd/MM/yyyy'
-                        }}
-                    </h4>
-                </div>
-                <div class="col-md-4">
-                    <h4 class="font-weight-light h6 p-2"><b>Hora: </b> {{ reunion.hora }}</h4>
-                </div>
-            </div>
-        </div>
-
-        <!-- <hr class="m-2 text-primary"> -->
-        <div class="card-footer text-center p-1"
-            *ngIf="reunion.id_usuario_sol!=user.id && reunion.estado=='P'|| reunion.estado == 'A' ">
-            <div class="text-center" *ngIf="reunion.id_usuario_sol!=user.id && reunion.estado=='P'">
-                <button type="button" class="btn btn-outline-success mb-2"
-                    (click)="aceptarReunionCom()">Aceptar</button>
-            </div>
-
-            <div class="m-0 p-0" *ngIf="reunion.estado == 'A'">
-                <button type="button" class="btn btn-outline-primary me-2" data-toggle="modal"
-                    data-target="#modalCalificacionComentario"
-                    *ngIf="user.id == reunion.id_usuario_sol || user.id == reunion.id_usuario_ace && reunion.estado == 'A'"
-                    (click)="validarOtraCalificacion()">Calificar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- spinner detalle publicacion -->
-    <div class="container" *ngIf="ec_calificacion_reunion==='P'">
-        <div class="text-center">
-            <br>
-            <br>
-            <div class="spinner-border text-primary" role="status">
-                <span class="sr-only">Cargando...</span>
-            </div>
-        </div>
-    </div>
-
-    <div class="card mt-2 border border-primary rounded p-2" *ngIf="reunion.estado == 'A'">
-        <div *ngIf="ec_calificacion_reunion==='C' && listaCalificaciones.length > 0">
-            <h6 class="pb-2">Calificaciones de la reunion</h6>
-            <div *ngFor="let calificacion of listaCalificaciones; let i_cal = index">
-                <div class="row mb-2">
-
-                    <div class="col-auto">
-                        <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
-                            <img class="card-img-top" src="{{rutaImg + '/profile/' + calificacion.fotoC}}" alt="...">
-                        </div>
-                    </div>
-                    <div class="col p-0">
-                        <div>
-                            <p class="m-0">{{calificacion.nombreC}}</p>
-                            <p class="text-muted m-0">
-                                <small>{{ calificacion.creado | date:'dd/MM/yyyy'}}</small>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-auto">
-                        <div>{{ calificacion.calificacion }}
-                            <i class="bi bi-star-fill"></i>
-                        </div>
-                    </div>
-
-                </div>
+    <div *ngIf="ec_reunion==='C'">
+        <div class="card border-primary" *ngIf="reunion">
+            <div class="card-header border-bottom border-primary p-2">
                 <div class="row">
-                    <div class="col-12">
-                        <p class="font-weight-light h6 text-justify">
-                            {{calificacion.motivo_cal}}</p>
+                    <div class="col">
+                        <div class="text-center font-weight-bold float-sm-left m-0" *ngIf="reunion.estado!='A'">
+                            Reunion
+                            en
+                            estado {{
+                            reunion.estado == 'P' ?
+                            'pendiente' : reunion.estado == 'C' ?
+                            'cancelado' : reunion.estado == 'A' ? 'aceptado' : 'desconocido' }}
+                        </div>
+                        <div class="text-center font-weight-bold float-sm-left" *ngIf="reunion.estado=='A'">
+                            {{reunionA.nombreA + '
+                            ha
+                            aceptado reunirse con '
+                            + reunionA.nombreS}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="dropdown" *ngIf="reunion.id_usuario_sol==user.id && reunion.estado =='P'">
+                            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                                aria-expanded="false">Opciones</button>
+                            <ul class="dropdown-menu">
+                                <li><button class="dropdown-item" data-toggle="modal" data-target="#modal_confirm"
+                                        (click)="opcionCancel()" *ngIf="reunion.estado =='P'">Cancelar</button></li>
+                                <li><button class="dropdown-item" data-toggle="modal" data-target="#modal_confirm"
+                                        (click)="opcionEliminar()" *ngIf="reunion.estado =='P'">Eliminar</button>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <hr class="m-3" *ngIf="i_cal < listaCalificaciones.length-1">
+
+
 
             </div>
-        </div>
-        <h5 class="text-center" *ngIf="ec_calificacion_reunion==='C' && listaCalificaciones.length === 0">
-            No se han encontrado calificaciones.
-        </h5>
-    </div>
 
-    <!-- modal para ingreso de calificaciones -->
+            <div class="card-body">
 
-    <div class="modal fade" *ngIf="reunion.estado == 'A'" id="modalCalificacionComentario" tabindex="-1"
-        aria-labelledby="modalCalifComentario" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalCalifReunion">Calificar reunión</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div *ngIf="reunion.estado == 'A'">
-                        <div class="card p-2 border border-primary"
-                            *ngIf="user.id == reunion.id_usuario_sol || user.id == reunion.id_usuario_ace">
+                <div class="row">
 
-                            <form class="" [formGroup]="addCalificacion" (ngSubmit)="guardarCalificacion()">
+                    <div class="col-sm-6">
 
-                                <div class="row mb-1">
-                                    <div class="col-md-10">
-                                        <label for="calificacionInput" class="form-label">Calificación 0 - 5</label>
-                                        <input type="range" min="0" max="5" step="1" class="form-control-range"
-                                            id="calificacion" (ngModelChange)="cambioCalificacionReunion($event)"
-                                            formControlName="calificacion"
-                                            [ngClass]="addCalificacion.controls['calificacion'].invalid && (addCalificacion.controls['calificacion'].dirty 
-                                                || addCalificacion.controls['calificacion'].touched) ? 'border border-danger' : ''">
+                        <div class="mx-auto" style="width: fit-content;">
+                            <div class="row">
+                                <div class="col-md-auto p-0">
+                                    <div class="mx-auto" style="width: fit-content;">
+                                        <div style="width: 100px; height: 100px; overflow: hidden;"
+                                            class="rounded-circle">
+                                            <img class="card-img-top" src="{{ rutaImg }}/profile/{{ reunion.fotoS }}"
+                                                alt="...">
+                                        </div>
                                     </div>
-                                    <div *ngIf="addCalificacion.controls['calificacion'].invalid && 
+                                </div>
+                                <div class="col-md-auto p-0 ml-2">
+                                    <div class="p-1 font-weight-normal h6 m-0 text-center">{{reunion.nombreS}}</div>
+                                    <div class="p-1 font-weight-normal h6 m-0 text-center">{{ reunion.correoS }}
+                                    </div>
+                                    <div class="p-1 font-weight-normal h6 m-0 text-center">{{ reunion.telefonoS }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6" *ngIf="reunion.estado == 'A'">
+                        <div class="mx-auto" style="width: fit-content;">
+                            <div class="row">
+                                <div class="col-md-auto p-0">
+                                    <div class="mx-auto" style="width: fit-content;">
+                                        <div style="width: 100px; height: 100px; overflow: hidden;"
+                                            class="rounded-circle">
+                                            <img class="card-img-top" src="{{ rutaImg }}/profile/{{ reunionA.fotoA }}"
+                                                alt="...">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-auto p-0 ml-2">
+                                    <div class="p-1 font-weight-normal h6 m-0 text-center">{{reunionA.nombreA}}
+                                    </div>
+                                    <div class="p-1 font-weight-normal h6 m-0 text-center">{{ reunionA.correoA }}
+                                    </div>
+                                    <div class="p-1 font-weight-normal h6 m-0 text-center">{{ reunionA.telefonoA }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="m-2 text-primary">
+                <h5 class="text-center"> Detalles</h5>
+                <div class="h6"><b>Título:</b> {{ reunion.titulo }}</div>
+                <!-- <h4 class="font-weight-normal h6">{{ publicacion.area }}</h4> -->
+                <h4 class="font-weight-normal h6 text-justify"><b>Descripción:</b> {{ reunion.descripcion }}</h4>
+                <div class="row g-5">
+                    <div class="col-md-4">
+                        <h4 class="font-weight-light h6 p-2"><b>Fecha solicitud: </b> {{ reunion.fecha_sol | date
+                            :'dd/MM/yyyy' }}
+                        </h4>
+                    </div>
+                    <div class="col-md-4" *ngIf="reunion.estado == 'A'">
+                        <h4 class="font-weight-light h6 p-2"><b>Fecha aceptación: </b> {{ reunionA.fecha_ace | date
+                            :'dd/MM/yyyy'
+                            }}
+                        </h4>
+                    </div>
+                    <div class="col-md-4">
+                        <h4 class="font-weight-light h6 p-2"><b>Hora: </b> {{ reunion.hora }}</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <hr class="m-2 text-primary"> -->
+            <div class="card-footer text-center p-1"
+                *ngIf="reunion.id_usuario_sol!=user.id && reunion.estado=='P'|| reunion.estado == 'A' ">
+                <div class="text-center" *ngIf="reunion.id_usuario_sol!=user.id && reunion.estado=='P'">
+                    <button type="button" class="btn btn-outline-success mb-2"
+                        (click)="aceptarReunionCom()">Aceptar</button>
+                </div>
+
+                <div class="m-0 p-0" *ngIf="reunion.estado == 'A'">
+                    <button type="button" class="btn btn-outline-primary me-2" data-toggle="modal"
+                        data-target="#modalCalificacionComentario"
+                        *ngIf="user.id == reunion.id_usuario_sol || user.id == reunion.id_usuario_ace && reunion.estado == 'A'"
+                        (click)="validarOtraCalificacion()">Calificar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- spinner detalle publicacion -->
+        <div class="container" *ngIf="ec_calificacion_reunion==='P'">
+            <div class="text-center">
+                <br>
+                <br>
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only">Cargando...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-2 border border-primary rounded p-2" *ngIf="reunion.estado == 'A'">
+            <div *ngIf="ec_calificacion_reunion==='C' && listaCalificaciones.length > 0">
+                <h6 class="pb-2">Calificaciones de la reunion</h6>
+                <div *ngFor="let calificacion of listaCalificaciones; let i_cal = index">
+                    <div class="row mb-2">
+
+                        <div class="col-auto">
+                            <div style="width: 50px; height: 50px; overflow: hidden;" class="rounded-circle">
+                                <img class="card-img-top" src="{{rutaImg + '/profile/' + calificacion.fotoC}}"
+                                    alt="...">
+                            </div>
+                        </div>
+                        <div class="col p-0">
+                            <div>
+                                <p class="m-0">{{calificacion.nombreC}}</p>
+                                <p class="text-muted m-0">
+                                    <small>{{ calificacion.creado | date:'dd/MM/yyyy'}}</small>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div>{{ calificacion.calificacion }}
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="font-weight-light h6 text-justify">
+                                {{calificacion.motivo_cal}}</p>
+                        </div>
+                    </div>
+                    <hr class="m-3" *ngIf="i_cal < listaCalificaciones.length-1">
+
+                </div>
+            </div>
+            <h5 class="text-center" *ngIf="ec_calificacion_reunion==='C' && listaCalificaciones.length === 0">
+                No se han encontrado calificaciones.
+            </h5>
+        </div>
+
+        <!-- modal para ingreso de calificaciones -->
+
+        <div class="modal fade" *ngIf="reunion.estado == 'A'" id="modalCalificacionComentario" tabindex="-1"
+            aria-labelledby="modalCalifComentario" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalCalifReunion">Calificar reunión</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div *ngIf="reunion.estado == 'A'">
+                            <div class="card p-2 border border-primary"
+                                *ngIf="user.id == reunion.id_usuario_sol || user.id == reunion.id_usuario_ace">
+
+                                <form class="" [formGroup]="addCalificacion" (ngSubmit)="guardarCalificacion()">
+
+                                    <div class="row mb-1">
+                                        <div class="col-md-10">
+                                            <label for="calificacionInput" class="form-label">Calificación 0 -
+                                                5</label>
+                                            <input type="range" min="0" max="5" step="1" class="form-control-range"
+                                                id="calificacion" (ngModelChange)="cambioCalificacionReunion($event)"
+                                                formControlName="calificacion"
+                                                [ngClass]="addCalificacion.controls['calificacion'].invalid && (addCalificacion.controls['calificacion'].dirty 
+                                                || addCalificacion.controls['calificacion'].touched) ? 'border border-danger' : ''">
+                                        </div>
+                                        <div *ngIf="addCalificacion.controls['calificacion'].invalid && 
                                                 (addCalificacion.controls['calificacion'].dirty || 
                                                 addCalificacion.controls['calificacion'].touched)">
-                                        <small *ngIf="addCalificacion.controls['calificacion'].errors?.required"
-                                            class="fs-7 text-danger p-0 m-0">
-                                            Seleccione una calificación
-                                        </small>
-                                    </div>
-                                    <div class="col-md-2 text-center fs-5">
-                                        <br>
-                                        <div class="">
-                                            {{_val_calificacion}} <i class="bi bi-star-fill"></i>
+                                            <small *ngIf="addCalificacion.controls['calificacion'].errors?.required"
+                                                class="fs-7 text-danger p-0 m-0">
+                                                Seleccione una calificación
+                                            </small>
                                         </div>
+                                        <div class="col-md-2 text-center fs-5">
+                                            <br>
+                                            <div class="">
+                                                {{_val_calificacion}} <i class="bi bi-star-fill"></i>
+                                            </div>
 
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="mb-1">
-                                    <label for="motivo_cal" class="form-label">Comentario:</label>
-                                    <input type="text" class="form-control" id="motivo_cal" formControlName="motivo_cal"
-                                        [ngClass]="addCalificacion.controls['motivo_cal'].invalid && (addCalificacion.controls['motivo_cal'].dirty 
+                                    <div class="mb-1">
+                                        <label for="motivo_cal" class="form-label">Comentario:</label>
+                                        <input type="text" class="form-control" id="motivo_cal"
+                                            formControlName="motivo_cal"
+                                            [ngClass]="addCalificacion.controls['motivo_cal'].invalid && (addCalificacion.controls['motivo_cal'].dirty 
                                             || addCalificacion.controls['motivo_cal'].touched) ? 'border border-danger' : ''">
 
-                                    <div *ngIf="addCalificacion.controls['motivo_cal'].invalid && 
+                                        <div *ngIf="addCalificacion.controls['motivo_cal'].invalid && 
                                                 (addCalificacion.controls['motivo_cal'].dirty || 
                                                 addCalificacion.controls['motivo_cal'].touched)">
-                                        <small *ngIf="addCalificacion.controls['motivo_cal'].errors?.required"
-                                            class="fs-7 text-danger p-0 m-0">
-                                            Dato requerido
-                                        </small>
-                                        <small *ngIf="addCalificacion.controls['motivo_cal'].errors?.maxlength"
-                                            class="fs-7 text-danger p-0 m-0">
-                                            Máximo 255 caracteres
-                                        </small>
+                                            <small *ngIf="addCalificacion.controls['motivo_cal'].errors?.required"
+                                                class="fs-7 text-danger p-0 m-0">
+                                                Dato requerido
+                                            </small>
+                                            <small *ngIf="addCalificacion.controls['motivo_cal'].errors?.maxlength"
+                                                class="fs-7 text-danger p-0 m-0">
+                                                Máximo 255 caracteres
+                                            </small>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-12 text-center">
-                                    <button class="btn btn-primary" type="submit"
-                                        [disabled]="!addCalificacion.valid">Guardar</button>
-                                </div>
+                                    <div class="col-12 text-center">
+                                        <button class="btn btn-primary" type="submit"
+                                            [disabled]="!addCalificacion.valid">Guardar</button>
+                                    </div>
 
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- <div class="modal-footer">
+                    <!-- <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary">Guardar</button>
             </div> -->
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Modal de confirmacion para eliminar -->
-    <div class="modal" id="modal_confirm">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header pt-2 pb-2 text-center">
-                    <h5 class="modal-title">Confirmar</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="text-center m-0">{{msj_confirm}}</p>
-                </div>
-                <div class="modal-footer p-1">
-                    <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
-                    <button type="button" data-bs-dismiss="modal" (click)="confirmarOpcion()"
-                        [ngClass]="opcion_sel == 'E' ? 'btn btn-danger' : (opcion_sel == 'C' ? 'btn btn-success' : '')">Confirmar</button>
+        <!-- Modal de confirmacion para eliminar -->
+        <div class="modal" id="modal_confirm">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header pt-2 pb-2 text-center">
+                        <h5 class="modal-title">Confirmar</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="text-center m-0">{{msj_confirm}}</p>
+                    </div>
+                    <div class="modal-footer p-1">
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        <button type="button" data-bs-dismiss="modal" (click)="confirmarOpcion()"
+                            [ngClass]="opcion_sel == 'E' ? 'btn btn-danger' : (opcion_sel == 'C' ? 'btn btn-success' : '')">Confirmar</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+</div>

@@ -18,8 +18,8 @@ export class RegisterComponent implements OnInit {
   rutaImg: string = environment.images_URL;
 
   public registerForm = this.formBuilder.group({
-    nombre: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(20),Validators.pattern('[a-zA-Z áéíóú]*')]],
-    apellido: ['',[Validators.required, Validators.minLength(3),Validators.maxLength(20),Validators.pattern('[a-zA-Z áéíóú]*')]],
+    nombre: ['', [Validators.required, Validators.minLength(3),Validators.maxLength(20),Validators.pattern('[a-zA-Z áéíóúñ]*')]],
+    apellido: ['',[Validators.required, Validators.minLength(3),Validators.maxLength(20),Validators.pattern('[a-zA-Z áéíóúñ]*')]],
     direccion: ['', [Validators.required, Validators.minLength(5),Validators.maxLength(255)]],
     perfil_prof: ['', [Validators.required, Validators.minLength(50),Validators.maxLength(1000)]],
     telefono: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(10),Validators.pattern('[0-9]*')]],
@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
     this.authService.register(this.registerForm.value);
     // console.log(this.loginForm);
     this.authService.register(this.registerForm.value).subscribe((res: any) => {
-      console.log(res);
+      // console.log(res);
 
       if (res.type === HttpEventType.DownloadProgress) {
         // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
@@ -67,7 +67,7 @@ export class RegisterComponent implements OnInit {
         else {
           // this.errores = res.mensaje;
           this.ec_register='C'
-          this.toastr.error('Ha ocurrido un error durante el registro','Error')
+          this.toastr.error(res.body.mensaje,'Error')
         }
       }
     }, (err)=>{

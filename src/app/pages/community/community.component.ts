@@ -12,6 +12,7 @@ import { HttpEventType } from '@angular/common/http';
 })
 export class CommunityComponent implements OnInit {
 
+  public filter='';
   public listaPublicaciones: Array<any> = [];
   public listaColPublicaciones: Array<any> = [];
   estado_consulta:string='P'
@@ -32,12 +33,12 @@ export class CommunityComponent implements OnInit {
     const idUsu = dataUser.id;
     this.publicacionService.getPublicacionesCommunity(idUsu).subscribe((res: any) => {
       if (res.type === HttpEventType.DownloadProgress) {
-        console.log('descarga',res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('descarga',res.loaded, ' - ', res.total); //downloaded bytes
         // console.log(res.total); //total bytes to download
         this.estado_consulta='P'
       }
       if (res.type === HttpEventType.UploadProgress) {
-        console.log('carga',res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('carga',res.loaded, ' - ', res.total); //downloaded bytes
 
         this.estado_consulta='P'
         // console.log(res.loaded); //uploaded bytes
@@ -51,7 +52,7 @@ export class CommunityComponent implements OnInit {
         }
         else {
           // this.errores = res.mensaje;
-          console.log('error');
+          this.toastr.error(res.body.mensaje, 'Error')
         }
       }
       
@@ -66,7 +67,7 @@ export class CommunityComponent implements OnInit {
     const idUsu = dataUser.id;
     this.publicacionService.getColPublicaciones(idUsu).subscribe((res: any) => {
       if (res.type === HttpEventType.DownloadProgress) {
-        console.log('descarga',res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('descarga',res.loaded, ' - ', res.total); //downloaded bytes
         // console.log(res.total); //total bytes to download
         this.estado_consultaCol='P'
       }
@@ -82,12 +83,12 @@ export class CommunityComponent implements OnInit {
         this.estado_consultaCol='C';
         if (res.body.ok === 1) {
           this.listaColPublicaciones = res.body.data;
-          console.log(this.listaColPublicaciones)
+          // console.log(this.listaColPublicaciones)
         }
         else {
           // this.errores = res.mensaje;
           this.estado_consultaCol='C';
-          this.toastr.error('Ha ocurrido un error', 'Error')
+          this.toastr.error(res.body.mensaje, 'Error')
           console.log('error');
         }
       }

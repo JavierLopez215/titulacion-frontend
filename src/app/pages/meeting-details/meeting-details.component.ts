@@ -31,7 +31,7 @@ export class MeetingDetailsComponent implements OnInit {
 
   public user = {} as Profile;
   public reunion = {} as Reunion;
-  public reunionA = {fotoA:'profile.png'} as Reunion;
+  public reunionA = {fotoA:'profile.png', nombreA:'', id_usuario_ace: 0} as Reunion;
   listaCalificaciones: Array<CalificacionReunion> = [];
   public _val_calificacion: any = 0;
   calificacionReunion:CalificacionReunion = {} as CalificacionReunion;
@@ -58,10 +58,12 @@ export class MeetingDetailsComponent implements OnInit {
     
 
   ngOnInit(): void {
+    this.reunionA = {fotoA:'profile.png', nombreA:'', id_usuario_ace: 0} as Reunion;
     this.getReunionPenId();
     this.getReunionAceId();
     this.getDataUser();
     this.getCalificacionesReunionId();
+    
   }
 
   getDataUser() {
@@ -69,6 +71,8 @@ export class MeetingDetailsComponent implements OnInit {
   }
 
   getReunionPenId() {
+    this.reunion = {fotoS:'profile.png', nombreS:'', id_usuario_sol:0} as Reunion;
+    this.reunionA = {fotoA:'profile.png', nombreA:'', id_usuario_ace:0} as Reunion;
     this.ec_reunion = 'P'
     // this.getDataUser();
 
@@ -89,7 +93,7 @@ export class MeetingDetailsComponent implements OnInit {
           this.reunion = res.body.data[0] as Reunion;
         }
         else {
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
           // console.log('error');
         }
       }
@@ -102,6 +106,7 @@ export class MeetingDetailsComponent implements OnInit {
 
   getReunionAceId() {
     this.ec_reunion = 'P'
+    this.reunionA = {fotoA:'profile.png', nombreA:'', id_usuario_ace: 0} as Reunion;
     // this.getDataUser();
 
     // const dataUser:any = this.authService.dataUser();
@@ -122,7 +127,8 @@ export class MeetingDetailsComponent implements OnInit {
           // console.log(res.body)
         }
         else {
-          this.toastr.error('Ha ocurrido un error', 'Error');
+    this.reunionA = {fotoA:'profile.png', nombreA:'', id_usuario_ace:0} as Reunion;
+          this.toastr.error(res.body.mensaje, 'Error');
           // console.log('error');
         }
       }
@@ -152,10 +158,12 @@ export class MeetingDetailsComponent implements OnInit {
         this.ec_calificacion_reunion = 'C';
         if (res.body.ok === 1) {
           this.listaCalificaciones = res.body.data as Array<CalificacionReunion>;
-          console.log(this.listaCalificaciones)
+          
         }
         else {
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.listaCalificaciones =[];
+          // if(this.reunion)
+          // this.toastr.error(res.body.mensaje, 'Error');
           // console.log('error');
         }
       }
@@ -214,11 +222,11 @@ export class MeetingDetailsComponent implements OnInit {
     this.meetingsService.postCalificacionReunion(this.calificacionReunion).subscribe((res: any) => {
 
       if (res.type === HttpEventType.DownloadProgress) {
-        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
         this.ec_postCalificacion = 'P'
       }
       if (res.type === HttpEventType.UploadProgress) {
-        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
 
         this.ec_postCalificacion = 'P'
       }
@@ -238,8 +246,8 @@ export class MeetingDetailsComponent implements OnInit {
 
         }
         else {
-          // this.errores = res.mensaje;
-          console.log(res);
+          this.toastr.error(res.body.mensaje, 'Error');
+
         }
       }
     });
@@ -271,14 +279,14 @@ export class MeetingDetailsComponent implements OnInit {
           $('#modalCalificacionComentario').modal('hide')
         }
         else {
-          // this.errores = res.mensaje;
-          console.log(res);
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     });
   }
 
   aceptarReunionCom(){
+    this.reunionA = {fotoA:'profile.png', nombreA:'', id_usuario_ace:0} as Reunion;
     this.getDataUser();
     const _reunion ={
       id:this.reunion.id,
@@ -305,14 +313,12 @@ export class MeetingDetailsComponent implements OnInit {
         }
         else {
           this.ec_acepReunion = 'C';
-          // this.errores = res.mensaje;
-          console.log(res);
-          this.toastr.success('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     },(error)=>{
       this.ec_acepReunion = 'C';
-      this.toastr.success('Ha ocurrido un error', 'Error');
+      this.toastr.error('Ha ocurrido un error', 'Error');
     });
   }
 
@@ -359,8 +365,7 @@ export class MeetingDetailsComponent implements OnInit {
         else {
           this.ec_acepReunion = 'C';
           // this.errores = res.mensaje;
-          console.log(res);
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     },(error)=>{
@@ -396,9 +401,7 @@ export class MeetingDetailsComponent implements OnInit {
         }
         else {
           this.ec_acepReunion = 'C';
-          // this.errores = res.mensaje;
-          // console.log(res);
-          this.toastr.success('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     },(error)=>{

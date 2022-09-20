@@ -20,6 +20,7 @@ declare let $: any;
 })
 export class ActivitiesComponent implements OnInit {
 
+  public filter = '';
   rutaImg: string = environment.images_URL;
   public listaPublicaciones: Array<any> = [];
   public listaEspecialidades: Array<any> = [];
@@ -120,7 +121,7 @@ export class ActivitiesComponent implements OnInit {
         }
         else {
           this.ec_getEspecialidades = 'C';
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
           // console.log('error');
         }
       }
@@ -136,6 +137,9 @@ export class ActivitiesComponent implements OnInit {
     this.publicacionService.postArchivosPublicacion(this.convertFilesToFormData()).subscribe((res: any) => {
       if (res.ok === 1) {
         this.postPublicacion2(res.data);
+      }
+      else{
+        this.toastr.error(res.mensaje, 'Error');
       }
 
     });
@@ -200,7 +204,7 @@ export class ActivitiesComponent implements OnInit {
         else {
           // this.errores = res.mensaje;
           this.ec_postPublicacion = 'C';
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
           console.log(res);
         }
       }
@@ -255,12 +259,11 @@ export class ActivitiesComponent implements OnInit {
         else {
           // this.errores = res.mensaje;
           this.estado_consulta = 'C'
-          console.log('error');
-          this.toastr.error('Ha ocurrido un error', 'Error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     }, (err: any) => {
-      console.log(err);
+      
       this.estado_consulta = 'C'
       this.toastr.error('Ha ocurrido un error', 'Error');
     })

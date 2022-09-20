@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { PublicacionService } from "../../services/publicacion.service";
 import { Router } from '@angular/router';
 import { HttpEventType } from '@angular/common/http';
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-app',
@@ -18,7 +19,8 @@ export class AppComponent2 implements OnInit {
   public ec_reuniones: string = 'P';
 
   constructor(private authService: AuthService,
-    private publicacionService: PublicacionService, private router: Router) {
+    private publicacionService: PublicacionService, private router: Router,
+    private toastr: ToastrService) {
     // window.location.reload();
   }
 
@@ -40,12 +42,12 @@ export class AppComponent2 implements OnInit {
     const idUsu = dataUser.id;
     this.publicacionService.getTopPublicaciones(idUsu).subscribe((res: any) => {
       if (res.type === HttpEventType.DownloadProgress) {
-        console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('descarga', res.loaded, ' - ', res.total); //downloaded bytes
         // console.log(res.total); //total bytes to download
         this.ec_publicaciones = 'P'
       }
       if (res.type === HttpEventType.UploadProgress) {
-        console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
+        // console.log('carga', res.loaded, ' - ', res.total); //downloaded bytes
 
         this.ec_publicaciones = 'P'
         // console.log(res.loaded); //uploaded bytes
@@ -62,7 +64,7 @@ export class AppComponent2 implements OnInit {
         }
         else {
           // this.errores = res.mensaje;
-          console.log('error');
+          this.toastr.error(res.body.mensaje, 'Error');
         }
       }
     },(err)=>{

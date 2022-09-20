@@ -11,7 +11,7 @@ declare var $: any;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent{
-  title = 'Shark App';
+  title = 'App - Refuerzo Académico';
   public rutaImgProfile = environment.images_URL;
   rutaImg: string = environment.images_URL;
   public user : Profile = {} as Profile;
@@ -28,7 +28,8 @@ export class AppComponent{
   logout() {
     this.authService.logout();
     this.logged=false;
-    this.router.navigate(['home']);
+    // this.router.navigate(['/']);
+    window.location.reload();
   }
   
   getDataUser(){

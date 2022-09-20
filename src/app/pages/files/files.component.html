@@ -21,16 +21,13 @@
                     <div *ngIf="addFile.controls['titulo'].invalid && 
                                     (addFile.controls['titulo'].dirty || 
                                     addFile.controls['titulo'].touched)">
-                        <small *ngIf="addFile.controls['titulo'].errors?.required"
-                            class="fs-7 text-danger p-0 m-0">
+                        <small *ngIf="addFile.controls['titulo'].errors?.required" class="fs-7 text-danger p-0 m-0">
                             Dato requerido
                         </small>
-                        <small *ngIf="addFile.controls['titulo'].errors?.minlength"
-                            class="fs-7 text-danger p-0 m-0">
+                        <small *ngIf="addFile.controls['titulo'].errors?.minlength" class="fs-7 text-danger p-0 m-0">
                             Mínimo 10 caracteres
                         </small>
-                        <small *ngIf="addFile.controls['titulo'].errors?.maxlength"
-                            class="fs-7 text-danger p-0 m-0">
+                        <small *ngIf="addFile.controls['titulo'].errors?.maxlength" class="fs-7 text-danger p-0 m-0">
                             Máximo 255 caracteres
                         </small>
                     </div>
@@ -129,7 +126,8 @@
                                 </div>
                                 <div class="col-auto p-1">
                                     <div class="btn-group m-0 p-0">
-                                        <button class="btn btn-outline-danger" data-toggle="modal" data-target="#modal_confirm" (click)="seleccionarDatosEliminar(aporteA)">
+                                        <button class="btn btn-outline-danger" data-toggle="modal"
+                                            data-target="#modal_confirm" (click)="seleccionarDatosEliminar(aporteA)">
                                             <i class="bi bi-trash-fill"></i></button>
                                     </div>
                                 </div>
@@ -175,9 +173,13 @@
 
     <h5 class="card-title text-center mt-2">Aportes de la comunidad</h5>
 
+    <div class="container">
+        <input type="email" class="form-control" id="busquedaArc" placeholder="Buscar.." [(ngModel)]="filter" name="filter">
+    </div>
+
     <div class="card-body">
         <div class="row">
-            <div class="col-md-6 mb-2" *ngFor="let aporteC of listaAportesCom;let indice=index">
+            <div class="col-md-6 mb-2" *ngFor="let aporteC of listaAportesCom | search: filter;let indice=index">
 
                 <div class="card">
                     <div class="card-header m-0 p-1">
@@ -241,7 +243,7 @@
                 <h5 class="modal-title">Confirmar</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                  </button>
+                </button>
             </div>
             <div class="modal-body">
                 <p>¿Desea eliminar?</p>
